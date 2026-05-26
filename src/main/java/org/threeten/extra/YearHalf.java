@@ -42,7 +42,6 @@ import static java.time.temporal.ChronoUnit.YEARS;
 import static org.threeten.extra.TemporalFields.DAY_OF_HALF;
 import static org.threeten.extra.TemporalFields.HALF_OF_YEAR;
 import static org.threeten.extra.TemporalFields.HALF_YEARS;
-
 import java.io.Serializable;
 import java.time.Clock;
 import java.time.DateTimeException;
@@ -72,7 +71,6 @@ import java.time.temporal.ValueRange;
 import java.util.Objects;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
-
 import org.joda.convert.FromString;
 import org.joda.convert.ToString;
 
@@ -101,28 +99,23 @@ import org.joda.convert.ToString;
  * This class must be treated as a value type. Do not synchronize, rely on the
  * identity hash code or use the distinction between equals() and ==.
  */
-public final class YearHalf
-        implements Temporal, TemporalAdjuster, Comparable<YearHalf>, Serializable {
+public final class YearHalf implements Temporal, TemporalAdjuster, Comparable<YearHalf>, Serializable {
 
     /**
      * Serialization version.
      */
     private static final long serialVersionUID = 782467825761518L;
+
     /**
      * Parser.
      */
-    private static final DateTimeFormatter PARSER = new DateTimeFormatterBuilder()
-            .parseCaseInsensitive()
-            .appendValue(YEAR, 4, 10, SignStyle.EXCEEDS_PAD)
-            .appendLiteral('-')
-            .appendLiteral('H')
-            .appendValue(HALF_OF_YEAR, 1)
-            .toFormatter();
+    private static final DateTimeFormatter PARSER = new DateTimeFormatterBuilder().parseCaseInsensitive().appendValue(YEAR, 4, 10, SignStyle.EXCEEDS_PAD).appendLiteral('-').appendLiteral('H').appendValue(HALF_OF_YEAR, 1).toFormatter();
 
     /**
      * The year.
      */
     private final int year;
+
     /**
      * The half-of-year, not null.
      */
@@ -142,7 +135,7 @@ public final class YearHalf
      * @return the current year-half using the system clock and default time-zone, not null
      */
     public static YearHalf now() {
-        return now(Clock.systemDefaultZone());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -158,7 +151,7 @@ public final class YearHalf
      * @return the current year-half using the system clock, not null
      */
     public static YearHalf now(ZoneId zone) {
-        return now(Clock.system(zone));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -172,8 +165,7 @@ public final class YearHalf
      * @return the current year-half, not null
      */
     public static YearHalf now(Clock clock) {
-        final LocalDate now = LocalDate.now(clock);  // called once
-        return YearHalf.of(now.getYear(), Half.from(now.getMonth()));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -185,7 +177,7 @@ public final class YearHalf
      * @return the year-half, not null
      */
     public static YearHalf of(Year year, Half half) {
-        return of(year.getValue(), half);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -197,7 +189,7 @@ public final class YearHalf
      * @throws DateTimeException if the half value is invalid
      */
     public static YearHalf of(Year year, int half) {
-        return of(year.getValue(), Half.of(half));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -209,9 +201,7 @@ public final class YearHalf
      * @throws DateTimeException if the year value is invalid
      */
     public static YearHalf of(int year, Half half) {
-        YEAR.checkValidValue(year);
-        Objects.requireNonNull(half, "half");
-        return new YearHalf(year, half);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -223,8 +213,7 @@ public final class YearHalf
      * @throws DateTimeException if either field value is invalid
      */
     public static YearHalf of(int year, int half) {
-        YEAR.checkValidValue(year);
-        return new YearHalf(year, Half.of(half));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -248,21 +237,7 @@ public final class YearHalf
      * @throws DateTimeException if unable to convert to a {@code YearHalf}
      */
     public static YearHalf from(TemporalAccessor temporal) {
-        if (temporal instanceof YearHalf) {
-            return (YearHalf) temporal;
-        }
-        Objects.requireNonNull(temporal, "temporal");
-        try {
-            TemporalAccessor adjusted =
-                    !IsoChronology.INSTANCE.equals(Chronology.from(temporal)) ? LocalDate.from(temporal) : temporal;
-            // need to use getLong() as JDK Parsed class get() doesn't work properly
-            int year = Math.toIntExact(adjusted.getLong(YEAR));
-            int hoy = Math.toIntExact(adjusted.getLong(HALF_OF_YEAR));
-            return of(year, hoy);
-        } catch (DateTimeException ex) {
-            throw new DateTimeException("Unable to obtain YearHalf from TemporalAccessor: " +
-                    temporal + " of type " + temporal.getClass().getName(), ex);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -279,7 +254,7 @@ public final class YearHalf
      */
     @FromString
     public static YearHalf parse(CharSequence text) {
-        return parse(text, PARSER);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -293,8 +268,7 @@ public final class YearHalf
      * @throws DateTimeParseException if the text cannot be parsed
      */
     public static YearHalf parse(CharSequence text, DateTimeFormatter formatter) {
-        Objects.requireNonNull(formatter, "formatter");
-        return formatter.parse(text, YearHalf::from);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -362,12 +336,7 @@ public final class YearHalf
      */
     @Override
     public boolean isSupported(TemporalField field) {
-        if (field == HALF_OF_YEAR) {
-            return true;
-        } else if (field instanceof ChronoField) {
-            return field == YEAR || field == YEAR_OF_ERA || field == ERA;
-        }
-        return field != null && field.isSupportedBy(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -399,12 +368,7 @@ public final class YearHalf
      */
     @Override
     public boolean isSupported(TemporalUnit unit) {
-        if (unit == HALF_YEARS) {
-            return true;
-        } else if (unit instanceof ChronoUnit) {
-            return unit == YEARS || unit == DECADES || unit == CENTURIES || unit == MILLENNIA || unit == ERAS;
-        }
-        return unit != null && unit.isSupportedBy(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -433,13 +397,7 @@ public final class YearHalf
      */
     @Override
     public ValueRange range(TemporalField field) {
-        if (field == HALF_OF_YEAR) {
-            return HALF_OF_YEAR.range();
-        }
-        if (field == YEAR_OF_ERA) {
-            return (getYear() <= 0 ? ValueRange.of(1, Year.MAX_VALUE + 1) : ValueRange.of(1, Year.MAX_VALUE));
-        }
-        return Temporal.super.range(field);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -470,21 +428,7 @@ public final class YearHalf
      */
     @Override
     public int get(TemporalField field) {
-        if (field == HALF_OF_YEAR) {
-            return half.getValue();
-        } else if (field instanceof ChronoField) {
-            switch ((ChronoField) field) {
-                case YEAR_OF_ERA:
-                    return (year < 1 ? 1 - year : year);
-                case YEAR:
-                    return year;
-                case ERA:
-                    return (year < 1 ? 0 : 1);
-                default:
-                    throw new UnsupportedTemporalTypeException("Unsupported field: " + field);
-            }
-        }
-        return Temporal.super.get(field);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -512,21 +456,7 @@ public final class YearHalf
      */
     @Override
     public long getLong(TemporalField field) {
-        if (field == HALF_OF_YEAR) {
-            return half.getValue();
-        } else if (field instanceof ChronoField) {
-            switch ((ChronoField) field) {
-                case YEAR_OF_ERA:
-                    return (year < 1 ? 1 - year : year);
-                case YEAR:
-                    return year;
-                case ERA:
-                    return (year < 1 ? 0 : 1);
-                default:
-                    throw new UnsupportedTemporalTypeException("Unsupported field: " + field);
-            }
-        }
-        return field.getFrom(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private long getProlepticHalf() {
@@ -544,7 +474,7 @@ public final class YearHalf
      * @return the year, from MIN_YEAR to MAX_YEAR
      */
     public int getYear() {
-        return year;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -558,7 +488,7 @@ public final class YearHalf
      * @see #getHalf()
      */
     public int getHalfValue() {
-        return half.getValue();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -573,7 +503,7 @@ public final class YearHalf
      * @see #getHalfValue()
      */
     public Half getHalf() {
-        return half;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -596,7 +526,7 @@ public final class YearHalf
      * @return true if the year is leap, false otherwise
      */
     public boolean isLeapYear() {
-        return IsoChronology.INSTANCE.isLeapYear(year);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -609,7 +539,7 @@ public final class YearHalf
      * @return true if the day is valid for this year-half
      */
     public boolean isValidDay(int dayOfHalf) {
-        return dayOfHalf >= 1 && dayOfHalf <= lengthOfHalf();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -620,7 +550,7 @@ public final class YearHalf
      * @return the length of the half in days, 181, 182 or 184
      */
     public int lengthOfHalf() {
-        return half.length(isLeapYear());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -631,7 +561,7 @@ public final class YearHalf
      * @return 366 if the year is leap, 365 otherwise
      */
     public int lengthOfYear() {
-        return (isLeapYear() ? 366 : 365);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -659,7 +589,7 @@ public final class YearHalf
      */
     @Override
     public YearHalf with(TemporalAdjuster adjuster) {
-        return (YearHalf) adjuster.adjustInto(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -709,23 +639,7 @@ public final class YearHalf
      */
     @Override
     public YearHalf with(TemporalField field, long newValue) {
-        if (field == HALF_OF_YEAR) {
-            return withHalf(HALF_OF_YEAR.range().checkValidIntValue(newValue, HALF_OF_YEAR));
-        } else if (field instanceof ChronoField) {
-            ChronoField f = (ChronoField) field;
-            f.checkValidValue(newValue);
-            switch (f) {
-                case YEAR_OF_ERA:
-                    return withYear((int) (year < 1 ? 1 - newValue : newValue));
-                case YEAR:
-                    return withYear((int) newValue);
-                case ERA:
-                    return (getLong(ERA) == newValue ? this : withYear(1 - year));
-                default:
-                    throw new UnsupportedTemporalTypeException("Unsupported field: " + field);
-            }
-        }
-        return field.adjustInto(this, newValue);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -739,8 +653,7 @@ public final class YearHalf
      * @throws DateTimeException if the year value is invalid
      */
     public YearHalf withYear(int year) {
-        YEAR.checkValidValue(year);
-        return with(year, half);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -753,8 +666,7 @@ public final class YearHalf
      * @throws DateTimeException if the half-of-year value is invalid
      */
     public YearHalf withHalf(int half) {
-        HALF_OF_YEAR.range().checkValidValue(half, HALF_OF_YEAR);
-        return with(year, Half.of(half));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -780,7 +692,7 @@ public final class YearHalf
      */
     @Override
     public YearHalf plus(TemporalAmount amountToAdd) {
-        return (YearHalf) amountToAdd.addTo(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -836,25 +748,7 @@ public final class YearHalf
      */
     @Override
     public YearHalf plus(long amountToAdd, TemporalUnit unit) {
-        if (unit == HALF_YEARS) {
-            return plusHalves(amountToAdd);
-        } else if (unit instanceof ChronoUnit) {
-            switch ((ChronoUnit) unit) {
-                case YEARS:
-                    return plusYears(amountToAdd);
-                case DECADES:
-                    return plusYears(Math.multiplyExact(amountToAdd, 10));
-                case CENTURIES:
-                    return plusYears(Math.multiplyExact(amountToAdd, 100));
-                case MILLENNIA:
-                    return plusYears(Math.multiplyExact(amountToAdd, 1000));
-                case ERAS:
-                    return with(ERA, Math.addExact(getLong(ERA), amountToAdd));
-                default:
-                    throw new UnsupportedTemporalTypeException("Unsupported unit: " + unit);
-            }
-        }
-        return unit.addTo(this, amountToAdd);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -867,11 +761,7 @@ public final class YearHalf
      * @throws DateTimeException if the result exceeds the supported range
      */
     public YearHalf plusYears(long yearsToAdd) {
-        if (yearsToAdd == 0) {
-            return this;
-        }
-        int newYear = YEAR.checkValidIntValue(year + yearsToAdd);  // safe overflow
-        return with(newYear, half);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -884,14 +774,7 @@ public final class YearHalf
      * @throws DateTimeException if the result exceeds the supported range
      */
     public YearHalf plusHalves(long halvesToAdd) {
-        if (halvesToAdd == 0) {
-            return this;
-        }
-        long halfCount = year * 2L + (half.getValue() - 1);
-        long calcHalves = halfCount + halvesToAdd;  // safe overflow
-        int newYear = YEAR.checkValidIntValue(Math.floorDiv(calcHalves, 2));
-        int newHalf = (int) Math.floorMod(calcHalves, 2L) + 1;
-        return with(newYear, Half.of(newHalf));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -917,7 +800,7 @@ public final class YearHalf
      */
     @Override
     public YearHalf minus(TemporalAmount amountToSubtract) {
-        return (YearHalf) amountToSubtract.subtractFrom(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -941,7 +824,7 @@ public final class YearHalf
      */
     @Override
     public YearHalf minus(long amountToSubtract, TemporalUnit unit) {
-        return (amountToSubtract == Long.MIN_VALUE ? plus(Long.MAX_VALUE, unit).plus(1, unit) : plus(-amountToSubtract, unit));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -954,7 +837,7 @@ public final class YearHalf
      * @throws DateTimeException if the result exceeds the supported range
      */
     public YearHalf minusYears(long yearsToSubtract) {
-        return (yearsToSubtract == Long.MIN_VALUE ? plusYears(Long.MAX_VALUE).plusYears(1) : plusYears(-yearsToSubtract));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -967,7 +850,7 @@ public final class YearHalf
      * @throws DateTimeException if the result exceeds the supported range
      */
     public YearHalf minusHalves(long halvesToSubtract) {
-        return (halvesToSubtract == Long.MIN_VALUE ? plusHalves(Long.MAX_VALUE).plusHalves(1) : plusHalves(-halvesToSubtract));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -987,12 +870,7 @@ public final class YearHalf
     @SuppressWarnings("unchecked")
     @Override
     public <R> R query(TemporalQuery<R> query) {
-        if (query == TemporalQueries.chronology()) {
-            return (R) IsoChronology.INSTANCE;
-        } else if (query == TemporalQueries.precision()) {
-            return (R) HALF_YEARS;
-        }
-        return Temporal.super.query(query);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1023,12 +901,7 @@ public final class YearHalf
      */
     @Override
     public Temporal adjustInto(Temporal temporal) {
-        if (Chronology.from(temporal).equals(IsoChronology.INSTANCE) == false) {
-            throw new DateTimeException("Adjustment only supported on ISO date-time");
-        }
-        long newProlepticHalf = getProlepticHalf();
-        long oldProlepticHalf = temporal.get(YEAR) * 2L + (temporal.get(HALF_OF_YEAR) - 1);
-        return temporal.plus(newProlepticHalf - oldProlepticHalf, HALF_YEARS);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1080,27 +953,7 @@ public final class YearHalf
      */
     @Override
     public long until(Temporal endExclusive, TemporalUnit unit) {
-        YearHalf end = YearHalf.from(endExclusive);
-        long halvesUntil = end.getProlepticHalf() - getProlepticHalf();  // no overflow
-        if (unit == HALF_YEARS) {
-            return halvesUntil;
-        } else if (unit instanceof ChronoUnit) {
-            switch ((ChronoUnit) unit) {
-                case YEARS:
-                    return halvesUntil / 2;
-                case DECADES:
-                    return halvesUntil / 20;
-                case CENTURIES:
-                    return halvesUntil / 200;
-                case MILLENNIA:
-                    return halvesUntil / 2000;
-                case ERAS:
-                    return end.getLong(ERA) - getLong(ERA);
-                default:
-                    throw new UnsupportedTemporalTypeException("Unsupported unit: " + unit);
-            }
-        }
-        return unit.between(this, end);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1108,17 +961,13 @@ public final class YearHalf
      * (inclusive) and goes to {@code endExclusive} (exclusive) by an incremental step of 1 {@code HALF_YEARS}.
      * <p>
      * This instance is immutable and unaffected by this method call.
-     * 
+     *
      * @param endExclusive  the end year-half, exclusive, not null
      * @return a sequential {@code Stream} for the range of {@code YearHalf} values
      * @throws IllegalArgumentException if end year-half is before this year-half
      */
     public Stream<YearHalf> halvesUntil(YearHalf endExclusive) {
-        if (endExclusive.isBefore(this)) {
-            throw new IllegalArgumentException(endExclusive + " < " + this);
-        }
-        long intervalLength = until(endExclusive, HALF_YEARS);
-        return LongStream.range(0, intervalLength).mapToObj(n -> plusHalves(n));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1131,8 +980,7 @@ public final class YearHalf
      * @throws DateTimeException if an error occurs during printing
      */
     public String format(DateTimeFormatter formatter) {
-        Objects.requireNonNull(formatter, "formatter");
-        return formatter.format(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -1154,15 +1002,7 @@ public final class YearHalf
      * @see #isValidDay(int)
      */
     public LocalDate atDay(int dayOfHalf) {
-        ValueRange.of(1, lengthOfHalf()).checkValidValue(dayOfHalf, DAY_OF_HALF);
-        boolean leap = Year.isLeap(year);
-        Month month = half.firstMonth();
-        int dom = dayOfHalf;
-        while (dom > month.length(leap)) {
-            dom -= month.length(leap);
-            month = month.plus(1);
-        }
-        return LocalDate.of(year, month, dom);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1180,8 +1020,7 @@ public final class YearHalf
      * @return the last valid date of this year-half, not null
      */
     public LocalDate atEndOfHalf() {
-        Month month = half.firstMonth().plus(5);
-        return LocalDate.of(year, month, month.maxLength());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -1196,11 +1035,7 @@ public final class YearHalf
      */
     @Override
     public int compareTo(YearHalf other) {
-        int cmp = (year - other.year);
-        if (cmp == 0) {
-            cmp = half.compareTo(other.half);
-        }
-        return cmp;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1210,7 +1045,7 @@ public final class YearHalf
      * @return true if this is after the specified year-half
      */
     public boolean isAfter(YearHalf other) {
-        return compareTo(other) > 0;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1220,7 +1055,7 @@ public final class YearHalf
      * @return true if this point is before the specified year-half
      */
     public boolean isBefore(YearHalf other) {
-        return compareTo(other) < 0;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -1234,14 +1069,7 @@ public final class YearHalf
      */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj instanceof YearHalf) {
-            YearHalf other = (YearHalf) obj;
-            return year == other.year && half == other.half;
-        }
-        return false;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1251,7 +1079,7 @@ public final class YearHalf
      */
     @Override
     public int hashCode() {
-        return year ^ (half.getValue() << 28);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -1263,21 +1091,6 @@ public final class YearHalf
     @Override
     @ToString
     public String toString() {
-        int absYear = Math.abs(year);
-        StringBuilder buf = new StringBuilder(10);
-        if (absYear < 1000) {
-            if (year < 0) {
-                buf.append(year - 10000).deleteCharAt(1);
-            } else {
-                buf.append(year + 10000).deleteCharAt(0);
-            }
-        } else {
-            if (year > 9999) {
-                buf.append('+');
-            }
-            buf.append(year);
-        }
-        return buf.append('-').append(half).toString();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

@@ -34,7 +34,6 @@ package org.threeten.extra;
 import static java.time.temporal.ChronoField.MONTH_OF_YEAR;
 import static org.threeten.extra.TemporalFields.HALF_OF_YEAR;
 import static org.threeten.extra.TemporalFields.HALF_YEARS;
-
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.Month;
@@ -95,14 +94,7 @@ public enum Half implements TemporalAccessor, TemporalAdjuster {
      * @throws DateTimeException if the half-of-year is invalid
      */
     public static Half of(int halfOfYear) {
-        switch (halfOfYear) {
-            case 1:
-                return H1;
-            case 2:
-                return H2;
-            default:
-                throw new DateTimeException("Invalid value for Half: " + halfOfYear);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -118,8 +110,7 @@ public enum Half implements TemporalAccessor, TemporalAdjuster {
      * @throws DateTimeException if the month-of-year is invalid
      */
     public static Half ofMonth(int monthOfYear) {
-        MONTH_OF_YEAR.range().checkValidValue(monthOfYear, MONTH_OF_YEAR);
-        return of(monthOfYear <= 6 ? 1 : 2);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -142,22 +133,7 @@ public enum Half implements TemporalAccessor, TemporalAdjuster {
      * @throws DateTimeException if unable to convert to a {@code Half}
      */
     public static Half from(TemporalAccessor temporal) {
-        if (temporal instanceof Half) {
-            return (Half) temporal;
-        } else if (temporal instanceof Month) {
-            Month month = (Month) temporal;
-            return of(month.ordinal() / 6 + 1);
-        }
-        try {
-            TemporalAccessor adjusted =
-                    !IsoChronology.INSTANCE.equals(Chronology.from(temporal)) ? LocalDate.from(temporal) : temporal;
-            // need to use getLong() as JDK Parsed class get() doesn't work properly
-            int qoy = Math.toIntExact(adjusted.getLong(HALF_OF_YEAR));
-            return of(qoy);
-        } catch (DateTimeException ex) {
-            throw new DateTimeException("Unable to obtain Half from TemporalAccessor: " +
-                    temporal + " of type " + temporal.getClass().getName(), ex);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -170,7 +146,7 @@ public enum Half implements TemporalAccessor, TemporalAdjuster {
      * @return the half-of-year, from 1 (H1) to 2 (H2)
      */
     public int getValue() {
-        return ordinal() + 1;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -188,7 +164,7 @@ public enum Half implements TemporalAccessor, TemporalAdjuster {
      * @return the text value of the half-of-year, not null
      */
     public String getDisplayName(TextStyle style, Locale locale) {
-        return new DateTimeFormatterBuilder().appendText(HALF_OF_YEAR, style).toFormatter(locale).format(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -213,12 +189,7 @@ public enum Half implements TemporalAccessor, TemporalAdjuster {
      */
     @Override
     public boolean isSupported(TemporalField field) {
-        if (field == HALF_OF_YEAR) {
-            return true;
-        } else if (field instanceof ChronoField) {
-            return false;
-        }
-        return field != null && field.isSupportedBy(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -245,12 +216,7 @@ public enum Half implements TemporalAccessor, TemporalAdjuster {
      */
     @Override
     public ValueRange range(TemporalField field) {
-        if (field == HALF_OF_YEAR) {
-            return field.range();
-        } else if (field instanceof ChronoField) {
-            throw new UnsupportedTemporalTypeException("Unsupported field: " + field);
-        }
-        return TemporalAccessor.super.range(field);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -280,12 +246,7 @@ public enum Half implements TemporalAccessor, TemporalAdjuster {
      */
     @Override
     public int get(TemporalField field) {
-        if (field == HALF_OF_YEAR) {
-            return getValue();
-        } else if (field instanceof ChronoField) {
-            throw new UnsupportedTemporalTypeException("Unsupported field: " + field);
-        }
-        return TemporalAccessor.super.get(field);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -312,12 +273,7 @@ public enum Half implements TemporalAccessor, TemporalAdjuster {
      */
     @Override
     public long getLong(TemporalField field) {
-        if (field == HALF_OF_YEAR) {
-            return getValue();
-        } else if (field instanceof ChronoField) {
-            throw new UnsupportedTemporalTypeException("Unsupported field: " + field);
-        }
-        return field.getFrom(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -333,8 +289,7 @@ public enum Half implements TemporalAccessor, TemporalAdjuster {
      * @return the resulting half, not null
      */
     public Half plus(long halves) {
-        int amount = (int) halves % 2;
-        return values()[(ordinal() + (amount + 2)) % 2];
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -349,7 +304,7 @@ public enum Half implements TemporalAccessor, TemporalAdjuster {
      * @return the resulting half, not null
      */
     public Half minus(long halves) {
-        return plus(-(halves % 2));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -365,7 +320,7 @@ public enum Half implements TemporalAccessor, TemporalAdjuster {
      * @return the length of this half in days, 181, 182 or 184
      */
     public int length(boolean leapYear) {
-        return this == H1 ? (leapYear ? 182 : 181) : 184;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -378,7 +333,7 @@ public enum Half implements TemporalAccessor, TemporalAdjuster {
      * @return the first month in the half, not null
      */
     public Month firstMonth() {
-        return this == H1 ? Month.JANUARY : Month.JULY;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -398,12 +353,7 @@ public enum Half implements TemporalAccessor, TemporalAdjuster {
     @SuppressWarnings("unchecked")
     @Override
     public <R> R query(TemporalQuery<R> query) {
-        if (query == TemporalQueries.chronology()) {
-            return (R) IsoChronology.INSTANCE;
-        } else if (query == TemporalQueries.precision()) {
-            return (R) HALF_YEARS;
-        }
-        return TemporalAccessor.super.query(query);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -440,10 +390,6 @@ public enum Half implements TemporalAccessor, TemporalAdjuster {
      */
     @Override
     public Temporal adjustInto(Temporal temporal) {
-        if (Chronology.from(temporal).equals(IsoChronology.INSTANCE) == false) {
-            throw new DateTimeException("Adjustment only supported on ISO date-time");
-        }
-        return temporal.with(HALF_OF_YEAR, getValue());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

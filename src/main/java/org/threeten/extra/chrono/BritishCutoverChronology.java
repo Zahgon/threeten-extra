@@ -99,22 +99,23 @@ import java.util.Map;
  * <h3>Implementation Requirements</h3>
  * This class is immutable and thread-safe.
  */
-public final class BritishCutoverChronology
-        extends AbstractChronology
-        implements Serializable {
+public final class BritishCutoverChronology extends AbstractChronology implements Serializable {
 
     /**
      * Singleton instance for the Coptic chronology.
      */
     public static final BritishCutoverChronology INSTANCE = new BritishCutoverChronology();
+
     /**
      * The cutover date, Thursday 14th September 1752.
      */
     public static final LocalDate CUTOVER = LocalDate.of(1752, 9, 14);
+
     /**
      * The number of cutover days.
      */
     static final int CUTOVER_DAYS = 11;
+
     /**
      * The cutover year.
      */
@@ -124,26 +125,32 @@ public final class BritishCutoverChronology
      * Serialization version.
      */
     private static final long serialVersionUID = 87235724675472657L;
+
     /**
      * Range of day-of-year.
      */
     static final ValueRange DOY_RANGE = ValueRange.of(1, 355, 366);
+
     /**
      * Range of aligned-week-of-month.
      */
     static final ValueRange ALIGNED_WOM_RANGE = ValueRange.of(1, 3, 5);
+
     /**
      * Range of aligned-week-of-year.
      */
     static final ValueRange ALIGNED_WOY_RANGE = ValueRange.of(1, 51, 53);
+
     /**
      * Range of proleptic-year.
      */
     static final ValueRange YEAR_RANGE = ValueRange.of(-999_998, 999_999);
+
     /**
      * Range of year.
      */
     static final ValueRange YOE_RANGE = ValueRange.of(1, 999_999);
+
     /**
      * Range of proleptic month.
      */
@@ -176,7 +183,7 @@ public final class BritishCutoverChronology
      * @return the first date after the cutover, not null
      */
     public LocalDate getCutover() {
-        return CUTOVER;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -191,7 +198,7 @@ public final class BritishCutoverChronology
      */
     @Override
     public String getId() {
-        return "BritishCutover";
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -205,7 +212,7 @@ public final class BritishCutoverChronology
      */
     @Override
     public String getCalendarType() {
-        return null;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -227,7 +234,7 @@ public final class BritishCutoverChronology
      */
     @Override
     public BritishCutoverDate date(Era era, int yearOfEra, int month, int dayOfMonth) {
-        return date(prolepticYear(era, yearOfEra), month, dayOfMonth);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -246,7 +253,7 @@ public final class BritishCutoverChronology
      */
     @Override
     public BritishCutoverDate date(int prolepticYear, int month, int dayOfMonth) {
-        return BritishCutoverDate.of(prolepticYear, month, dayOfMonth);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -264,7 +271,7 @@ public final class BritishCutoverChronology
      */
     @Override
     public BritishCutoverDate dateYearDay(Era era, int yearOfEra, int dayOfYear) {
-        return dateYearDay(prolepticYear(era, yearOfEra), dayOfYear);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -280,7 +287,7 @@ public final class BritishCutoverChronology
      */
     @Override
     public BritishCutoverDate dateYearDay(int prolepticYear, int dayOfYear) {
-        return BritishCutoverDate.ofYearDay(prolepticYear, dayOfYear);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -290,9 +297,10 @@ public final class BritishCutoverChronology
      * @return the British Cutover local date, not null
      * @throws DateTimeException if unable to create the date
      */
-    @Override  // override with covariant return type
+    // override with covariant return type
+    @Override
     public BritishCutoverDate dateEpochDay(long epochDay) {
-        return BritishCutoverDate.ofEpochDay(epochDay);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-------------------------------------------------------------------------
@@ -308,9 +316,10 @@ public final class BritishCutoverChronology
      * @return the current British Cutover local date using the system clock and default time-zone, not null
      * @throws DateTimeException if unable to create the date
      */
-    @Override  // override with covariant return type
+    // override with covariant return type
+    @Override
     public BritishCutoverDate dateNow() {
-        return BritishCutoverDate.now();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -326,9 +335,10 @@ public final class BritishCutoverChronology
      * @return the current British Cutover local date using the system clock, not null
      * @throws DateTimeException if unable to create the date
      */
-    @Override  // override with covariant return type
+    // override with covariant return type
+    @Override
     public BritishCutoverDate dateNow(ZoneId zone) {
-        return BritishCutoverDate.now(zone);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -342,9 +352,10 @@ public final class BritishCutoverChronology
      * @return the current British Cutover local date, not null
      * @throws DateTimeException if unable to create the date
      */
-    @Override  // override with covariant return type
+    // override with covariant return type
+    @Override
     public BritishCutoverDate dateNow(Clock clock) {
-        return BritishCutoverDate.now(clock);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-------------------------------------------------------------------------
@@ -357,7 +368,7 @@ public final class BritishCutoverChronology
      */
     @Override
     public BritishCutoverDate date(TemporalAccessor temporal) {
-        return BritishCutoverDate.from(temporal);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -370,7 +381,7 @@ public final class BritishCutoverChronology
     @Override
     @SuppressWarnings("unchecked")
     public ChronoLocalDateTime<BritishCutoverDate> localDateTime(TemporalAccessor temporal) {
-        return (ChronoLocalDateTime<BritishCutoverDate>) super.localDateTime(temporal);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -383,7 +394,7 @@ public final class BritishCutoverChronology
     @Override
     @SuppressWarnings("unchecked")
     public ChronoZonedDateTime<BritishCutoverDate> zonedDateTime(TemporalAccessor temporal) {
-        return (ChronoZonedDateTime<BritishCutoverDate>) super.zonedDateTime(temporal);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -397,7 +408,7 @@ public final class BritishCutoverChronology
     @Override
     @SuppressWarnings("unchecked")
     public ChronoZonedDateTime<BritishCutoverDate> zonedDateTime(Instant instant, ZoneId zone) {
-        return (ChronoZonedDateTime<BritishCutoverDate>) super.zonedDateTime(instant, zone);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -414,56 +425,34 @@ public final class BritishCutoverChronology
      */
     @Override
     public boolean isLeapYear(long prolepticYear) {
-        if (prolepticYear <= CUTOVER_YEAR) {
-            return JulianChronology.INSTANCE.isLeapYear(prolepticYear);
-        }
-        return IsoChronology.INSTANCE.isLeapYear(prolepticYear);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public int prolepticYear(Era era, int yearOfEra) {
-        if (era instanceof JulianEra == false) {
-            throw new ClassCastException("Era must be JulianEra");
-        }
-        return (era == JulianEra.AD ? yearOfEra : 1 - yearOfEra);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public JulianEra eraOf(int eraValue) {
-        return JulianEra.of(eraValue);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public List<Era> eras() {
-        return Arrays.<Era>asList(JulianEra.values());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
     @Override
     public ValueRange range(ChronoField field) {
-        switch (field) {
-            case DAY_OF_YEAR:
-                return DOY_RANGE;
-            case ALIGNED_WEEK_OF_MONTH:
-                return ALIGNED_WOM_RANGE;
-            case ALIGNED_WEEK_OF_YEAR:
-                return ALIGNED_WOY_RANGE;
-            case PROLEPTIC_MONTH:
-                return PROLEPTIC_MONTH_RANGE;
-            case YEAR_OF_ERA:
-                return YOE_RANGE;
-            case YEAR:
-                return YEAR_RANGE;
-            default:
-                break;
-        }
-        return field.range();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
-    @Override  // override for return type
+    // override for return type
+    @Override
     public BritishCutoverDate resolveDate(Map<TemporalField, Long> fieldValues, ResolverStyle resolverStyle) {
-        return (BritishCutoverDate) super.resolveDate(fieldValues, resolverStyle);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

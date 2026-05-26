@@ -76,14 +76,7 @@ public enum AccountingEra implements Era {
      * @throws DateTimeException if the value is invalid
      */
     public static AccountingEra of(int era) {
-        switch (era) {
-            case 0:
-                return BCE;
-            case 1:
-                return CE;
-            default:
-                throw new DateTimeException("Invalid era: " + era);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -96,7 +89,6 @@ public enum AccountingEra implements Era {
      */
     @Override
     public int getValue() {
-        return ordinal();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

@@ -32,7 +32,6 @@
 package org.threeten.extra;
 
 import static java.time.temporal.ChronoUnit.DAYS;
-
 import java.io.Serializable;
 import java.time.DateTimeException;
 import java.time.Period;
@@ -47,7 +46,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import org.joda.convert.FromString;
 import org.joda.convert.ToString;
 
@@ -65,13 +63,13 @@ import org.joda.convert.ToString;
  * This class must be treated as a value type. Do not synchronize, rely on the
  * identity hash code or use the distinction between equals() and ==.
  */
-public final class Days
-        implements TemporalAmount, Comparable<Days>, Serializable {
+public final class Days implements TemporalAmount, Comparable<Days>, Serializable {
 
     /**
      * A constant for zero days.
      */
     public static final Days ZERO = new Days(0);
+
     /**
      * A constant for one day.
      */
@@ -81,17 +79,16 @@ public final class Days
      * A serialization identifier for this class.
      */
     private static final long serialVersionUID = -8903767091325669093L;
+
     /**
      * The number of days per week.
      */
     private static final int DAYS_PER_WEEK = 7;
+
     /**
      * The pattern for parsing.
      */
-    private static final Pattern PATTERN =
-            Pattern.compile("([-+]?)P"
-                    + "(?:([-+]?[0-9]+)W)?"
-                    + "(?:([-+]?[0-9]+)D)?", Pattern.CASE_INSENSITIVE);
+    private static final Pattern PATTERN = Pattern.compile("([-+]?)P" + "(?:([-+]?[0-9]+)W)?" + "(?:([-+]?[0-9]+)D)?", Pattern.CASE_INSENSITIVE);
 
     /**
      * The number of days.
@@ -107,12 +104,7 @@ public final class Days
      * @return the number of days, not null
      */
     public static Days of(int days) {
-        if (days == 0) {
-            return ZERO;
-        } else if (days == 1) {
-            return ONE;
-        }
-        return new Days(days);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -127,10 +119,7 @@ public final class Days
      * @throws ArithmeticException if numeric overflow occurs
      */
     public static Days ofWeeks(int weeks) {
-        if (weeks == 0) {
-            return ZERO;
-        }
-        return new Days(Math.multiplyExact(weeks, DAYS_PER_WEEK));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -152,23 +141,7 @@ public final class Days
      * @throws ArithmeticException if numeric overflow occurs
      */
     public static Days from(TemporalAmount amount) {
-        if (amount instanceof Days) {
-            return (Days) amount;
-        }
-        Objects.requireNonNull(amount, "amount");
-        int days = 0;
-        for (TemporalUnit unit : amount.getUnits()) {
-            long value = amount.get(unit);
-            if (value != 0) {
-                long[] converted = Temporals.convertAmount(value, unit, DAYS);
-                if (converted[1] != 0) {
-                    throw new DateTimeException(
-                            "Amount could not be converted to a whole number of days: " + value + " " + unit);
-                }
-                days = Math.addExact(days, Math.toIntExact(converted[0]));
-            }
-        }
-        return of(days);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -208,33 +181,7 @@ public final class Days
      */
     @FromString
     public static Days parse(CharSequence text) {
-        Objects.requireNonNull(text, "text");
-        Matcher matcher = PATTERN.matcher(text);
-        if (matcher.matches()) {
-            int negate = "-".equals(matcher.group(1)) ? -1 : 1;
-            String weeksStr = matcher.group(2);
-            String daysStr = matcher.group(3);
-            if (weeksStr != null || daysStr != null) {
-                int days = 0;
-                if (daysStr != null) {
-                    try {
-                        days = Integer.parseInt(daysStr);
-                    } catch (NumberFormatException ex) {
-                        throw new DateTimeParseException("Text cannot be parsed to a Days, non-numeric days", text, 0, ex);
-                    }
-                }
-                if (weeksStr != null) {
-                    try {
-                        int weeks = Math.multiplyExact(Integer.parseInt(weeksStr), DAYS_PER_WEEK);
-                        days = Math.addExact(days, weeks);
-                    } catch (NumberFormatException ex) {
-                        throw new DateTimeParseException("Text cannot be parsed to a Days, non-numeric weeks", text, 0, ex);
-                    }
-                }
-                return of(Math.multiplyExact(days, negate));
-            }
-        }
-        throw new DateTimeParseException("Text cannot be parsed to a Days", text, 0);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -249,7 +196,7 @@ public final class Days
      * @return the number of days between this date and the end date, not null
      */
     public static Days between(Temporal startDateInclusive, Temporal endDateExclusive) {
-        return of(Math.toIntExact(DAYS.between(startDateInclusive, endDateExclusive)));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -285,10 +232,7 @@ public final class Days
      */
     @Override
     public long get(TemporalUnit unit) {
-        if (unit == DAYS) {
-            return days;
-        }
-        throw new UnsupportedTemporalTypeException("Unsupported unit: " + unit);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -303,7 +247,7 @@ public final class Days
      */
     @Override
     public List<TemporalUnit> getUnits() {
-        return Collections.singletonList(DAYS);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -313,7 +257,7 @@ public final class Days
      * @return the number of days
      */
     public int getAmount() {
-        return days;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -322,7 +266,7 @@ public final class Days
      * @return true if the amount is negative, false if the amount is zero or positive
      */
     public boolean isNegative() {
-        return getAmount() < 0;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -331,7 +275,7 @@ public final class Days
      * @return true if the amount is zero, false if not
      */
     public boolean isZero() {
-        return getAmount() == 0;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -340,7 +284,7 @@ public final class Days
      * @return true if the amount is positive, false if the amount is zero or negative
      */
     public boolean isPositive() {
-        return getAmount() > 0;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -357,7 +301,7 @@ public final class Days
      * @throws ArithmeticException if numeric overflow occurs
      */
     public Days plus(TemporalAmount amountToAdd) {
-        return plus(Days.from(amountToAdd).getAmount());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -370,10 +314,7 @@ public final class Days
      * @throws ArithmeticException if the result overflows an int
      */
     public Days plus(int days) {
-        if (days == 0) {
-            return this;
-        }
-        return of(Math.addExact(this.days, days));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -390,7 +331,7 @@ public final class Days
      * @throws ArithmeticException if numeric overflow occurs
      */
     public Days minus(TemporalAmount amountToSubtract) {
-        return minus(Days.from(amountToSubtract).getAmount());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -403,10 +344,7 @@ public final class Days
      * @throws ArithmeticException if the result overflows an int
      */
     public Days minus(int days) {
-        if (days == 0) {
-            return this;
-        }
-        return of(Math.subtractExact(this.days, days));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -420,10 +358,7 @@ public final class Days
      * @throws ArithmeticException if numeric overflow occurs
      */
     public Days multipliedBy(int scalar) {
-        if (scalar == 1) {
-            return this;
-        }
-        return of(Math.multiplyExact(days, scalar));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -438,10 +373,7 @@ public final class Days
      * @throws ArithmeticException if the divisor is zero
      */
     public Days dividedBy(int divisor) {
-        if (divisor == 1) {
-            return this;
-        }
-        return of(days / divisor);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -454,7 +386,7 @@ public final class Days
      *  the amount is {@code Long.MIN_VALUE}
      */
     public Days negated() {
-        return multipliedBy(-1);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -469,7 +401,7 @@ public final class Days
      *  the amount is {@code Long.MIN_VALUE}
      */
     public Days abs() {
-        return days < 0 ? negated() : this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-------------------------------------------------------------------------
@@ -481,7 +413,7 @@ public final class Days
      * @return the equivalent period, not null
      */
     public Period toPeriod() {
-        return Period.ofDays(days);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -511,10 +443,7 @@ public final class Days
      */
     @Override
     public Temporal addTo(Temporal temporal) {
-        if (days != 0) {
-            temporal = temporal.plus(days, DAYS);
-        }
-        return temporal;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -543,10 +472,7 @@ public final class Days
      */
     @Override
     public Temporal subtractFrom(Temporal temporal) {
-        if (days != 0) {
-            temporal = temporal.minus(days, DAYS);
-        }
-        return temporal;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -561,9 +487,7 @@ public final class Days
      */
     @Override
     public int compareTo(Days otherAmount) {
-        int thisValue = this.days;
-        int otherValue = otherAmount.days;
-        return Integer.compare(thisValue, otherValue);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -577,14 +501,7 @@ public final class Days
      */
     @Override
     public boolean equals(Object otherAmount) {
-        if (this == otherAmount) {
-            return true;
-        }
-        if (otherAmount instanceof Days) {
-            Days other = (Days) otherAmount;
-            return this.days == other.days;
-        }
-        return false;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -594,7 +511,7 @@ public final class Days
      */
     @Override
     public int hashCode() {
-        return days;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -607,7 +524,6 @@ public final class Days
     @Override
     @ToString
     public String toString() {
-        return "P" + days + "D";
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

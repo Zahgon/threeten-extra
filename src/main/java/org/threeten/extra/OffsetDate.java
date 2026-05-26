@@ -34,7 +34,6 @@ package org.threeten.extra;
 import static java.time.temporal.ChronoField.EPOCH_DAY;
 import static java.time.temporal.ChronoField.OFFSET_SECONDS;
 import static java.time.temporal.ChronoUnit.DAYS;
-
 import java.io.Serializable;
 import java.time.Clock;
 import java.time.DateTimeException;
@@ -66,7 +65,6 @@ import java.time.temporal.UnsupportedTemporalTypeException;
 import java.time.temporal.ValueRange;
 import java.time.zone.ZoneRules;
 import java.util.Objects;
-
 import org.joda.convert.FromString;
 import org.joda.convert.ToString;
 
@@ -88,8 +86,7 @@ import org.joda.convert.ToString;
  * This class must be treated as a value type. Do not synchronize, rely on the
  * identity hash code or use the distinction between equals() and ==.
  */
-public final class OffsetDate
-        implements Temporal, TemporalAdjuster, Comparable<OffsetDate>, Serializable {
+public final class OffsetDate implements Temporal, TemporalAdjuster, Comparable<OffsetDate>, Serializable {
 
     /**
      * The minimum supported {@code OffsetDate}, '-999999999-01-01+18:00'.
@@ -99,6 +96,7 @@ public final class OffsetDate
      * This could be used by an application as a "far past" date.
      */
     public static final OffsetDate MIN = OffsetDate.of(LocalDate.MIN, ZoneOffset.MAX);
+
     /**
      * The maximum supported {@code OffsetDate}, '+999999999-12-31-18:00'.
      * This is the maximum local date in the minimum offset
@@ -122,6 +120,7 @@ public final class OffsetDate
      * The local date.
      */
     private final LocalDate date;
+
     /**
      * The offset from UTC/Greenwich.
      */
@@ -141,7 +140,7 @@ public final class OffsetDate
      * @return the current date using the system clock, not null
      */
     public static OffsetDate now() {
-        return now(Clock.systemDefaultZone());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -158,7 +157,7 @@ public final class OffsetDate
      * @return the current date using the system clock, not null
      */
     public static OffsetDate now(ZoneId zone) {
-        return now(Clock.system(zone));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -174,9 +173,7 @@ public final class OffsetDate
      * @return the current date, not null
      */
     public static OffsetDate now(Clock clock) {
-        Objects.requireNonNull(clock, "clock");
-        final Instant now = clock.instant();  // called once
-        return ofInstant(now, clock.getZone().getRules().getOffset(now));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -188,7 +185,7 @@ public final class OffsetDate
      * @return the offset date, not null
      */
     public static OffsetDate of(LocalDate date, ZoneOffset offset) {
-        return new OffsetDate(date, offset);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -209,8 +206,7 @@ public final class OffsetDate
      *  if the day-of-month is invalid for the month-year
      */
     public static OffsetDate of(int year, int month, int dayOfMonth, ZoneOffset offset) {
-        LocalDate d = LocalDate.of(year, month, dayOfMonth);
-        return new OffsetDate(d, offset);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -227,14 +223,7 @@ public final class OffsetDate
      * @return the offset time, not null
      */
     public static OffsetDate ofInstant(Instant instant, ZoneId zone) {
-        Objects.requireNonNull(instant, "instant");
-        Objects.requireNonNull(zone, "zone");
-        ZoneRules rules = zone.getRules();
-        ZoneOffset offset = rules.getOffset(instant);
-        long epochSec = instant.getEpochSecond() + offset.getTotalSeconds();  // overflow caught later
-        long epochDay = Math.floorDiv(epochSec, SECONDS_PER_DAY);
-        LocalDate date = LocalDate.ofEpochDay(epochDay);
-        return new OffsetDate(date, offset);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -254,16 +243,7 @@ public final class OffsetDate
      * @throws DateTimeException if unable to convert to an {@code OffsetDate}
      */
     public static OffsetDate from(TemporalAccessor temporal) {
-        if (temporal instanceof OffsetDate) {
-            return (OffsetDate) temporal;
-        }
-        try {
-            LocalDate date = LocalDate.from(temporal);
-            ZoneOffset offset = ZoneOffset.from(temporal);
-            return new OffsetDate(date, offset);
-        } catch (DateTimeException ex) {
-            throw new DateTimeException("Unable to obtain OffsetDate from TemporalAccessor: " + temporal.getClass(), ex);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -279,7 +259,7 @@ public final class OffsetDate
      */
     @FromString
     public static OffsetDate parse(CharSequence text) {
-        return parse(text, DateTimeFormatter.ISO_OFFSET_DATE);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -293,8 +273,7 @@ public final class OffsetDate
      * @throws DateTimeParseException if the text cannot be parsed
      */
     public static OffsetDate parse(CharSequence text, DateTimeFormatter formatter) {
-        Objects.requireNonNull(formatter, "formatter");
-        return formatter.parse(text, OffsetDate::from);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -370,10 +349,7 @@ public final class OffsetDate
      */
     @Override
     public boolean isSupported(TemporalField field) {
-        if (field instanceof ChronoField) {
-            return field.isDateBased() || field == OFFSET_SECONDS;
-        }
-        return field != null && field.isSupportedBy(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -407,10 +383,7 @@ public final class OffsetDate
      */
     @Override
     public boolean isSupported(TemporalUnit unit) {
-        if (unit instanceof ChronoUnit) {
-            return unit.isDateBased();
-        }
-        return unit != null && unit.isSupportedBy(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -439,13 +412,7 @@ public final class OffsetDate
      */
     @Override
     public ValueRange range(TemporalField field) {
-        if (field instanceof ChronoField) {
-            if (field == OFFSET_SECONDS) {
-                return field.range();
-            }
-            return date.range(field);
-        }
-        return field.rangeRefinedBy(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -475,9 +442,10 @@ public final class OffsetDate
      *  the range of values exceeds an {@code int}
      * @throws ArithmeticException if numeric overflow occurs
      */
-    @Override  // override for Javadoc
+    // override for Javadoc
+    @Override
     public int get(TemporalField field) {
-        return Temporal.super.get(field);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -505,13 +473,7 @@ public final class OffsetDate
      */
     @Override
     public long getLong(TemporalField field) {
-        if (field instanceof ChronoField) {
-            if (field == OFFSET_SECONDS) {
-                return getOffset().getTotalSeconds();
-            }
-            return date.getLong(field);
-        }
-        return field.getFrom(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -523,7 +485,7 @@ public final class OffsetDate
      * @return the zone offset, not null
      */
     public ZoneOffset getOffset() {
-        return offset;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -541,8 +503,7 @@ public final class OffsetDate
      * @return an {@code OffsetDate} based on this date with the requested offset, not null
      */
     public OffsetDate withOffsetSameLocal(ZoneOffset offset) {
-        Objects.requireNonNull(offset, "offset");
-        return with(date, offset);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -555,7 +516,7 @@ public final class OffsetDate
      * @return the date part of this date, not null
      */
     public LocalDate toLocalDate() {
-        return date;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -570,7 +531,7 @@ public final class OffsetDate
      * @return the year, from MIN_YEAR to MAX_YEAR
      */
     public int getYear() {
-        return date.getYear();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -584,7 +545,7 @@ public final class OffsetDate
      * @see #getMonth()
      */
     public int getMonthValue() {
-        return date.getMonthValue();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -599,7 +560,7 @@ public final class OffsetDate
      * @see #getMonthValue()
      */
     public Month getMonth() {
-        return date.getMonth();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -610,7 +571,7 @@ public final class OffsetDate
      * @return the day-of-month, from 1 to 31
      */
     public int getDayOfMonth() {
-        return date.getDayOfMonth();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -621,7 +582,7 @@ public final class OffsetDate
      * @return the day-of-year, from 1 to 365, or 366 in a leap year
      */
     public int getDayOfYear() {
-        return date.getDayOfYear();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -638,7 +599,7 @@ public final class OffsetDate
      * @return the day-of-week, not null
      */
     public DayOfWeek getDayOfWeek() {
-        return date.getDayOfWeek();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -686,15 +647,7 @@ public final class OffsetDate
      */
     @Override
     public OffsetDate with(TemporalAdjuster adjuster) {
-        // optimizations
-        if (adjuster instanceof LocalDate) {
-            return with((LocalDate) adjuster, offset);
-        } else if (adjuster instanceof ZoneOffset) {
-            return with(date, (ZoneOffset) adjuster);
-        } else if (adjuster instanceof OffsetDate) {
-            return (OffsetDate) adjuster;
-        }
-        return (OffsetDate) adjuster.adjustInto(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -739,14 +692,7 @@ public final class OffsetDate
      */
     @Override
     public OffsetDate with(TemporalField field, long newValue) {
-        if (field instanceof ChronoField) {
-            if (field == OFFSET_SECONDS) {
-                ChronoField f = (ChronoField) field;
-                return with(date, ZoneOffset.ofTotalSeconds(f.checkValidIntValue(newValue)));
-            }
-            return with(date.with(field, newValue), offset);
-        }
-        return field.adjustInto(this, newValue);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -763,7 +709,7 @@ public final class OffsetDate
      * @throws DateTimeException if the year value is invalid
      */
     public OffsetDate withYear(int year) {
-        return with(date.withYear(year), offset);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -779,7 +725,7 @@ public final class OffsetDate
      * @throws DateTimeException if the month-of-year value is invalid
      */
     public OffsetDate withMonth(int month) {
-        return with(date.withMonth(month), offset);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -796,7 +742,7 @@ public final class OffsetDate
      *  or if the day-of-month is invalid for the month-year
      */
     public OffsetDate withDayOfMonth(int dayOfMonth) {
-        return with(date.withDayOfMonth(dayOfMonth), offset);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -812,7 +758,7 @@ public final class OffsetDate
      *  or if the day-of-year is invalid for the year
      */
     public OffsetDate withDayOfYear(int dayOfYear) {
-        return with(date.withDayOfYear(dayOfYear), offset);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -834,7 +780,7 @@ public final class OffsetDate
      */
     @Override
     public OffsetDate plus(TemporalAmount amountToAdd) {
-        return (OffsetDate) amountToAdd.addTo(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -864,10 +810,7 @@ public final class OffsetDate
      */
     @Override
     public OffsetDate plus(long amountToAdd, TemporalUnit unit) {
-        if (unit instanceof ChronoUnit) {
-            return with(date.plus(amountToAdd, unit), offset);
-        }
-        return unit.addTo(this, amountToAdd);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -884,7 +827,7 @@ public final class OffsetDate
      * @throws DateTimeException if the result exceeds the supported date range
      */
     public OffsetDate plusYears(long years) {
-        return with(date.plusYears(years), offset);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -900,7 +843,7 @@ public final class OffsetDate
      * @throws DateTimeException if the result exceeds the supported date range
      */
     public OffsetDate plusMonths(long months) {
-        return with(date.plusMonths(months), offset);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -916,7 +859,7 @@ public final class OffsetDate
      * @throws DateTimeException if the result exceeds the supported date range
      */
     public OffsetDate plusWeeks(long weeks) {
-        return with(date.plusWeeks(weeks), offset);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -932,7 +875,7 @@ public final class OffsetDate
      * @throws DateTimeException if the result exceeds the supported date range
      */
     public OffsetDate plusDays(long days) {
-        return with(date.plusDays(days), offset);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -954,7 +897,7 @@ public final class OffsetDate
      */
     @Override
     public OffsetDate minus(TemporalAmount amountToSubtract) {
-        return (OffsetDate) amountToSubtract.subtractFrom(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -978,7 +921,7 @@ public final class OffsetDate
      */
     @Override
     public OffsetDate minus(long amountToSubtract, TemporalUnit unit) {
-        return (amountToSubtract == Long.MIN_VALUE ? plus(Long.MAX_VALUE, unit).plus(1, unit) : plus(-amountToSubtract, unit));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -995,7 +938,7 @@ public final class OffsetDate
      * @throws DateTimeException if the result exceeds the supported date range
      */
     public OffsetDate minusYears(long years) {
-        return with(date.minusYears(years), offset);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1011,7 +954,7 @@ public final class OffsetDate
      * @throws DateTimeException if the result exceeds the supported date range
      */
     public OffsetDate minusMonths(long months) {
-        return with(date.minusMonths(months), offset);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1027,7 +970,7 @@ public final class OffsetDate
      * @throws DateTimeException if the result exceeds the supported date range
      */
     public OffsetDate minusWeeks(long weeks) {
-        return with(date.minusWeeks(weeks), offset);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1043,7 +986,7 @@ public final class OffsetDate
      * @throws DateTimeException if the result exceeds the supported date range
      */
     public OffsetDate minusDays(long days) {
-        return with(date.minusDays(days), offset);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -1064,16 +1007,7 @@ public final class OffsetDate
     @SuppressWarnings("unchecked")
     @Override
     public <R> R query(TemporalQuery<R> query) {
-        if (query == TemporalQueries.localDate()) {
-            return (R) date;
-        } else if (query == TemporalQueries.chronology()) {
-            return (R) IsoChronology.INSTANCE;
-        } else if (query == TemporalQueries.precision()) {
-            return (R) DAYS;
-        } else if (query == TemporalQueries.offset() || query == TemporalQueries.zone()) {
-            return (R) getOffset();
-        }
-        return Temporal.super.query(query);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1104,9 +1038,7 @@ public final class OffsetDate
      */
     @Override
     public Temporal adjustInto(Temporal temporal) {
-        return temporal
-                .with(OFFSET_SECONDS, getOffset().getTotalSeconds())
-                .with(EPOCH_DAY, toLocalDate().toEpochDay());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1161,13 +1093,7 @@ public final class OffsetDate
      */
     @Override
     public long until(Temporal endExclusive, TemporalUnit unit) {
-        OffsetDate end = OffsetDate.from(endExclusive);
-        if (unit instanceof ChronoUnit) {
-            long offsetDiff = end.offset.getTotalSeconds() - offset.getTotalSeconds();
-            LocalDate endLocal = end.date.plusDays(Math.floorDiv(-offsetDiff, SECONDS_PER_DAY));
-            return date.until(endLocal, unit);
-        }
-        return unit.between(this, end);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1180,8 +1106,7 @@ public final class OffsetDate
      * @throws DateTimeException if an error occurs during printing
      */
     public String format(DateTimeFormatter formatter) {
-        Objects.requireNonNull(formatter, "formatter");
-        return formatter.format(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -1197,7 +1122,7 @@ public final class OffsetDate
      * @return the offset date-time formed from this date and the specified time, not null
      */
     public OffsetDateTime atTime(LocalTime time) {
-        return OffsetDateTime.of(date, time, offset);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -1226,8 +1151,7 @@ public final class OffsetDate
      * @return the number of seconds since the epoch of 1970-01-01T00:00:00Z, may be negative
      */
     public long toEpochSecond(LocalTime time) {
-        Objects.requireNonNull(time, "time");
-        return toEpochSecond() + time.toSecondOfDay();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -1257,14 +1181,7 @@ public final class OffsetDate
      */
     @Override
     public int compareTo(OffsetDate other) {
-        if (offset.equals(other.offset)) {
-            return date.compareTo(other.date);
-        }
-        int compare = Long.compare(toEpochSecond(), other.toEpochSecond());
-        if (compare == 0) {
-            compare = date.compareTo(other.date);
-        }
-        return compare;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -1280,7 +1197,7 @@ public final class OffsetDate
      * @return true if this is after the instant of the specified date
      */
     public boolean isAfter(OffsetDate other) {
-        return toEpochSecond() > other.toEpochSecond();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1295,7 +1212,7 @@ public final class OffsetDate
      * @return true if this is before the instant of the specified date
      */
     public boolean isBefore(OffsetDate other) {
-        return toEpochSecond() < other.toEpochSecond();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1310,7 +1227,7 @@ public final class OffsetDate
      * @return true if the instant equals the instant of the specified date
      */
     public boolean isEqual(OffsetDate other) {
-        return toEpochSecond() == other.toEpochSecond();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -1329,14 +1246,7 @@ public final class OffsetDate
      */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj instanceof OffsetDate) {
-            OffsetDate other = (OffsetDate) obj;
-            return date.equals(other.date) && offset.equals(other.offset);
-        }
-        return false;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1346,7 +1256,7 @@ public final class OffsetDate
      */
     @Override
     public int hashCode() {
-        return date.hashCode() ^ offset.hashCode();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -1360,7 +1270,6 @@ public final class OffsetDate
     @Override
     @ToString
     public String toString() {
-        return date.toString() + offset.toString();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

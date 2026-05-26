@@ -34,7 +34,6 @@ package org.threeten.extra;
 import static java.time.temporal.ChronoField.AMPM_OF_DAY;
 import static java.time.temporal.ChronoField.HOUR_OF_DAY;
 import static java.time.temporal.ChronoUnit.HALF_DAYS;
-
 import java.time.DateTimeException;
 import java.time.format.DateTimeFormatterBuilder;
 import java.time.format.TextStyle;
@@ -97,14 +96,7 @@ public enum AmPm implements TemporalAccessor, TemporalAdjuster {
      * @throws DateTimeException if the am-pm is invalid
      */
     public static AmPm of(int amPmValue) {
-        switch (amPmValue) {
-            case 0:
-                return AM;
-            case 1:
-                return PM;
-            default:
-                throw new DateTimeException("Invalid value for AM/PM: " + amPmValue);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -118,8 +110,7 @@ public enum AmPm implements TemporalAccessor, TemporalAdjuster {
      * @throws DateTimeException if the hour-of-day is invalid
      */
     public static AmPm ofHour(int hourOfDay) {
-        HOUR_OF_DAY.checkValidValue(hourOfDay);
-        return hourOfDay < 12 ? AM : PM;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -140,15 +131,7 @@ public enum AmPm implements TemporalAccessor, TemporalAdjuster {
      * @throws DateTimeException if unable to convert to a {@code AmPm}
      */
     public static AmPm from(TemporalAccessor temporal) {
-        if (temporal instanceof AmPm) {
-            return (AmPm) temporal;
-        }
-        try {
-            return of(temporal.get(AMPM_OF_DAY));
-        } catch (DateTimeException ex) {
-            throw new DateTimeException("Unable to obtain AmPm from TemporalAccessor: " +
-                    temporal + " of type " + temporal.getClass().getName(), ex);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -160,7 +143,7 @@ public enum AmPm implements TemporalAccessor, TemporalAdjuster {
      * @return the AM/PM value, from 0 (AM) to 1 (PM)
      */
     public int getValue() {
-        return ordinal();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -178,7 +161,7 @@ public enum AmPm implements TemporalAccessor, TemporalAdjuster {
      * @return the text value of the am-pm, not null
      */
     public String getDisplayName(TextStyle style, Locale locale) {
-        return new DateTimeFormatterBuilder().appendText(AMPM_OF_DAY, style).toFormatter(locale).format(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -203,10 +186,7 @@ public enum AmPm implements TemporalAccessor, TemporalAdjuster {
      */
     @Override
     public boolean isSupported(TemporalField field) {
-        if (field instanceof ChronoField) {
-            return field == AMPM_OF_DAY;
-        }
-        return field != null && field.isSupportedBy(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -233,12 +213,7 @@ public enum AmPm implements TemporalAccessor, TemporalAdjuster {
      */
     @Override
     public ValueRange range(TemporalField field) {
-        if (field == AMPM_OF_DAY) {
-            return field.range();
-        } else if (field instanceof ChronoField) {
-            throw new UnsupportedTemporalTypeException("Unsupported field: " + field);
-        }
-        return field.rangeRefinedBy(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -268,10 +243,7 @@ public enum AmPm implements TemporalAccessor, TemporalAdjuster {
      */
     @Override
     public int get(TemporalField field) {
-        if (field == AMPM_OF_DAY) {
-            return getValue();
-        }
-        return range(field).checkValidIntValue(getLong(field), field);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -298,12 +270,7 @@ public enum AmPm implements TemporalAccessor, TemporalAdjuster {
      */
     @Override
     public long getLong(TemporalField field) {
-        if (field == AMPM_OF_DAY) {
-            return getValue();
-        } else if (field instanceof ChronoField) {
-            throw new UnsupportedTemporalTypeException("Unsupported field: " + field);
-        }
-        return field.getFrom(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -323,10 +290,7 @@ public enum AmPm implements TemporalAccessor, TemporalAdjuster {
     @SuppressWarnings("unchecked")
     @Override
     public <R> R query(TemporalQuery<R> query) {
-        if (query == TemporalQueries.precision()) {
-            return (R) HALF_DAYS;
-        }
-        return TemporalAccessor.super.query(query);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -356,7 +320,6 @@ public enum AmPm implements TemporalAccessor, TemporalAdjuster {
      */
     @Override
     public Temporal adjustInto(Temporal temporal) {
-        return temporal.with(AMPM_OF_DAY, getValue());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

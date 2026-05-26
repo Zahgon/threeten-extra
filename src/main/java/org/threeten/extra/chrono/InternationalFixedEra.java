@@ -69,10 +69,7 @@ public enum InternationalFixedEra implements Era {
      * @throws DateTimeException if the value is invalid
      */
     public static InternationalFixedEra of(final int era) {
-        if (era == 1) {
-            return CE;
-        }
-        throw new DateTimeException("Invalid era: " + era);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -85,7 +82,6 @@ public enum InternationalFixedEra implements Era {
      */
     @Override
     public int getValue() {
-        return 1;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

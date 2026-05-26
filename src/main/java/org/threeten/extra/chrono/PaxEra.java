@@ -39,7 +39,7 @@ import java.time.chrono.Era;
  * <p>
  * The Pax calendar system has two eras.
  * The current era, for years from 1 onwards, is known as 'Current Era'.
- * All previous years, zero or earlier in the proleptic count or one and greater 
+ * All previous years, zero or earlier in the proleptic count or one and greater
  * in the year-of-era count, are part of the 'Before Current Era' era.
  * <p>
  * The start of the Pax epoch {@code 0001-01-01 (Pax)} is {@code 0000-12-31 (ISO)}.
@@ -75,14 +75,7 @@ public enum PaxEra implements Era {
      * @throws DateTimeException if the value is invalid
      */
     public static PaxEra of(final int era) {
-        switch (era) {
-            case 0:
-                return BCE;
-            case 1:
-                return CE;
-            default:
-                throw new DateTimeException("Invalid era: " + era);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -95,7 +88,6 @@ public enum PaxEra implements Era {
      */
     @Override
     public int getValue() {
-        return ordinal();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

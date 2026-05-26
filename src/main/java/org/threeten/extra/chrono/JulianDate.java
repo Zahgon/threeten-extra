@@ -36,7 +36,6 @@ import static java.time.temporal.ChronoField.DAY_OF_YEAR;
 import static java.time.temporal.ChronoField.EPOCH_DAY;
 import static java.time.temporal.ChronoField.MONTH_OF_YEAR;
 import static java.time.temporal.ChronoField.YEAR;
-
 import java.io.Serializable;
 import java.time.Clock;
 import java.time.DateTimeException;
@@ -71,18 +70,19 @@ import java.time.temporal.ValueRange;
  * This class must be treated as a value type. Do not synchronize, rely on the
  * identity hash code or use the distinction between equals() and ==.
  */
-public final class JulianDate
-        extends AbstractDate
-        implements ChronoLocalDate, Serializable {
+public final class JulianDate extends AbstractDate implements ChronoLocalDate, Serializable {
 
     /**
      * Serialization version.
      */
     private static final long serialVersionUID = -7920528871688876868L;
+
     /**
      * The difference between the ISO and Julian epoch day count (Julian 0001-01-01 to ISO 1970-01-01).
      */
-    private static final int JULIAN_0001_TO_ISO_1970 = 678577 + 40587;  // MJD values
+    // MJD values
+    private static final int JULIAN_0001_TO_ISO_1970 = 678577 + 40587;
+
     /**
      * The days per 4 year cycle.
      */
@@ -92,10 +92,12 @@ public final class JulianDate
      * The proleptic year.
      */
     private final int prolepticYear;
+
     /**
      * The month.
      */
     private final short month;
+
     /**
      * The day.
      */
@@ -114,7 +116,7 @@ public final class JulianDate
      * @return the current date using the system clock and default time-zone, not null
      */
     public static JulianDate now() {
-        return now(Clock.systemDefaultZone());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -130,7 +132,7 @@ public final class JulianDate
      * @return the current date using the system clock, not null
      */
     public static JulianDate now(ZoneId zone) {
-        return now(Clock.system(zone));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -145,8 +147,7 @@ public final class JulianDate
      * @throws DateTimeException if the current date cannot be obtained
      */
     public static JulianDate now(Clock clock) {
-        LocalDate now = LocalDate.now(clock);
-        return JulianDate.ofEpochDay(now.toEpochDay());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -164,7 +165,7 @@ public final class JulianDate
      *  or if the day-of-month is invalid for the month-year
      */
     public static JulianDate of(int prolepticYear, int month, int dayOfMonth) {
-        return JulianDate.create(prolepticYear, month, dayOfMonth);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -185,10 +186,7 @@ public final class JulianDate
      * @throws DateTimeException if unable to convert to a {@code JulianDate}
      */
     public static JulianDate from(TemporalAccessor temporal) {
-        if (temporal instanceof JulianDate) {
-            return (JulianDate) temporal;
-        }
-        return JulianDate.ofEpochDay(temporal.getLong(EPOCH_DAY));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -206,19 +204,7 @@ public final class JulianDate
      *  or if the day-of-year is invalid for the year
      */
     static JulianDate ofYearDay(int prolepticYear, int dayOfYear) {
-        JulianChronology.YEAR_RANGE.checkValidValue(prolepticYear, YEAR);
-        DAY_OF_YEAR.checkValidValue(dayOfYear);
-        boolean leap = JulianChronology.INSTANCE.isLeapYear(prolepticYear);
-        if (dayOfYear == 366 && leap == false) {
-            throw new DateTimeException("Invalid date 'DayOfYear 366' as '" + prolepticYear + "' is not a leap year");
-        }
-        Month moy = Month.of((dayOfYear - 1) / 31 + 1);
-        int monthEnd = moy.firstDayOfYear(leap) + moy.length(leap) - 1;
-        if (dayOfYear > monthEnd) {
-            moy = moy.plus(1);
-        }
-        int dom = dayOfYear - moy.firstDayOfYear(leap) + 1;
-        return new JulianDate(prolepticYear, moy.getValue(), dom);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -230,22 +216,11 @@ public final class JulianDate
      * @throws DateTimeException if the epoch-day is out of range
      */
     static JulianDate ofEpochDay(final long epochDay) {
-        EPOCH_DAY.range().checkValidValue(epochDay, EPOCH_DAY);  // validate outer bounds
-        // use of Julian 0001 makes leap year at end of cycle
-        long julianEpochDay = epochDay + JULIAN_0001_TO_ISO_1970;
-        long cycle = Math.floorDiv(julianEpochDay, DAYS_PER_CYCLE);
-        long daysInCycle = Math.floorMod(julianEpochDay, DAYS_PER_CYCLE);
-        if (daysInCycle == DAYS_PER_CYCLE - 1) {
-            int year = (int) ((cycle * 4 + 3) + 1);
-            return ofYearDay(year, 366);
-        }
-        int year = (int) ((cycle * 4 + daysInCycle / 365) + 1);
-        int doy = (int) ((daysInCycle % 365) + 1);
-        return ofYearDay(year, doy);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private static JulianDate resolvePreviousValid(int prolepticYear, int month, int day) {
-        switch (month) {
+        switch(month) {
             case 2:
                 day = Math.min(day, JulianChronology.INSTANCE.isLeapYear(prolepticYear) ? 29 : 28);
                 break;
@@ -272,33 +247,7 @@ public final class JulianDate
      *  or if the day-of-year is invalid for the month-year
      */
     static JulianDate create(int prolepticYear, int month, int dayOfMonth) {
-        JulianChronology.YEAR_RANGE.checkValidValue(prolepticYear, YEAR);
-        MONTH_OF_YEAR.checkValidValue(month);
-        DAY_OF_MONTH.checkValidValue(dayOfMonth);
-        if (dayOfMonth > 28) {
-            int dom = 31;
-            switch (month) {
-                case 2:
-                    dom = (JulianChronology.INSTANCE.isLeapYear(prolepticYear) ? 29 : 28);
-                    break;
-                case 4:
-                case 6:
-                case 9:
-                case 11:
-                    dom = 30;
-                    break;
-                default:
-                    break;
-            }
-            if (dayOfMonth > dom) {
-                if (dayOfMonth == 29) {
-                    throw new DateTimeException("Invalid date 'February 29' as '" + prolepticYear + "' is not a leap year");
-                } else {
-                    throw new DateTimeException("Invalid date '" + Month.of(month).name() + " " + dayOfMonth + "'");
-                }
-            }
-        }
-        return new JulianDate(prolepticYear, month, dayOfMonth);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -327,32 +276,32 @@ public final class JulianDate
     //-----------------------------------------------------------------------
     @Override
     int getProlepticYear() {
-        return prolepticYear;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     int getMonth() {
-        return month;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     int getDayOfMonth() {
-        return day;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     int getDayOfYear() {
-        return Month.of(month).firstDayOfYear(isLeapYear()) + day - 1;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     ValueRange rangeAlignedWeekOfMonth() {
-        return ValueRange.of(1, month == 2 && isLeapYear() == false ? 4 : 5);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     JulianDate resolvePrevious(int newYear, int newMonth, int dayOfMonth) {
-        return resolvePreviousValid(newYear, newMonth, dayOfMonth);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -366,7 +315,7 @@ public final class JulianDate
      */
     @Override
     public JulianChronology getChronology() {
-        return JulianChronology.INSTANCE;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -379,7 +328,7 @@ public final class JulianDate
      */
     @Override
     public JulianEra getEra() {
-        return (prolepticYear >= 1 ? JulianEra.AD : JulianEra.BC);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -392,74 +341,62 @@ public final class JulianDate
      */
     @Override
     public int lengthOfMonth() {
-        switch (month) {
-            case 2:
-                return (isLeapYear() ? 29 : 28);
-            case 4:
-            case 6:
-            case 9:
-            case 11:
-                return 30;
-            default:
-                return 31;
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-------------------------------------------------------------------------
     @Override
     public JulianDate with(TemporalAdjuster adjuster) {
-        return (JulianDate) adjuster.adjustInto(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public JulianDate with(TemporalField field, long newValue) {
-        return (JulianDate) super.with(field, newValue);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
     @Override
     public JulianDate plus(TemporalAmount amount) {
-        return (JulianDate) amount.addTo(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public JulianDate plus(long amountToAdd, TemporalUnit unit) {
-        return (JulianDate) super.plus(amountToAdd, unit);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public JulianDate minus(TemporalAmount amount) {
-        return (JulianDate) amount.subtractFrom(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public JulianDate minus(long amountToSubtract, TemporalUnit unit) {
-        return (amountToSubtract == Long.MIN_VALUE ? plus(Long.MAX_VALUE, unit).plus(1, unit) : plus(-amountToSubtract, unit));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-------------------------------------------------------------------------
-    @Override  // for covariant return type
+    // for covariant return type
+    @Override
     @SuppressWarnings("unchecked")
     public ChronoLocalDateTime<JulianDate> atTime(LocalTime localTime) {
-        return (ChronoLocalDateTime<JulianDate>) super.atTime(localTime);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public long until(Temporal endExclusive, TemporalUnit unit) {
-        return super.until(JulianDate.from(endExclusive), unit);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public ChronoPeriod until(ChronoLocalDate endDateExclusive) {
-        return super.doUntil(JulianDate.from(endDateExclusive));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
     @Override
     public long toEpochDay() {
-        long year = (long) prolepticYear;
-        long julianEpochDay = ((year - 1) * 365) + Math.floorDiv((year - 1), 4) + (getDayOfYear() - 1);
-        return julianEpochDay - JULIAN_0001_TO_ISO_1970;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

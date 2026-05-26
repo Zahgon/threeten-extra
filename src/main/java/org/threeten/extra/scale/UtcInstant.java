@@ -36,7 +36,6 @@ import static java.time.temporal.ChronoField.NANO_OF_SECOND;
 import static org.threeten.extra.scale.UtcRules.NANOS_PER_SECOND;
 import static org.threeten.extra.scale.UtcRules.OFFSET_MJD_EPOCH;
 import static org.threeten.extra.scale.UtcRules.SECS_PER_DAY;
-
 import java.io.Serializable;
 import java.time.DateTimeException;
 import java.time.Duration;
@@ -46,7 +45,6 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.temporal.JulianFields;
 import java.time.temporal.TemporalAccessor;
-
 import org.joda.convert.FromString;
 import org.joda.convert.ToString;
 
@@ -107,11 +105,10 @@ import org.joda.convert.ToString;
  * This class must be treated as a value type. Do not synchronize, rely on the
  * identity hash code or use the distinction between equals() and ==.
  */
-public final class UtcInstant
-        implements Comparable<UtcInstant>, Serializable {
+public final class UtcInstant implements Comparable<UtcInstant>, Serializable {
+
     // does not implement Temporal as that would enable methods like
     // Duration.between which gives the wrong answer due to lossy conversion
-
     /**
      * Serialization version.
      */
@@ -121,13 +118,15 @@ public final class UtcInstant
      * The Modified Julian Day, from the epoch of 1858-11-17.
      */
     private final long mjDay;
+
     /**
      * The number of nanoseconds, later along the time-line, from the MJD field.
      * This is always positive and includes leap seconds.
      */
     private final long nanoOfDay;
+
     /**
-     * A cache of the result from {@link #toString()} 
+     * A cache of the result from {@link #toString()}
      */
     private transient String toString;
 
@@ -155,8 +154,7 @@ public final class UtcInstant
      * @throws IllegalArgumentException if nanoOfDay is out of range
      */
     public static UtcInstant ofModifiedJulianDay(long mjDay, long nanoOfDay) {
-        UtcRules.system().validateModifiedJulianDay(mjDay, nanoOfDay);
-        return new UtcInstant(mjDay, nanoOfDay);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -174,7 +172,7 @@ public final class UtcInstant
      * @throws ArithmeticException if numeric overflow occurs
      */
     public static UtcInstant of(Instant instant) {
-        return UtcRules.system().convertToUtc(instant);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -194,7 +192,7 @@ public final class UtcInstant
      * @throws ArithmeticException if numeric overflow occurs
      */
     public static UtcInstant of(TaiInstant instant) {
-        return UtcRules.system().convertToUtc(instant);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-------------------------------------------------------------------------
@@ -212,17 +210,7 @@ public final class UtcInstant
      */
     @FromString
     public static UtcInstant parse(CharSequence text) {
-        TemporalAccessor parsed = DateTimeFormatter.ISO_INSTANT.parse(text);
-        long epochSecond = parsed.getLong(INSTANT_SECONDS);
-        long nanoOfSecond = parsed.getLong(NANO_OF_SECOND);
-        boolean leap = parsed.query(DateTimeFormatter.parsedLeapSecond());
-        long epochDay = Math.floorDiv(epochSecond, SECS_PER_DAY);
-        long mjd = epochDay + OFFSET_MJD_EPOCH;
-        long nanoOfDay = Math.floorMod(epochSecond, SECS_PER_DAY) * NANOS_PER_SECOND + nanoOfSecond;
-        if (leap) {
-            nanoOfDay += NANOS_PER_SECOND;
-        }
-        return UtcInstant.ofModifiedJulianDay(mjd, nanoOfDay);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -249,7 +237,7 @@ public final class UtcInstant
      * @return the Modified Julian Day based on the epoch 1858-11-17
      */
     public long getModifiedJulianDay() {
-        return mjDay;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -266,7 +254,7 @@ public final class UtcInstant
      * @throws DateTimeException if nanoOfDay becomes invalid
      */
     public UtcInstant withModifiedJulianDay(long mjDay) {
-        return UtcInstant.ofModifiedJulianDay(mjDay, nanoOfDay);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -280,7 +268,7 @@ public final class UtcInstant
      * @return the nanoseconds within the day, including leap seconds
      */
     public long getNanoOfDay() {
-        return nanoOfDay;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -297,7 +285,7 @@ public final class UtcInstant
      * @throws DateTimeException if the nanoOfDay value is invalid
      */
     public UtcInstant withNanoOfDay(long nanoOfDay) {
-        return UtcInstant.ofModifiedJulianDay(mjDay, nanoOfDay);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -310,7 +298,7 @@ public final class UtcInstant
      * @return true if this instant is within a leap second
      */
     public boolean isLeapSecond() {
-        return nanoOfDay >= SECS_PER_DAY * NANOS_PER_SECOND;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -329,7 +317,7 @@ public final class UtcInstant
      * @throws ArithmeticException if the calculation exceeds the supported range
      */
     public UtcInstant plus(Duration duration) {
-        return UtcInstant.of(toTaiInstant().plus(duration));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -348,7 +336,7 @@ public final class UtcInstant
      * @throws ArithmeticException if the calculation exceeds the supported range
      */
     public UtcInstant minus(Duration duration) {
-        return UtcInstant.of(toTaiInstant().minus(duration));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -365,9 +353,7 @@ public final class UtcInstant
      * @throws ArithmeticException if the calculation exceeds the supported range
      */
     public Duration durationUntil(UtcInstant utcInstant) {
-        TaiInstant thisTAI = toTaiInstant();
-        TaiInstant otherTAI = utcInstant.toTaiInstant();
-        return thisTAI.durationUntil(otherTAI);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -385,7 +371,7 @@ public final class UtcInstant
      * @throws ArithmeticException if numeric overflow occurs
      */
     public Instant toInstant() {
-        return UtcRules.system().convertToInstant(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -404,7 +390,7 @@ public final class UtcInstant
      * @throws ArithmeticException if numeric overflow occurs
      */
     public TaiInstant toTaiInstant() {
-        return UtcRules.system().convertToTai(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -419,11 +405,7 @@ public final class UtcInstant
      */
     @Override
     public int compareTo(UtcInstant otherInstant) {
-        int cmp = Long.compare(mjDay, otherInstant.mjDay);
-        if (cmp != 0) {
-            return cmp;
-        }
-        return Long.compare(nanoOfDay, otherInstant.nanoOfDay);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -436,7 +418,7 @@ public final class UtcInstant
      * @throws NullPointerException if otherInstant is null
      */
     public boolean isAfter(UtcInstant otherInstant) {
-        return compareTo(otherInstant) > 0;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -449,7 +431,7 @@ public final class UtcInstant
      * @throws NullPointerException if otherInstant is null
      */
     public boolean isBefore(UtcInstant otherInstant) {
-        return compareTo(otherInstant) < 0;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -463,15 +445,7 @@ public final class UtcInstant
      */
     @Override
     public boolean equals(Object otherInstant) {
-        if (this == otherInstant) {
-            return true;
-        }
-        if (otherInstant instanceof UtcInstant) {
-            UtcInstant other = (UtcInstant) otherInstant;
-            return this.mjDay == other.mjDay &&
-                    this.nanoOfDay == other.nanoOfDay;
-        }
-        return false;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -481,7 +455,7 @@ public final class UtcInstant
      */
     @Override
     public int hashCode() {
-        return ((int) (mjDay ^ (mjDay >>> 32))) + 51 * ((int) (nanoOfDay ^ (nanoOfDay >>> 32)));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -497,18 +471,13 @@ public final class UtcInstant
     @Override
     @ToString
     public String toString() {
-        // racy single-check idiom
-        String currentStringValue = toString;
-        if (currentStringValue == null) {
-            currentStringValue = buildToString();
-            toString = currentStringValue;
-        }
-        return currentStringValue;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     // produces the string representation of this instant
     private String buildToString() {
-        LocalDate date = LocalDate.MAX.with(JulianFields.MODIFIED_JULIAN_DAY, mjDay); // TODO: capacity/import issues
+        // TODO: capacity/import issues
+        LocalDate date = LocalDate.MAX.with(JulianFields.MODIFIED_JULIAN_DAY, mjDay);
         StringBuilder buf = new StringBuilder(30);
         int sod = (int) (nanoOfDay / NANOS_PER_SECOND);
         int hourValue = sod / (60 * 60);
@@ -520,10 +489,7 @@ public final class UtcInstant
             minuteValue = 59;
             secondValue = 60;
         }
-        buf.append(date).append('T')
-                .append(hourValue < 10 ? "0" : "").append(hourValue)
-                .append(minuteValue < 10 ? ":0" : ":").append(minuteValue)
-                .append(secondValue < 10 ? ":0" : ":").append(secondValue);
+        buf.append(date).append('T').append(hourValue < 10 ? "0" : "").append(hourValue).append(minuteValue < 10 ? ":0" : ":").append(minuteValue).append(secondValue < 10 ? ":0" : ":").append(secondValue);
         if (nanoValue > 0) {
             buf.append('.');
             if (nanoValue % 1000_000 == 0) {
@@ -537,5 +503,4 @@ public final class UtcInstant
         buf.append('Z');
         return buf.toString();
     }
-
 }

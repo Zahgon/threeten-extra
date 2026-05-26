@@ -38,7 +38,6 @@ import static java.time.temporal.ChronoUnit.DAYS;
 import static java.time.temporal.ChronoUnit.YEARS;
 import static java.time.temporal.IsoFields.QUARTER_OF_YEAR;
 import static java.time.temporal.IsoFields.QUARTER_YEARS;
-
 import java.time.DateTimeException;
 import java.time.Duration;
 import java.time.LocalDate;
@@ -96,6 +95,7 @@ public final class TemporalFields {
      * This unit is an immutable and thread-safe singleton.
      */
     public static final TemporalField DAY_OF_HALF = DayOfHalfField.INSTANCE;
+
     /**
      * The field that represents the half-of-year.
      * <p>
@@ -111,6 +111,7 @@ public final class TemporalFields {
      * This unit is an immutable and thread-safe singleton.
      */
     public static final TemporalField HALF_OF_YEAR = HalfOfYearField.INSTANCE;
+
     /**
      * Unit that represents the concept of a half-year.
      * For the ISO calendar system, it is equal to 6 months.
@@ -131,120 +132,71 @@ public final class TemporalFields {
      * Implementation of day-of-half.
      */
     private static enum DayOfHalfField implements TemporalField {
+
         INSTANCE;
 
         private static final ValueRange RANGE = ValueRange.of(1, 181, 184);
+
         private static final long serialVersionUID = 262362728L;
 
         //-----------------------------------------------------------------------
         @Override
         public TemporalUnit getBaseUnit() {
-            return DAYS;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         public TemporalUnit getRangeUnit() {
-            return HALF_YEARS;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         public boolean isDateBased() {
-            return true;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         public boolean isTimeBased() {
-            return false;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         public ValueRange range() {
-            return RANGE;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         //-----------------------------------------------------------------------
         @Override
         public boolean isSupportedBy(TemporalAccessor temporal) {
-            return temporal.isSupported(DAY_OF_YEAR) &&
-                    temporal.isSupported(MONTH_OF_YEAR) &&
-                    temporal.isSupported(YEAR);
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         public ValueRange rangeRefinedBy(TemporalAccessor temporal) {
-            if (!temporal.isSupported(this)) {
-                throw new DateTimeException("Unsupported field: DayOfHalf");
-            }
-            long hoy = temporal.getLong(HALF_OF_YEAR);
-            if (hoy == 1) {
-                long year = temporal.getLong(YEAR);
-                return (IsoChronology.INSTANCE.isLeapYear(year) ? ValueRange.of(1, 182) : ValueRange.of(1, 181));
-            } else if (hoy == 2) {
-                return ValueRange.of(1, 184);
-            } // else value not from 1 to 2, so drop through
-            return range();
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         public long getFrom(TemporalAccessor temporal) {
-            if (isSupportedBy(temporal) == false) {
-                throw new UnsupportedTemporalTypeException("Unsupported field: DayOfHalf");
-            }
-            int doy = temporal.get(DAY_OF_YEAR);
-            int moy = temporal.get(MONTH_OF_YEAR);
-            long year = temporal.getLong(YEAR);
-            return moy <= 6 ? doy : doy - 181 - (IsoChronology.INSTANCE.isLeapYear(year) ? 1 : 0);
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @SuppressWarnings("unchecked")
         @Override
         public <R extends Temporal> R adjustInto(R temporal, long newValue) {
-            // calls getFrom() to check if supported
-            long curValue = getFrom(temporal);
-            range().checkValidValue(newValue, this);  // leniently check from 1 to 184
-            return (R) temporal.with(DAY_OF_YEAR, temporal.getLong(DAY_OF_YEAR) + (newValue - curValue));
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         //-----------------------------------------------------------------------
         @Override
-        public ChronoLocalDate resolve(
-                Map<TemporalField, Long> fieldValues,
-                TemporalAccessor partialTemporal,
-                ResolverStyle resolverStyle) {
-
-            Long yearLong = fieldValues.get(YEAR);
-            Long hoyLong = fieldValues.get(HALF_OF_YEAR);
-            if (yearLong == null || hoyLong == null) {
-                return null;
-            }
-            int y = YEAR.checkValidIntValue(yearLong);  // always validate
-            long doh = fieldValues.get(DAY_OF_HALF);
-            LocalDate date;
-            if (resolverStyle == ResolverStyle.LENIENT) {
-                date = LocalDate.of(y, 1, 1).plusMonths(Math.multiplyExact(Math.subtractExact(hoyLong, 1), 6));
-                doh = Math.subtractExact(doh, 1);
-            } else {
-                int qoy = HALF_OF_YEAR.range().checkValidIntValue(hoyLong, HALF_OF_YEAR);  // validated
-                date = LocalDate.of(y, ((qoy - 1) * 6) + 1, 1);
-                if (doh < 1 || doh > 181) {
-                    if (resolverStyle == ResolverStyle.STRICT) {
-                        rangeRefinedBy(date).checkValidValue(doh, this);  // only allow exact range
-                    } else {  // SMART
-                        range().checkValidValue(doh, this);  // allow 1-184 rolling into next quarter
-                    }
-                }
-                doh--;
-            }
-            fieldValues.remove(this);
-            fieldValues.remove(YEAR);
-            fieldValues.remove(HALF_OF_YEAR);
-            return date.plusDays(doh);
+        public ChronoLocalDate resolve(Map<TemporalField, Long> fieldValues, TemporalAccessor partialTemporal, ResolverStyle resolverStyle) {
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         //-----------------------------------------------------------------------
         @Override
         public String toString() {
-            return "DayOfHalf";
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     }
 
@@ -253,6 +205,7 @@ public final class TemporalFields {
      * Implementation of half-of-year.
      */
     private static enum HalfOfYearField implements TemporalField {
+
         INSTANCE;
 
         private static final long serialVersionUID = -29115701L;
@@ -260,60 +213,53 @@ public final class TemporalFields {
         //-----------------------------------------------------------------------
         @Override
         public TemporalUnit getBaseUnit() {
-            return HALF_YEARS;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         public TemporalUnit getRangeUnit() {
-            return YEARS;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         public boolean isDateBased() {
-            return true;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         public boolean isTimeBased() {
-            return false;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         public ValueRange range() {
-            return ValueRange.of(1, 2);
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         public boolean isSupportedBy(TemporalAccessor temporal) {
-            return temporal.isSupported(QUARTER_OF_YEAR);
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         public ValueRange rangeRefinedBy(TemporalAccessor temporal) {
-            return range();
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         public long getFrom(TemporalAccessor temporal) {
-            if (isSupportedBy(temporal) == false) {
-                throw new UnsupportedTemporalTypeException("Unsupported field: HalfOfYear");
-            }
-            long qoy = temporal.get(QUARTER_OF_YEAR);
-            return qoy <= 2 ? 1 : 2;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @SuppressWarnings("unchecked")
         @Override
         public <R extends Temporal> R adjustInto(R temporal, long newValue) {
-            // calls getFrom() to check if supported
-            long curValue = getFrom(temporal);
-            range().checkValidValue(newValue, this);  // strictly check from 1 to 2
-            return (R) temporal.with(MONTH_OF_YEAR, temporal.getLong(MONTH_OF_YEAR) + (newValue - curValue) * 6);
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         public String toString() {
-            return "HalfOfYear";
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     }
 
@@ -330,47 +276,43 @@ public final class TemporalFields {
 
         @Override
         public Duration getDuration() {
-            return Duration.ofSeconds(31556952L / 2);
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         public boolean isDurationEstimated() {
-            return true;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         public boolean isDateBased() {
-            return true;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         public boolean isTimeBased() {
-            return false;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         public boolean isSupportedBy(Temporal temporal) {
-            return temporal.isSupported(QUARTER_OF_YEAR);
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @SuppressWarnings("unchecked")
         @Override
         public <R extends Temporal> R addTo(R temporal, long amount) {
-            return (R) temporal.plus(Math.multiplyExact(amount, 2), QUARTER_YEARS);
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         public long between(Temporal temporal1Inclusive, Temporal temporal2Exclusive) {
-            if (temporal1Inclusive.getClass() != temporal2Exclusive.getClass()) {
-                return temporal1Inclusive.until(temporal2Exclusive, this);
-            }
-            return temporal1Inclusive.until(temporal2Exclusive, QUARTER_YEARS) / 2;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         public String toString() {
-            return "HalfYears";
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     }
-
 }

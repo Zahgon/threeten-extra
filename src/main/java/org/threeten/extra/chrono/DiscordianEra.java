@@ -70,12 +70,7 @@ public enum DiscordianEra implements Era {
      * @throws DateTimeException if the value is invalid
      */
     public static DiscordianEra of(int era) {
-        switch (era) {
-            case 1:
-                return YOLD;
-            default:
-                throw new DateTimeException("Invalid era: " + era);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -88,7 +83,6 @@ public enum DiscordianEra implements Era {
      */
     @Override
     public int getValue() {
-        return ordinal();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

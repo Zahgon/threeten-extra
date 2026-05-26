@@ -39,8 +39,7 @@ import java.time.temporal.ValueRange;
  * <h3>Implementation Requirements</h3>
  * Implementations must be immutable and thread-safe.
  */
-abstract class AbstractNileDate
-        extends AbstractDate {
+abstract class AbstractNileDate extends AbstractDate {
 
     /**
      * Creates an instance.
@@ -53,22 +52,22 @@ abstract class AbstractNileDate
 
     @Override
     int getDayOfYear() {
-        return (getMonth() - 1) * 30 + getDayOfMonth();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     AbstractDate withDayOfYear(int value) {
-        return resolvePrevious(getProlepticYear(), ((value - 1) / 30) + 1, ((value - 1) % 30) + 1);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     int lengthOfYearInMonths() {
-        return 13;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     ValueRange rangeAlignedWeekOfMonth() {
-        return ValueRange.of(1, getMonth() == 13 ? 1 : 5);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -82,17 +81,11 @@ abstract class AbstractNileDate
      */
     @Override
     public int lengthOfMonth() {
-        if (getMonth() == 13) {
-            return (isLeapYear() ? 6 : 5);
-        }
-        return 30;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public long toEpochDay() {
-        long year = (long) getProlepticYear();
-        long calendarEpochDay = ((year - 1) * 365) + Math.floorDiv(year, 4) + (getDayOfYear() - 1);
-        return calendarEpochDay - getEpochDayDifference();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

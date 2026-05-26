@@ -41,7 +41,6 @@ import static java.time.temporal.ChronoField.MINUTE_OF_HOUR;
 import static java.time.temporal.ChronoUnit.HALF_DAYS;
 import static java.time.temporal.ChronoUnit.HOURS;
 import static java.time.temporal.ChronoUnit.MINUTES;
-
 import java.io.Serializable;
 import java.time.Clock;
 import java.time.DateTimeException;
@@ -68,7 +67,6 @@ import java.time.temporal.TemporalUnit;
 import java.time.temporal.UnsupportedTemporalTypeException;
 import java.time.temporal.ValueRange;
 import java.util.Objects;
-
 import org.joda.convert.FromString;
 import org.joda.convert.ToString;
 
@@ -84,8 +82,7 @@ import org.joda.convert.ToString;
  * This class must be treated as a value type. Do not synchronize, rely on the
  * identity hash code or use the distinction between equals() and ==.
  */
-public final class HourMinute
-        implements Temporal, TemporalAdjuster, Comparable<HourMinute>, Serializable {
+public final class HourMinute implements Temporal, TemporalAdjuster, Comparable<HourMinute>, Serializable {
 
     /**
      * The time of midnight at the start of the day, '00:00'.
@@ -96,22 +93,22 @@ public final class HourMinute
      * Serialization version.
      */
     private static final long serialVersionUID = -2532872925L;
+
     /**
      * Parser.
      */
-    private static final DateTimeFormatter PARSER = new DateTimeFormatterBuilder()
-            .appendValue(HOUR_OF_DAY, 2)
-            .appendLiteral(':')
-            .appendValue(MINUTE_OF_HOUR, 2)
-            .toFormatter();
+    private static final DateTimeFormatter PARSER = new DateTimeFormatterBuilder().appendValue(HOUR_OF_DAY, 2).appendLiteral(':').appendValue(MINUTE_OF_HOUR, 2).toFormatter();
+
     /**
      * Hours per day.
      */
     private static final int HOURS_PER_DAY = 24;
+
     /**
      * Minutes per hour.
      */
     private static final int MINUTES_PER_HOUR = 60;
+
     /**
      * Minutes per day.
      */
@@ -121,6 +118,7 @@ public final class HourMinute
      * The hour-of-day.
      */
     private final int hour;
+
     /**
      * The minute-of-hour.
      */
@@ -140,7 +138,7 @@ public final class HourMinute
      * @return the current hour-minute using the system clock and default time-zone, not null
      */
     public static HourMinute now() {
-        return now(Clock.systemDefaultZone());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -156,7 +154,7 @@ public final class HourMinute
      * @return the current hour-minute using the system clock, not null
      */
     public static HourMinute now(ZoneId zone) {
-        return now(Clock.system(zone));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -170,8 +168,7 @@ public final class HourMinute
      * @return the current hour-minute, not null
      */
     public static HourMinute now(Clock clock) {
-        final LocalTime now = LocalTime.now(clock);  // called once
-        return HourMinute.of(now.getHour(), now.getMinute());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -184,9 +181,7 @@ public final class HourMinute
      * @throws DateTimeException if either field value is invalid
      */
     public static HourMinute of(int hour, int minute) {
-        HOUR_OF_DAY.checkValidValue(hour);
-        MINUTE_OF_HOUR.checkValidValue(minute);
-        return new HourMinute(hour, minute);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -208,19 +203,7 @@ public final class HourMinute
      * @throws DateTimeException if unable to convert to a {@code HourMinute}
      */
     public static HourMinute from(TemporalAccessor temporal) {
-        if (temporal instanceof HourMinute) {
-            return (HourMinute) temporal;
-        }
-        Objects.requireNonNull(temporal, "temporal");
-        try {
-            // need to use getLong() as JDK Parsed class get() doesn't work properly
-            int hour = Math.toIntExact(temporal.getLong(HOUR_OF_DAY));
-            int minute = Math.toIntExact(temporal.getLong(MINUTE_OF_HOUR));
-            return of(hour, minute);
-        } catch (DateTimeException ex) {
-            throw new DateTimeException("Unable to obtain HourMinute from TemporalAccessor: " +
-                    temporal + " of type " + temporal.getClass().getName(), ex);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -236,7 +219,7 @@ public final class HourMinute
      */
     @FromString
     public static HourMinute parse(CharSequence text) {
-        return parse(text, PARSER);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -250,8 +233,7 @@ public final class HourMinute
      * @throws DateTimeParseException if the text cannot be parsed
      */
     public static HourMinute parse(CharSequence text, DateTimeFormatter formatter) {
-        Objects.requireNonNull(formatter, "formatter");
-        return formatter.parse(text, HourMinute::from);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -322,16 +304,7 @@ public final class HourMinute
      */
     @Override
     public boolean isSupported(TemporalField field) {
-        if (field instanceof ChronoField) {
-            return field == MINUTE_OF_HOUR ||
-                    field == MINUTE_OF_DAY ||
-                    field == HOUR_OF_AMPM ||
-                    field == CLOCK_HOUR_OF_AMPM ||
-                    field == HOUR_OF_DAY ||
-                    field == CLOCK_HOUR_OF_DAY ||
-                    field == AMPM_OF_DAY;
-        }
-        return field != null && field.isSupportedBy(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -360,10 +333,7 @@ public final class HourMinute
      */
     @Override
     public boolean isSupported(TemporalUnit unit) {
-        if (unit instanceof ChronoUnit) {
-            return unit == MINUTES || unit == HOURS || unit == HALF_DAYS;
-        }
-        return unit != null && unit.isSupportedBy(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -391,7 +361,7 @@ public final class HourMinute
      */
     @Override
     public ValueRange range(TemporalField field) {
-        return Temporal.super.range(field);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -422,10 +392,7 @@ public final class HourMinute
      */
     @Override
     public int get(TemporalField field) {
-        if (field instanceof ChronoField) {
-            return get0(field);
-        }
-        return Temporal.super.get(field);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -453,14 +420,11 @@ public final class HourMinute
      */
     @Override
     public long getLong(TemporalField field) {
-        if (field instanceof ChronoField) {
-            return get0(field);
-        }
-        return field.getFrom(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private int get0(TemporalField field) {
-        switch ((ChronoField) field) {
+        switch((ChronoField) field) {
             case MINUTE_OF_HOUR:
                 return minute;
             case MINUTE_OF_DAY:
@@ -490,7 +454,7 @@ public final class HourMinute
      * @return the hour, from 0 to 23
      */
     public int getHour() {
-        return hour;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -501,7 +465,7 @@ public final class HourMinute
      * @return the minute-of-hour, from 0 to 59
      */
     public int getMinute() {
-        return minute;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -525,7 +489,7 @@ public final class HourMinute
      */
     @Override
     public HourMinute with(TemporalAdjuster adjuster) {
-        return (HourMinute) adjuster.adjustInto(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -583,29 +547,7 @@ public final class HourMinute
      */
     @Override
     public HourMinute with(TemporalField field, long newValue) {
-        if (field instanceof ChronoField) {
-            ChronoField f = (ChronoField) field;
-            f.checkValidValue(newValue);
-            switch (f) {
-                case MINUTE_OF_HOUR:
-                    return withMinute((int) newValue);
-                case MINUTE_OF_DAY:
-                    return plusMinutes(newValue - (hour * MINUTES_PER_HOUR + minute));
-                case HOUR_OF_AMPM:
-                    return plusHours(newValue - (hour % 12));
-                case CLOCK_HOUR_OF_AMPM:
-                    return plusHours((newValue == 12 ? 0 : newValue) - (hour % 12));
-                case HOUR_OF_DAY:
-                    return withHour((int) newValue);
-                case CLOCK_HOUR_OF_DAY:
-                    return withHour((int) (newValue == 24 ? 0 : newValue));
-                case AMPM_OF_DAY:
-                    return plusHours((newValue - (hour / 12)) * 12);
-                default:
-                    throw new UnsupportedTemporalTypeException("Unsupported field: " + field);
-            }
-        }
-        return field.adjustInto(this, newValue);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -619,8 +561,7 @@ public final class HourMinute
      * @throws DateTimeException if the hour value is invalid
      */
     public HourMinute withHour(int hour) {
-        HOUR_OF_DAY.checkValidValue(hour);
-        return with(hour, minute);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -633,8 +574,7 @@ public final class HourMinute
      * @throws DateTimeException if the minute-of-hour value is invalid
      */
     public HourMinute withMinute(int minute) {
-        MINUTE_OF_HOUR.checkValidValue(minute);
-        return with(hour, minute);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -660,7 +600,7 @@ public final class HourMinute
      */
     @Override
     public HourMinute plus(TemporalAmount amountToAdd) {
-        return (HourMinute) amountToAdd.addTo(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -703,19 +643,7 @@ public final class HourMinute
      */
     @Override
     public HourMinute plus(long amountToAdd, TemporalUnit unit) {
-        if (unit instanceof ChronoUnit) {
-            switch ((ChronoUnit) unit) {
-                case MINUTES:
-                    return plusMinutes(amountToAdd);
-                case HOURS:
-                    return plusHours(amountToAdd);
-                case HALF_DAYS:
-                    return plusHours((amountToAdd % 2) * 12);
-                default:
-                    throw new UnsupportedTemporalTypeException("Unsupported unit: " + unit);
-            }
-        }
-        return unit.addTo(this, amountToAdd);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -730,11 +658,7 @@ public final class HourMinute
      * @return an {@code HourMinute} based on this time with the hours added, not null
      */
     public HourMinute plusHours(long hoursToAdd) {
-        if (hoursToAdd == 0) {
-            return this;
-        }
-        int newHour = ((int) (hoursToAdd % HOURS_PER_DAY) + hour + HOURS_PER_DAY) % HOURS_PER_DAY;
-        return with(newHour, minute);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -749,17 +673,7 @@ public final class HourMinute
      * @return an {@code HourMinute} based on this time with the minutes added, not null
      */
     public HourMinute plusMinutes(long minutesToAdd) {
-        if (minutesToAdd == 0) {
-            return this;
-        }
-        int mofd = hour * MINUTES_PER_HOUR + minute;
-        int newMofd = ((int) (minutesToAdd % MINUTES_PER_DAY) + mofd + MINUTES_PER_DAY) % MINUTES_PER_DAY;
-        if (mofd == newMofd) {
-            return this;
-        }
-        int newHour = newMofd / MINUTES_PER_HOUR;
-        int newMinute = newMofd % MINUTES_PER_HOUR;
-        return with(newHour, newMinute);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -785,7 +699,7 @@ public final class HourMinute
      */
     @Override
     public HourMinute minus(TemporalAmount amountToSubtract) {
-        return (HourMinute) amountToSubtract.subtractFrom(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -809,7 +723,7 @@ public final class HourMinute
      */
     @Override
     public HourMinute minus(long amountToSubtract, TemporalUnit unit) {
-        return (amountToSubtract == Long.MIN_VALUE ? plus(Long.MAX_VALUE, unit).plus(1, unit) : plus(-amountToSubtract, unit));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -822,7 +736,7 @@ public final class HourMinute
      * @throws DateTimeException if the result exceeds the supported range
      */
     public HourMinute minusHours(long hoursToSubtract) {
-        return (hoursToSubtract == Long.MIN_VALUE ? plusHours(Long.MAX_VALUE).plusHours(1) : plusHours(-hoursToSubtract));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -835,7 +749,7 @@ public final class HourMinute
      * @throws DateTimeException if the result exceeds the supported range
      */
     public HourMinute minusMinutes(long minutesToSubtract) {
-        return (minutesToSubtract == Long.MIN_VALUE ? plusMinutes(Long.MAX_VALUE).plusMinutes(1) : plusMinutes(-minutesToSubtract));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -855,12 +769,7 @@ public final class HourMinute
     @SuppressWarnings("unchecked")
     @Override
     public <R> R query(TemporalQuery<R> query) {
-        if (query == TemporalQueries.localTime()) {
-            return (R) toLocalTime();
-        } else if (query == TemporalQueries.precision()) {
-            return (R) MINUTES;
-        }
-        return Temporal.super.query(query);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -891,7 +800,7 @@ public final class HourMinute
      */
     @Override
     public Temporal adjustInto(Temporal temporal) {
-        return temporal.with(MINUTE_OF_DAY, hour * MINUTES_PER_HOUR + minute);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -927,21 +836,7 @@ public final class HourMinute
      */
     @Override
     public long until(Temporal endExclusive, TemporalUnit unit) {
-        HourMinute end = HourMinute.from(endExclusive);
-        long minutesUntil = (end.hour * MINUTES_PER_HOUR + end.minute) - (hour * MINUTES_PER_HOUR + minute);  // no overflow
-        if (unit instanceof ChronoUnit) {
-            switch ((ChronoUnit) unit) {
-                case MINUTES:
-                    return minutesUntil;
-                case HOURS:
-                    return minutesUntil / MINUTES_PER_HOUR;
-                case HALF_DAYS:
-                    return minutesUntil / (12 * MINUTES_PER_HOUR);
-                default:
-                    throw new UnsupportedTemporalTypeException("Unsupported unit: " + unit);
-            }
-        }
-        return unit.between(this, end);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -954,8 +849,7 @@ public final class HourMinute
      * @throws DateTimeException if an error occurs during printing
      */
     public String format(DateTimeFormatter formatter) {
-        Objects.requireNonNull(formatter, "formatter");
-        return formatter.format(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -969,7 +863,7 @@ public final class HourMinute
      * @return the local date-time formed from this time and the specified date, not null
      */
     public LocalDateTime atDate(LocalDate date) {
-        return LocalDateTime.of(date, toLocalTime());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -982,7 +876,7 @@ public final class HourMinute
      * @return the offset time formed from this time and the specified offset, not null
      */
     public OffsetTime atOffset(ZoneOffset offset) {
-        return OffsetTime.of(toLocalTime(), offset);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -994,7 +888,7 @@ public final class HourMinute
      * @return the equivalent local time, not null
      */
     public LocalTime toLocalTime() {
-        return LocalTime.of(hour, minute);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-------------------------------------------------------------------------
@@ -1009,11 +903,7 @@ public final class HourMinute
      */
     @Override
     public int compareTo(HourMinute other) {
-        int cmp = (hour - other.hour);
-        if (cmp == 0) {
-            cmp = (minute - other.minute);
-        }
-        return cmp;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1023,7 +913,7 @@ public final class HourMinute
      * @return true if this is after the specified hour-minute
      */
     public boolean isAfter(HourMinute other) {
-        return compareTo(other) > 0;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1033,7 +923,7 @@ public final class HourMinute
      * @return true if this point is before the specified hour-minute
      */
     public boolean isBefore(HourMinute other) {
-        return compareTo(other) < 0;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -1047,14 +937,7 @@ public final class HourMinute
      */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj instanceof HourMinute) {
-            HourMinute other = (HourMinute) obj;
-            return hour == other.hour && minute == other.minute;
-        }
-        return false;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1064,7 +947,7 @@ public final class HourMinute
      */
     @Override
     public int hashCode() {
-        return hour * MINUTES_PER_HOUR + minute;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -1076,10 +959,6 @@ public final class HourMinute
     @Override
     @ToString
     public String toString() {
-        return new StringBuilder(5)
-                .append(hour < 10 ? "0" : "").append(hour)
-                .append(minute < 10 ? ":0" : ":").append(minute)
-                .toString();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

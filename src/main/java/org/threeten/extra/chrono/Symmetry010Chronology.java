@@ -82,14 +82,13 @@ import java.util.List;
  * <h3>Implementation Requirements</h3>
  * This class is immutable and thread-safe.
  */
-public final class Symmetry010Chronology
-        extends AbstractChronology
-        implements Serializable {
+public final class Symmetry010Chronology extends AbstractChronology implements Serializable {
 
     /**
      * Singleton instance for the Symmetry010 chronology.
      */
     public static final Symmetry010Chronology INSTANCE = new Symmetry010Chronology();
+
     /**
      * Serialization version UID.
      */
@@ -99,94 +98,115 @@ public final class Symmetry010Chronology
      * Standard 7 day weeks.
      */
     static final int DAYS_IN_WEEK = 7;
+
     /**
      * Standard 12 month years.
      */
     static final int MONTHS_IN_YEAR = 12;
+
     /**
      * Normal month is 4 weeks.
      */
     static final int WEEKS_IN_MONTH = 4;
+
     /**
      * Long month is 5 weeks.
      */
     static final int WEEKS_IN_MONTH_LONG = 5;
+
     /**
      * Normal month is 30 days.
      */
     static final int DAYS_IN_MONTH = 30;
+
     /**
      * Long month is 31 days.
      */
     static final int DAYS_IN_MONTH_LONG = 31;
+
     /**
      * Days in quarter, (30 + 31 + 30) = 91
      */
     static final int DAYS_IN_QUARTER = DAYS_IN_MONTH + DAYS_IN_MONTH_LONG + DAYS_IN_MONTH;
+
     /**
      * There are 4 quarters of 91 (30 + 31 + 30) days each, or 364 days in a (non-leap) year.
      */
     static final int DAYS_IN_YEAR = 4 * DAYS_IN_QUARTER;
+
     /**
      * Leap years are 364 + 7 days.
      */
     static final int DAYS_IN_YEAR_LONG = DAYS_IN_YEAR + DAYS_IN_WEEK;
+
     /**
      * 52 weeks in a normal year.
      */
     static final int WEEKS_IN_YEAR = DAYS_IN_YEAR / DAYS_IN_WEEK;
+
     /**
      * 53 weeks in a leap year.
      */
     static final int WEEKS_IN_YEAR_LONG = DAYS_IN_YEAR_LONG / DAYS_IN_WEEK;
+
     /**
      * Number of years in a cycle.
      */
     private static final int YEARS_IN_CYCLE = 293;
+
     /**
      * Number of days in a cycle.
      */
-    static final int DAYS_PER_CYCLE = YEARS_IN_CYCLE * DAYS_IN_YEAR + WEEKS_IN_YEAR * DAYS_IN_WEEK; // == 294 full years!
+    // == 294 full years!
+    static final int DAYS_PER_CYCLE = YEARS_IN_CYCLE * DAYS_IN_YEAR + WEEKS_IN_YEAR * DAYS_IN_WEEK;
+
     /**
      * The number of days from year zero to CE 1970, still the era only allows CE 1 and higher.
      * There are 6 full 293-year cycles from CE 1 to 1758, with 6 * 52 leap years, i.e. 312.
      * There are 37 leap years from CE 1758 to 1970.
      */
     public static final long DAYS_0001_TO_1970 = (146097 * 5L) - (31L * 365L + 7L) - 1;
+
     /**
      * Highest year in the range.
      */
     private static final long MAX_YEAR = 1_000_000L;
+
     /**
      * Range of year.
      */
     static final ValueRange YEAR_RANGE = ValueRange.of(-MAX_YEAR, MAX_YEAR);
+
     /**
      * Epoch day range.
      */
-    static final ValueRange EPOCH_DAY_RANGE = ValueRange.of(
-            -MAX_YEAR * DAYS_IN_YEAR - getLeapYearsBefore(MAX_YEAR) * DAYS_IN_WEEK - DAYS_0001_TO_1970,
-             MAX_YEAR * DAYS_IN_YEAR + getLeapYearsBefore(MAX_YEAR) * DAYS_IN_WEEK - DAYS_0001_TO_1970);
+    static final ValueRange EPOCH_DAY_RANGE = ValueRange.of(-MAX_YEAR * DAYS_IN_YEAR - getLeapYearsBefore(MAX_YEAR) * DAYS_IN_WEEK - DAYS_0001_TO_1970, MAX_YEAR * DAYS_IN_YEAR + getLeapYearsBefore(MAX_YEAR) * DAYS_IN_WEEK - DAYS_0001_TO_1970);
+
     /**
      * Range of proleptic month.
      */
     private static final ValueRange PROLEPTIC_MONTH_RANGE = ValueRange.of(-MAX_YEAR * MONTHS_IN_YEAR, MAX_YEAR * MONTHS_IN_YEAR - 1);
+
     /**
      * Range of day of month.
      */
     static final ValueRange DAY_OF_MONTH_RANGE = ValueRange.of(1, DAYS_IN_MONTH, DAYS_IN_MONTH_LONG + 6);
+
     /**
      * Range of day of year.
      */
     static final ValueRange DAY_OF_YEAR_RANGE = ValueRange.of(1, DAYS_IN_YEAR, DAYS_IN_YEAR_LONG);
+
     /**
      * Range of month of year.
      */
     static final ValueRange MONTH_OF_YEAR_RANGE = ValueRange.of(1, MONTHS_IN_YEAR);
+
     /**
      * Range of eras.
      */
     static final ValueRange ERA_RANGE = ValueRange.of(0, 1);
+
     /**
      * Empty range: [0, 0].
      */
@@ -221,7 +241,7 @@ public final class Symmetry010Chronology
      */
     @Override
     public String getId() {
-        return "Sym010";
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -235,7 +255,7 @@ public final class Symmetry010Chronology
      */
     @Override
     public String getCalendarType() {
-        return null;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -253,7 +273,7 @@ public final class Symmetry010Chronology
      */
     @Override
     public Symmetry010Date date(Era era, int yearOfEra, int month, int dayOfMonth) {
-        return date(prolepticYear(era, yearOfEra), month, dayOfMonth);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -268,7 +288,7 @@ public final class Symmetry010Chronology
      */
     @Override
     public Symmetry010Date date(int prolepticYear, int month, int dayOfMonth) {
-        return Symmetry010Date.of(prolepticYear, month, dayOfMonth);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -284,7 +304,7 @@ public final class Symmetry010Chronology
      */
     @Override
     public Symmetry010Date dateYearDay(Era era, int yearOfEra, int dayOfYear) {
-        return dateYearDay(prolepticYear(era, yearOfEra), dayOfYear);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -298,7 +318,7 @@ public final class Symmetry010Chronology
      */
     @Override
     public Symmetry010Date dateYearDay(int prolepticYear, int dayOfYear) {
-        return Symmetry010Date.ofYearDay(prolepticYear, dayOfYear);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -308,9 +328,10 @@ public final class Symmetry010Chronology
      * @return the Symmetry010 local date, not null
      * @throws DateTimeException if unable to create the date
      */
-    @Override  // override with covariant return type
+    // override with covariant return type
+    @Override
     public Symmetry010Date dateEpochDay(long epochDay) {
-        return Symmetry010Date.ofEpochDay(epochDay);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-------------------------------------------------------------------------
@@ -326,9 +347,10 @@ public final class Symmetry010Chronology
      * @return the current Symmetry010 local date using the system clock and default time-zone, not null
      * @throws DateTimeException if unable to create the date
      */
-    @Override  // override with covariant return type
+    // override with covariant return type
+    @Override
     public Symmetry010Date dateNow() {
-        return Symmetry010Date.now();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -344,9 +366,10 @@ public final class Symmetry010Chronology
      * @return the current Symmetry010 local date using the system clock, not null
      * @throws DateTimeException if unable to create the date
      */
-    @Override  // override with covariant return type
+    // override with covariant return type
+    @Override
     public Symmetry010Date dateNow(ZoneId zone) {
-        return Symmetry010Date.now(zone);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -360,9 +383,10 @@ public final class Symmetry010Chronology
      * @return the current Symmetry010 local date, not null
      * @throws DateTimeException if unable to create the date
      */
-    @Override  // override with covariant return type
+    // override with covariant return type
+    @Override
     public Symmetry010Date dateNow(Clock clock) {
-        return Symmetry010Date.now(clock);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-------------------------------------------------------------------------
@@ -375,7 +399,7 @@ public final class Symmetry010Chronology
      */
     @Override
     public Symmetry010Date date(TemporalAccessor temporal) {
-        return Symmetry010Date.from(temporal);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -388,7 +412,7 @@ public final class Symmetry010Chronology
     @Override
     @SuppressWarnings("unchecked")
     public ChronoLocalDateTime<Symmetry010Date> localDateTime(TemporalAccessor temporal) {
-        return (ChronoLocalDateTime<Symmetry010Date>) super.localDateTime(temporal);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -401,7 +425,7 @@ public final class Symmetry010Chronology
     @Override
     @SuppressWarnings("unchecked")
     public ChronoZonedDateTime<Symmetry010Date> zonedDateTime(TemporalAccessor temporal) {
-        return (ChronoZonedDateTime<Symmetry010Date>) super.zonedDateTime(temporal);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -415,7 +439,7 @@ public final class Symmetry010Chronology
     @Override
     @SuppressWarnings("unchecked")
     public ChronoZonedDateTime<Symmetry010Date> zonedDateTime(Instant instant, ZoneId zone) {
-        return (ChronoZonedDateTime<Symmetry010Date>) super.zonedDateTime(instant, zone);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -430,7 +454,7 @@ public final class Symmetry010Chronology
      */
     @Override
     public boolean isLeapYear(long year) {
-        return WEEKS_IN_YEAR > ((WEEKS_IN_YEAR * year + 146) % YEARS_IN_CYCLE);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -445,7 +469,7 @@ public final class Symmetry010Chronology
      */
     @Override
     public IsoEra eraOf(int eraValue) {
-        return IsoEra.of(eraValue);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -457,47 +481,18 @@ public final class Symmetry010Chronology
      */
     @Override
     public List<Era> eras() {
-        return Arrays.<Era>asList(IsoEra.values());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
     @Override
     public ValueRange range(ChronoField field) {
-        switch (field) {
-            case ALIGNED_DAY_OF_WEEK_IN_YEAR:
-            case ALIGNED_DAY_OF_WEEK_IN_MONTH:
-            case DAY_OF_WEEK:
-                return ValueRange.of(1, DAYS_IN_WEEK);
-            case ALIGNED_WEEK_OF_MONTH:
-                return ValueRange.of(1, WEEKS_IN_MONTH, WEEKS_IN_MONTH_LONG);
-            case ALIGNED_WEEK_OF_YEAR:
-                return ValueRange.of(1, WEEKS_IN_YEAR, WEEKS_IN_YEAR + 1);
-            case DAY_OF_MONTH:
-                return DAY_OF_MONTH_RANGE;
-            case DAY_OF_YEAR:
-                return DAY_OF_YEAR_RANGE;
-            case EPOCH_DAY:
-                return EPOCH_DAY_RANGE;
-            case ERA:
-                return ERA_RANGE;
-            case MONTH_OF_YEAR:
-                return MONTH_OF_YEAR_RANGE;
-            case PROLEPTIC_MONTH:
-                return PROLEPTIC_MONTH_RANGE;
-            case YEAR_OF_ERA:
-            case YEAR:
-                return YEAR_RANGE;
-            default:
-                return field.range();
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public int prolepticYear(Era era, int yearOfEra) {
-        if (!(era instanceof IsoEra)) {
-            throw new ClassCastException("Invalid era: " + era);
-        }
-        return YEAR_RANGE.checkValidIntValue(yearOfEra, ChronoField.YEAR_OF_ERA);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -507,6 +502,6 @@ public final class Symmetry010Chronology
      * @return the number of leap years since CE 1
      */
     public static long getLeapYearsBefore(long prolepticYear) {
-        return Math.floorDiv(WEEKS_IN_YEAR * (prolepticYear - 1) + 146, YEARS_IN_CYCLE);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

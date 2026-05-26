@@ -73,9 +73,7 @@ import java.util.Map;
  * <h3>Implementation Requirements</h3>
  * This class is immutable and thread-safe.
  */
-public final class EthiopicChronology
-        extends AbstractNileChronology
-        implements Serializable {
+public final class EthiopicChronology extends AbstractNileChronology implements Serializable {
 
     /**
      * Singleton instance for the Ethiopic chronology.
@@ -116,7 +114,7 @@ public final class EthiopicChronology
      */
     @Override
     public String getId() {
-        return "Ethiopic";
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -133,7 +131,7 @@ public final class EthiopicChronology
      */
     @Override
     public String getCalendarType() {
-        return "ethiopic";
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -151,7 +149,7 @@ public final class EthiopicChronology
      */
     @Override
     public EthiopicDate date(Era era, int yearOfEra, int month, int dayOfMonth) {
-        return date(prolepticYear(era, yearOfEra), month, dayOfMonth);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -166,7 +164,7 @@ public final class EthiopicChronology
      */
     @Override
     public EthiopicDate date(int prolepticYear, int month, int dayOfMonth) {
-        return EthiopicDate.of(prolepticYear, month, dayOfMonth);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -182,7 +180,7 @@ public final class EthiopicChronology
      */
     @Override
     public EthiopicDate dateYearDay(Era era, int yearOfEra, int dayOfYear) {
-        return dateYearDay(prolepticYear(era, yearOfEra), dayOfYear);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -196,7 +194,7 @@ public final class EthiopicChronology
      */
     @Override
     public EthiopicDate dateYearDay(int prolepticYear, int dayOfYear) {
-        return EthiopicDate.ofYearDay(prolepticYear, dayOfYear);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -206,9 +204,10 @@ public final class EthiopicChronology
      * @return the Ethiopic local date, not null
      * @throws DateTimeException if unable to create the date
      */
-    @Override  // override with covariant return type
+    // override with covariant return type
+    @Override
     public EthiopicDate dateEpochDay(long epochDay) {
-        return EthiopicDate.ofEpochDay(epochDay);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-------------------------------------------------------------------------
@@ -224,9 +223,10 @@ public final class EthiopicChronology
      * @return the current Ethiopic local date using the system clock and default time-zone, not null
      * @throws DateTimeException if unable to create the date
      */
-    @Override  // override with covariant return type
+    // override with covariant return type
+    @Override
     public EthiopicDate dateNow() {
-        return EthiopicDate.now();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -242,9 +242,10 @@ public final class EthiopicChronology
      * @return the current Ethiopic local date using the system clock, not null
      * @throws DateTimeException if unable to create the date
      */
-    @Override  // override with covariant return type
+    // override with covariant return type
+    @Override
     public EthiopicDate dateNow(ZoneId zone) {
-        return EthiopicDate.now(zone);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -258,9 +259,10 @@ public final class EthiopicChronology
      * @return the current Ethiopic local date, not null
      * @throws DateTimeException if unable to create the date
      */
-    @Override  // override with covariant return type
+    // override with covariant return type
+    @Override
     public EthiopicDate dateNow(Clock clock) {
-        return EthiopicDate.now(clock);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-------------------------------------------------------------------------
@@ -273,7 +275,7 @@ public final class EthiopicChronology
      */
     @Override
     public EthiopicDate date(TemporalAccessor temporal) {
-        return EthiopicDate.from(temporal);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -286,7 +288,7 @@ public final class EthiopicChronology
     @Override
     @SuppressWarnings("unchecked")
     public ChronoLocalDateTime<EthiopicDate> localDateTime(TemporalAccessor temporal) {
-        return (ChronoLocalDateTime<EthiopicDate>) super.localDateTime(temporal);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -299,7 +301,7 @@ public final class EthiopicChronology
     @Override
     @SuppressWarnings("unchecked")
     public ChronoZonedDateTime<EthiopicDate> zonedDateTime(TemporalAccessor temporal) {
-        return (ChronoZonedDateTime<EthiopicDate>) super.zonedDateTime(temporal);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -313,32 +315,29 @@ public final class EthiopicChronology
     @Override
     @SuppressWarnings("unchecked")
     public ChronoZonedDateTime<EthiopicDate> zonedDateTime(Instant instant, ZoneId zone) {
-        return (ChronoZonedDateTime<EthiopicDate>) super.zonedDateTime(instant, zone);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
     @Override
     public int prolepticYear(Era era, int yearOfEra) {
-        if (era instanceof EthiopicEra == false) {
-            throw new ClassCastException("Era must be EthiopicEra");
-        }
-        return (era == EthiopicEra.INCARNATION ? yearOfEra : 1 - yearOfEra);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public EthiopicEra eraOf(int eraValue) {
-        return EthiopicEra.of(eraValue);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public List<Era> eras() {
-        return Arrays.<Era>asList(EthiopicEra.values());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
-    @Override  // override for return type
+    // override for return type
+    @Override
     public EthiopicDate resolveDate(Map<TemporalField, Long> fieldValues, ResolverStyle resolverStyle) {
-        return (EthiopicDate) super.resolveDate(fieldValues, resolverStyle);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

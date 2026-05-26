@@ -38,7 +38,6 @@ import static java.time.temporal.ChronoUnit.WEEKS;
 import static java.time.temporal.IsoFields.WEEK_BASED_YEAR;
 import static java.time.temporal.IsoFields.WEEK_BASED_YEARS;
 import static java.time.temporal.IsoFields.WEEK_OF_WEEK_BASED_YEAR;
-
 import java.io.Serializable;
 import java.time.Clock;
 import java.time.DateTimeException;
@@ -67,7 +66,6 @@ import java.time.temporal.TemporalUnit;
 import java.time.temporal.UnsupportedTemporalTypeException;
 import java.time.temporal.ValueRange;
 import java.util.Objects;
-
 import org.joda.convert.FromString;
 import org.joda.convert.ToString;
 
@@ -98,8 +96,7 @@ import org.joda.convert.ToString;
  * This class must be treated as a value type. Do not synchronize, rely on the
  * identity hash code or use the distinction between equals() and ==.
  */
-public final class YearWeek
-        implements Temporal, TemporalAdjuster, Comparable<YearWeek>, Serializable {
+public final class YearWeek implements Temporal, TemporalAdjuster, Comparable<YearWeek>, Serializable {
 
     /**
      * Serialization version.
@@ -109,17 +106,13 @@ public final class YearWeek
     /**
      * Parser.
      */
-    private static final DateTimeFormatter PARSER = new DateTimeFormatterBuilder()
-            .parseCaseInsensitive()
-            .appendValue(WEEK_BASED_YEAR, 4, 10, SignStyle.EXCEEDS_PAD)
-            .appendLiteral("-W")
-            .appendValue(WEEK_OF_WEEK_BASED_YEAR, 2)
-            .toFormatter();
+    private static final DateTimeFormatter PARSER = new DateTimeFormatterBuilder().parseCaseInsensitive().appendValue(WEEK_BASED_YEAR, 4, 10, SignStyle.EXCEEDS_PAD).appendLiteral("-W").appendValue(WEEK_OF_WEEK_BASED_YEAR, 2).toFormatter();
 
     /**
      * The week-based-year.
      */
     private final int year;
+
     /**
      * The week-of-week-based-year
      */
@@ -139,7 +132,7 @@ public final class YearWeek
      * @return the current year-week using the system clock and default time-zone, not null
      */
     public static YearWeek now() {
-        return now(Clock.systemDefaultZone());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -155,7 +148,7 @@ public final class YearWeek
      * @return the current year-week using the system clock, not null
      */
     public static YearWeek now(ZoneId zone) {
-        return now(Clock.system(zone));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -169,8 +162,7 @@ public final class YearWeek
      * @return the current year-week, not null
      */
     public static YearWeek now(Clock clock) {
-        final LocalDate now = LocalDate.now(clock);  // called once
-        return YearWeek.of(now.get(WEEK_BASED_YEAR), now.get(WEEK_OF_WEEK_BASED_YEAR));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -193,7 +185,7 @@ public final class YearWeek
      * @throws DateTimeException if the week value is invalid
      */
     public static YearWeek of(Year year, int week) {
-        return of(year.getValue(), week);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -208,14 +200,7 @@ public final class YearWeek
      * @throws DateTimeException if either field is invalid
      */
     public static YearWeek of(int weekBasedYear, int week) {
-        WEEK_BASED_YEAR.range().checkValidValue(weekBasedYear, WEEK_BASED_YEAR);
-        WEEK_OF_WEEK_BASED_YEAR.range().checkValidValue(week, WEEK_OF_WEEK_BASED_YEAR);
-        if (week == 53 && weekRange(weekBasedYear) < 53) {
-            week = 1;
-            weekBasedYear++;
-            WEEK_BASED_YEAR.range().checkValidValue(weekBasedYear, WEEK_BASED_YEAR);
-        }
-        return new YearWeek(weekBasedYear, week);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     // from IsoFields in ThreeTen-Backport
@@ -249,22 +234,7 @@ public final class YearWeek
      * @throws DateTimeException if unable to convert to a {@code YearWeek}
      */
     public static YearWeek from(TemporalAccessor temporal) {
-        if (temporal instanceof YearWeek) {
-            return (YearWeek) temporal;
-        }
-        Objects.requireNonNull(temporal, "temporal");
-        try {
-            if (!IsoChronology.INSTANCE.equals(Chronology.from(temporal))) {
-                temporal = LocalDate.from(temporal);
-            }
-            // need to use getLong() as JDK Parsed class get() doesn't work properly
-            int year = Math.toIntExact(temporal.getLong(WEEK_BASED_YEAR));
-            int week = Math.toIntExact(temporal.getLong(WEEK_OF_WEEK_BASED_YEAR));
-            return of(year, week);
-        } catch (DateTimeException ex) {
-            throw new DateTimeException("Unable to obtain YearWeek from TemporalAccessor: " +
-                    temporal + " of type " + temporal.getClass().getName(), ex);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -282,7 +252,7 @@ public final class YearWeek
      */
     @FromString
     public static YearWeek parse(CharSequence text) {
-        return parse(text, PARSER);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -296,8 +266,7 @@ public final class YearWeek
      * @throws DateTimeParseException if the text cannot be parsed
      */
     public static YearWeek parse(CharSequence text, DateTimeFormatter formatter) {
-        Objects.requireNonNull(formatter, "formatter");
-        return formatter.parse(text, YearWeek::from);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -361,12 +330,7 @@ public final class YearWeek
      */
     @Override
     public boolean isSupported(TemporalField field) {
-        if (field == WEEK_OF_WEEK_BASED_YEAR || field == WEEK_BASED_YEAR) {
-            return true;
-        } else if (field instanceof ChronoField) {
-            return false;
-        }
-        return field != null && field.isSupportedBy(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -393,14 +357,9 @@ public final class YearWeek
      */
     @Override
     public boolean isSupported(TemporalUnit unit) {
-        if (unit == WEEKS || unit == WEEK_BASED_YEARS) {
-            return true;
-        } else if (unit instanceof ChronoUnit) {
-            return false;
-        }
-        return unit != null && unit.isSupportedBy(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-    
+
     //-----------------------------------------------------------------------
     /**
      * Gets the range of valid values for the specified field.
@@ -421,13 +380,7 @@ public final class YearWeek
      */
     @Override
     public ValueRange range(TemporalField field) {
-        if (field == WEEK_BASED_YEAR) {
-            return WEEK_BASED_YEAR.range();
-        }
-        if (field == WEEK_OF_WEEK_BASED_YEAR) {
-            return ValueRange.of(1, weekRange(year));
-        }
-        return Temporal.super.range(field);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -452,13 +405,7 @@ public final class YearWeek
      */
     @Override
     public int get(TemporalField field) {
-        if (field == WEEK_BASED_YEAR) {
-            return year;
-        }
-        if (field == WEEK_OF_WEEK_BASED_YEAR) {
-            return week;
-        }
-        return Temporal.super.get(field);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -480,16 +427,7 @@ public final class YearWeek
      */
     @Override
     public long getLong(TemporalField field) {
-        if (field == WEEK_BASED_YEAR) {
-            return year;
-        }
-        if (field == WEEK_OF_WEEK_BASED_YEAR) {
-            return week;
-        }
-        if (field instanceof ChronoField) {
-            throw new UnsupportedTemporalTypeException("Unsupported field: " + field);
-        }
-        return field.getFrom(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -503,7 +441,7 @@ public final class YearWeek
      * @return the week-based-year
      */
     public int getYear() {
-        return year;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -514,7 +452,7 @@ public final class YearWeek
      * @return the week-of-week-based-year
      */
     public int getWeek() {
-        return week;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -527,7 +465,7 @@ public final class YearWeek
      * @return true if the year has 53 weeks, false otherwise
      */
     public boolean is53WeekYear() {
-        return weekRange(year) == 53;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -538,7 +476,7 @@ public final class YearWeek
      * @return 364 if the year has 52 weeks, 371 if it has 53 weeks
      */
     public int lengthOfYear() {
-        return (is53WeekYear() ? 371 : 364);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -562,7 +500,7 @@ public final class YearWeek
      */
     @Override
     public YearWeek with(TemporalAdjuster adjuster) {
-        return (YearWeek) adjuster.adjustInto(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -601,14 +539,7 @@ public final class YearWeek
      */
     @Override
     public YearWeek with(TemporalField field, long newValue) {
-        if (field == WEEK_OF_WEEK_BASED_YEAR) {
-            return withWeek(WEEK_OF_WEEK_BASED_YEAR.range().checkValidIntValue(newValue, WEEK_OF_WEEK_BASED_YEAR));
-        } else if (field == WEEK_BASED_YEAR) {
-            return withYear(WEEK_BASED_YEAR.range().checkValidIntValue(newValue, WEEK_BASED_YEAR));
-        } else if (field instanceof ChronoField) {
-            throw new UnsupportedTemporalTypeException("Unsupported field: " + field);
-        }
-        return field.adjustInto(this, newValue);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -625,10 +556,7 @@ public final class YearWeek
      * @throws DateTimeException if the week-based-year value is invalid
      */
     public YearWeek withYear(int weekBasedYear) {
-        if (week == 53 && weekRange(weekBasedYear) < 53) {
-            return YearWeek.of(weekBasedYear, 52);
-        }
-        return with(weekBasedYear, week);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -645,7 +573,7 @@ public final class YearWeek
      * @throws DateTimeException if the week-of-week-based-year value is invalid
      */
     public YearWeek withWeek(int week) {
-        return with(year, week);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -671,7 +599,7 @@ public final class YearWeek
      */
     @Override
     public YearWeek plus(TemporalAmount amountToAdd) {
-        return (YearWeek) amountToAdd.addTo(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -708,14 +636,7 @@ public final class YearWeek
      */
     @Override
     public YearWeek plus(long amountToAdd, TemporalUnit unit) {
-        if (unit == WEEKS) {
-            return plusWeeks(amountToAdd);
-        } else if (unit == WEEK_BASED_YEARS) {
-            return plusYears(amountToAdd);
-        } else if (unit instanceof ChronoUnit) {
-            throw new UnsupportedTemporalTypeException("Unsupported unit: " + unit);
-        }
-        return unit.addTo(this, amountToAdd);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -725,32 +646,24 @@ public final class YearWeek
      * the week will be adjusted to be 52.
      * <p>
      * This instance is immutable and unaffected by this method call.
-     * 
+     *
      * @param yearsToAdd  the years to add, may be negative
      * @return the year-week with the years added, not null
      */
     public YearWeek plusYears(long yearsToAdd) {
-        if (yearsToAdd == 0) {
-            return this;
-        }
-        int newYear = Math.toIntExact(Math.addExact(year, yearsToAdd));
-        return withYear(newYear);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * Returns a copy of this year-week with the specified number of weeks added.
      * <p>
      * This instance is immutable and unaffected by this method call.
-     * 
+     *
      * @param weeksToAdd  the weeks to add, may be negative
      * @return the year-week with the weeks added, not null
      */
     public YearWeek plusWeeks(long weeksToAdd) {
-        if (weeksToAdd == 0) {
-            return this;
-        }
-        LocalDate mondayOfWeek = atDay(MONDAY).plusWeeks(weeksToAdd);
-        return YearWeek.from(mondayOfWeek);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -776,7 +689,7 @@ public final class YearWeek
      */
     @Override
     public YearWeek minus(TemporalAmount amountToSubtract) {
-        return (YearWeek) amountToSubtract.subtractFrom(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -800,7 +713,7 @@ public final class YearWeek
      */
     @Override
     public YearWeek minus(long amountToSubtract, TemporalUnit unit) {
-        return (amountToSubtract == Long.MIN_VALUE ? plus(Long.MAX_VALUE, unit).plus(1, unit) : plus(-amountToSubtract, unit));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -810,32 +723,24 @@ public final class YearWeek
      * the week will be adjusted to be 52.
      * <p>
      * This instance is immutable and unaffected by this method call.
-     * 
+     *
      * @param yearsToSubtract  the years to subtract, may be negative
      * @return the year-week with the years subtracted, not null
      */
     public YearWeek minusYears(long yearsToSubtract) {
-        if (yearsToSubtract == 0) {
-            return this;
-        }
-        int newYear = Math.toIntExact(Math.subtractExact(year, yearsToSubtract));
-        return withYear(newYear);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * Returns a copy of this year-week with the specified number of weeks subtracted.
      * <p>
      * This instance is immutable and unaffected by this method call.
-     * 
+     *
      * @param weeksToSubtract  the weeks to subtract, may be negative
      * @return the year-week with the weeks subtracted, not null
      */
     public YearWeek minusWeeks(long weeksToSubtract) {
-        if (weeksToSubtract == 0) {
-            return this;
-        }
-        LocalDate mondayOfWeek = atDay(MONDAY).minusWeeks(weeksToSubtract);
-        return YearWeek.from(mondayOfWeek);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -855,12 +760,7 @@ public final class YearWeek
     @SuppressWarnings("unchecked")
     @Override
     public <R> R query(TemporalQuery<R> query) {
-        if (query == TemporalQueries.chronology()) {
-            return (R) IsoChronology.INSTANCE;
-        } else if (query == TemporalQueries.precision()) {
-            return (R) WEEKS;
-        }
-        return Temporal.super.query(query);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -892,10 +792,7 @@ public final class YearWeek
      */
     @Override
     public Temporal adjustInto(Temporal temporal) {
-        if (!Chronology.from(temporal).equals(IsoChronology.INSTANCE)) {
-            throw new DateTimeException("Adjustment only supported on ISO date-time");
-        }
-        return temporal.with(WEEK_BASED_YEAR, year).with(WEEK_OF_WEEK_BASED_YEAR, week);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -946,15 +843,7 @@ public final class YearWeek
      */
     @Override
     public long until(Temporal endExclusive, TemporalUnit unit) {
-        YearWeek end = YearWeek.from(endExclusive);
-        if (unit == WEEKS) {
-            return daysUntil(end);
-        } else if (unit == WEEK_BASED_YEARS) {
-            return yearsUntil(end);
-        } else if (unit instanceof ChronoUnit) {
-            throw new UnsupportedTemporalTypeException("Unsupported unit: " + unit);
-        }
-        return unit.between(this, end);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private long daysUntil(YearWeek end) {
@@ -985,8 +874,7 @@ public final class YearWeek
      * @throws DateTimeException if an error occurs during printing
      */
     public String format(DateTimeFormatter formatter) {
-        Objects.requireNonNull(formatter, "formatter");
-        return formatter.format(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -1004,19 +892,7 @@ public final class YearWeek
      * @return the date formed from this year-week and the specified day, not null
      */
     public LocalDate atDay(DayOfWeek dayOfWeek) {
-        Objects.requireNonNull(dayOfWeek, "dayOfWeek");
-        int correction = LocalDate.of(year, 1, 4).getDayOfWeek().getValue() + 3;
-        int dayOfYear = week * 7 + dayOfWeek.getValue() - correction;
-        int maxDaysOfYear = Year.isLeap(year) ? 366 : 365;
-        if (dayOfYear > maxDaysOfYear) {
-            return LocalDate.ofYearDay(year + 1, dayOfYear - maxDaysOfYear);
-        }
-        if (dayOfYear > 0) {
-            return LocalDate.ofYearDay(year, dayOfYear);
-        } else {
-            int daysOfPreviousYear = Year.isLeap(year - 1) ? 366 : 365;
-            return LocalDate.ofYearDay(year - 1, daysOfPreviousYear + dayOfYear);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -1031,11 +907,7 @@ public final class YearWeek
      */
     @Override
     public int compareTo(YearWeek other) {
-        int cmp = (year - other.year);
-        if (cmp == 0) {
-            cmp = (week - other.week);
-        }
-        return cmp;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1045,7 +917,7 @@ public final class YearWeek
      * @return true if this is after the specified year-week
      */
     public boolean isAfter(YearWeek other) {
-        return compareTo(other) > 0;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1055,7 +927,7 @@ public final class YearWeek
      * @return true if this point is before the specified year-week
      */
     public boolean isBefore(YearWeek other) {
-        return compareTo(other) < 0;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -1067,14 +939,7 @@ public final class YearWeek
      */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj instanceof YearWeek) {
-            YearWeek other = (YearWeek) obj;
-            return year == other.year && week == other.week;
-        }
-        return false;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1084,7 +949,7 @@ public final class YearWeek
      */
     @Override
     public int hashCode() {
-        return year ^ (week << 25);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -1098,21 +963,6 @@ public final class YearWeek
     @Override
     @ToString
     public String toString() {
-        int absYear = Math.abs(year);
-        StringBuilder buf = new StringBuilder(10);
-        if (absYear < 1000) {
-            if (year < 0) {
-                buf.append(year - 10000).deleteCharAt(1);
-            } else {
-                buf.append(year + 10000).deleteCharAt(0);
-            }
-        } else {
-            if (year > 9999) {
-                buf.append('+');
-            }
-            buf.append(year);
-        }
-        return buf.append(week < 10 ? "-W0" : "-W").append(week).toString();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

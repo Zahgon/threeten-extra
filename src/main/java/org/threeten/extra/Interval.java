@@ -42,7 +42,6 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.temporal.TemporalAccessor;
 import java.util.Objects;
-
 import org.joda.convert.FromString;
 import org.joda.convert.ToString;
 
@@ -65,8 +64,7 @@ import org.joda.convert.ToString;
  * This class must be treated as a value type. Do not synchronize, rely on the
  * identity hash code or use the distinction between equals() and ==.
  */
-public final class Interval
-        implements Serializable {
+public final class Interval implements Serializable {
 
     /**
      * An interval over the whole time-line.
@@ -82,6 +80,7 @@ public final class Interval
      * The start instant (inclusive).
      */
     private final Instant start;
+
     /**
      * The end instant (exclusive).
      */
@@ -99,12 +98,7 @@ public final class Interval
      * @throws DateTimeException if the end is before the start
      */
     public static Interval of(Instant startInclusive, Instant endExclusive) {
-        Objects.requireNonNull(startInclusive, "startInclusive");
-        Objects.requireNonNull(endExclusive, "endExclusive");
-        if (endExclusive.isBefore(startInclusive)) {
-            throw new DateTimeException("End instant must be equal or after start instant");
-        }
-        return new Interval(startInclusive, endExclusive);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -121,12 +115,7 @@ public final class Interval
      * @throws ArithmeticException if numeric overflow occurs when adding the duration
      */
     public static Interval of(Instant startInclusive, Duration duration) {
-        Objects.requireNonNull(startInclusive, "startInclusive");
-        Objects.requireNonNull(duration, "duration");
-        if (duration.isNegative()) {
-            throw new DateTimeException("Duration must not be negative");
-        }
-        return new Interval(startInclusive, startInclusive.plus(duration));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -143,12 +132,7 @@ public final class Interval
      * @throws ArithmeticException if numeric overflow occurs when subtracting the duration
      */
     public static Interval of(Duration duration, Instant endExclusive) {
-        Objects.requireNonNull(duration, "duration");
-        Objects.requireNonNull(endExclusive, "endExclusive");
-        if (duration.isNegative()) {
-            throw new DateTimeException("Duration must not be negative");
-        }
-        return new Interval(endExclusive.minus(duration), endExclusive);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -158,8 +142,7 @@ public final class Interval
      * @return a new {@code Instant} with the specified start instant.
      */
     public static Interval startingAt(Instant startInclusive) {
-        Objects.requireNonNull(startInclusive, "startInclusive");
-        return Interval.ALL.withStart(startInclusive);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -169,8 +152,7 @@ public final class Interval
      * @return a new {@code Instant} with the specified end instant.
      */
     public static Interval endingAt(Instant endExclusive) {
-        Objects.requireNonNull(endExclusive, "endExclusive");
-        return Interval.ALL.withEnd(endExclusive);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -199,13 +181,7 @@ public final class Interval
      */
     @FromString
     public static Interval parse(CharSequence text) {
-        Objects.requireNonNull(text, "text");
-        for (int i = 0; i < text.length(); i++) {
-            if (text.charAt(i) == '/') {
-                return parseSplit(text.subSequence(0, i), text.subSequence(i + 1, text.length()));
-            }
-        }
-        throw new DateTimeParseException("Interval cannot be parsed, no forward slash found", text, 0);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private static Interval parseSplit(CharSequence startStr, CharSequence endStr) {
@@ -301,7 +277,7 @@ public final class Interval
      * @return the start of the time interval
      */
     public Instant getStart() {
-        return start;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -313,7 +289,7 @@ public final class Interval
      * @return the end of the time interval, exclusive
      */
     public Instant getEnd() {
-        return end;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -325,7 +301,7 @@ public final class Interval
      * @return true if the range is empty
      */
     public boolean isEmpty() {
-        return start.equals(end);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -334,7 +310,7 @@ public final class Interval
      * @return true if start is unbounded
      */
     public boolean isUnboundedStart() {
-        return start.equals(Instant.MIN);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -343,7 +319,7 @@ public final class Interval
      * @return true if end is unbounded
      */
     public boolean isUnboundedEnd() {
-        return end.equals(Instant.MAX);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -355,7 +331,7 @@ public final class Interval
      * @throws DateTimeException if the resulting interval has end before start
      */
     public Interval withStart(Instant start) {
-        return Interval.of(start, end);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -366,7 +342,7 @@ public final class Interval
      * @throws DateTimeException if the resulting interval has end before start
      */
     public Interval withEnd(Instant end) {
-        return Interval.of(start, end);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -380,8 +356,7 @@ public final class Interval
      * @return true if this interval contains the other interval
      */
     public boolean encloses(Interval other) {
-        Objects.requireNonNull(other, "other");
-        return start.compareTo(other.start) <= 0 && other.end.compareTo(end) <= 0;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -394,8 +369,7 @@ public final class Interval
      * @return true if this interval abuts the other interval
      */
     public boolean abuts(Interval other) {
-        Objects.requireNonNull(other, "other");
-        return end.equals(other.start) ^ start.equals(other.end);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -410,8 +384,7 @@ public final class Interval
      * @return true if this interval is connected to the other interval
      */
     public boolean isConnected(Interval other) {
-        Objects.requireNonNull(other, "other");
-        return this.equals(other) || (start.compareTo(other.end) <= 0 && other.start.compareTo(end) <= 0);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -426,8 +399,7 @@ public final class Interval
      * @return true if the time intervals overlap
      */
     public boolean overlaps(Interval other) {
-        Objects.requireNonNull(other, "other");
-        return other.equals(this) || (start.compareTo(other.end) < 0 && other.start.compareTo(end) < 0);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -442,21 +414,7 @@ public final class Interval
      * @throws DateTimeException if the intervals do not connect
      */
     public Interval intersection(Interval other) {
-        Objects.requireNonNull(other, "other");
-        if (isConnected(other) == false) {
-            throw new DateTimeException("Intervals do not connect: " + this + " and " + other);
-        }
-        int cmpStart = start.compareTo(other.start);
-        int cmpEnd = end.compareTo(other.end);
-        if (cmpStart >= 0 && cmpEnd <= 0) {
-            return this;
-        } else if (cmpStart <= 0 && cmpEnd >= 0) {
-            return other;
-        } else {
-            Instant newStart = (cmpStart >= 0 ? start : other.start);
-            Instant newEnd = (cmpEnd <= 0 ? end : other.end);
-            return Interval.of(newStart, newEnd);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -470,21 +428,7 @@ public final class Interval
      * @throws DateTimeException if the intervals do not connect
      */
     public Interval union(Interval other) {
-        Objects.requireNonNull(other, "other");
-        if (isConnected(other) == false) {
-            throw new DateTimeException("Intervals do not connect: " + this + " and " + other);
-        }
-        int cmpStart = start.compareTo(other.start);
-        int cmpEnd = end.compareTo(other.end);
-        if (cmpStart >= 0 && cmpEnd <= 0) {
-            return other;
-        } else if (cmpStart <= 0 && cmpEnd >= 0) {
-            return this;
-        } else {
-            Instant newStart = (cmpStart >= 0 ? other.start : start);
-            Instant newEnd = (cmpEnd <= 0 ? other.end : end);
-            return Interval.of(newStart, newEnd);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -497,12 +441,7 @@ public final class Interval
      * @return the interval that spans the two intervals
      */
     public Interval span(Interval other) {
-        Objects.requireNonNull(other, "other");
-        int cmpStart = start.compareTo(other.start);
-        int cmpEnd = end.compareTo(other.end);
-        Instant newStart = (cmpStart >= 0 ? other.start : start);
-        Instant newEnd = (cmpEnd <= 0 ? other.end : end);
-        return Interval.of(newStart, newEnd);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-------------------------------------------------------------------------
@@ -518,7 +457,7 @@ public final class Interval
      * @return true if this interval is after the specified interval
      */
     public boolean isAfter(Interval interval) {
-        return start.compareTo(interval.end) >= 0 && !interval.equals(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -533,7 +472,7 @@ public final class Interval
      * @return true if this interval is before the specified interval
      */
     public boolean isBefore(Interval interval) {
-        return end.compareTo(interval.start) <= 0 && !interval.equals(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-------------------------------------------------------------------------
@@ -547,8 +486,7 @@ public final class Interval
      * @return true if this interval starts before the instant
      */
     public boolean startsBefore(Instant instant) {
-        Objects.requireNonNull(instant, "instant");
-        return start.compareTo(instant) < 0;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -561,8 +499,7 @@ public final class Interval
      * @return true if this interval starts at or before the instant
      */
     public boolean startsAtOrBefore(Instant instant) {
-        Objects.requireNonNull(instant, "instant");
-        return start.compareTo(instant) <= 0;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -575,8 +512,7 @@ public final class Interval
      * @return true if this interval starts after the instant
      */
     public boolean startsAfter(Instant instant) {
-        Objects.requireNonNull(instant, "instant");
-        return start.compareTo(instant) > 0;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -589,8 +525,7 @@ public final class Interval
      * @return true if this interval starts at or after the instant
      */
     public boolean startsAtOrAfter(Instant instant) {
-        Objects.requireNonNull(instant, "instant");
-        return start.compareTo(instant) >= 0;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-------------------------------------------------------------------------
@@ -604,8 +539,7 @@ public final class Interval
      * @return true if this interval ends before the instant
      */
     public boolean endsBefore(Instant instant) {
-        Objects.requireNonNull(instant, "instant");
-        return end.compareTo(instant) < 0 && !isUnboundedEnd();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -618,8 +552,7 @@ public final class Interval
      * @return true if this interval ends at or before the instant
      */
     public boolean endsAtOrBefore(Instant instant) {
-        Objects.requireNonNull(instant, "instant");
-        return end.compareTo(instant) <= 0 && !isUnboundedEnd();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -632,8 +565,7 @@ public final class Interval
      * @return true if this interval ends after the instant
      */
     public boolean endsAfter(Instant instant) {
-        Objects.requireNonNull(instant, "instant");
-        return end.compareTo(instant) > 0 || isUnboundedEnd();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -646,8 +578,7 @@ public final class Interval
      * @return true if this interval ends at or after the instant
      */
     public boolean endsAtOrAfter(Instant instant) {
-        Objects.requireNonNull(instant, "instant");
-        return end.compareTo(instant) >= 0 || isUnboundedEnd();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-------------------------------------------------------------------------
@@ -665,7 +596,7 @@ public final class Interval
      * @return true if this interval contains the instant
      */
     public boolean contains(Instant instant) {
-        return startsAtOrBefore(instant) && endsAfter(instant);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -680,7 +611,7 @@ public final class Interval
      * @return true if the start of this interval is after the specified instant
      */
     public boolean isAfter(Instant instant) {
-        return startsAfter(instant);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -697,7 +628,7 @@ public final class Interval
      * @return true if the end of this interval is before or equal to the specified instant
      */
     public boolean isBefore(Instant instant) {
-        return endsAtOrBefore(instant) && startsBefore(instant);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -711,7 +642,7 @@ public final class Interval
      * @throws ArithmeticException if the calculation exceeds the capacity of {@code Duration}
      */
     public Duration toDuration() {
-        return Duration.between(start, end);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -726,14 +657,7 @@ public final class Interval
      */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj instanceof Interval) {
-            Interval other = (Interval) obj;
-            return start.equals(other.start) && end.equals(other.end);
-        }
-        return false;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -743,7 +667,7 @@ public final class Interval
      */
     @Override
     public int hashCode() {
-        return start.hashCode() ^ end.hashCode();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -758,7 +682,6 @@ public final class Interval
     @Override
     @ToString
     public String toString() {
-        return start.toString() + '/' + end.toString();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

@@ -73,9 +73,7 @@ import java.util.Map;
  * <h3>Implementation Requirements</h3>
  * This class is immutable and thread-safe.
  */
-public final class CopticChronology
-        extends AbstractNileChronology
-        implements Serializable {
+public final class CopticChronology extends AbstractNileChronology implements Serializable {
 
     /**
      * Singleton instance for the Coptic chronology.
@@ -116,7 +114,7 @@ public final class CopticChronology
      */
     @Override
     public String getId() {
-        return "Coptic";
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -133,7 +131,7 @@ public final class CopticChronology
      */
     @Override
     public String getCalendarType() {
-        return "coptic";
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -151,7 +149,7 @@ public final class CopticChronology
      */
     @Override
     public CopticDate date(Era era, int yearOfEra, int month, int dayOfMonth) {
-        return date(prolepticYear(era, yearOfEra), month, dayOfMonth);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -166,7 +164,7 @@ public final class CopticChronology
      */
     @Override
     public CopticDate date(int prolepticYear, int month, int dayOfMonth) {
-        return CopticDate.of(prolepticYear, month, dayOfMonth);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -182,7 +180,7 @@ public final class CopticChronology
      */
     @Override
     public CopticDate dateYearDay(Era era, int yearOfEra, int dayOfYear) {
-        return dateYearDay(prolepticYear(era, yearOfEra), dayOfYear);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -196,7 +194,7 @@ public final class CopticChronology
      */
     @Override
     public CopticDate dateYearDay(int prolepticYear, int dayOfYear) {
-        return CopticDate.ofYearDay(prolepticYear, dayOfYear);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -206,9 +204,10 @@ public final class CopticChronology
      * @return the Coptic local date, not null
      * @throws DateTimeException if unable to create the date
      */
-    @Override  // override with covariant return type
+    // override with covariant return type
+    @Override
     public CopticDate dateEpochDay(long epochDay) {
-        return CopticDate.ofEpochDay(epochDay);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-------------------------------------------------------------------------
@@ -224,9 +223,10 @@ public final class CopticChronology
      * @return the current Coptic local date using the system clock and default time-zone, not null
      * @throws DateTimeException if unable to create the date
      */
-    @Override  // override with covariant return type
+    // override with covariant return type
+    @Override
     public CopticDate dateNow() {
-        return CopticDate.now();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -242,9 +242,10 @@ public final class CopticChronology
      * @return the current Coptic local date using the system clock, not null
      * @throws DateTimeException if unable to create the date
      */
-    @Override  // override with covariant return type
+    // override with covariant return type
+    @Override
     public CopticDate dateNow(ZoneId zone) {
-        return CopticDate.now(zone);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -258,9 +259,10 @@ public final class CopticChronology
      * @return the current Coptic local date, not null
      * @throws DateTimeException if unable to create the date
      */
-    @Override  // override with covariant return type
+    // override with covariant return type
+    @Override
     public CopticDate dateNow(Clock clock) {
-        return CopticDate.now(clock);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-------------------------------------------------------------------------
@@ -273,7 +275,7 @@ public final class CopticChronology
      */
     @Override
     public CopticDate date(TemporalAccessor temporal) {
-        return CopticDate.from(temporal);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -286,7 +288,7 @@ public final class CopticChronology
     @Override
     @SuppressWarnings("unchecked")
     public ChronoLocalDateTime<CopticDate> localDateTime(TemporalAccessor temporal) {
-        return (ChronoLocalDateTime<CopticDate>) super.localDateTime(temporal);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -299,7 +301,7 @@ public final class CopticChronology
     @Override
     @SuppressWarnings("unchecked")
     public ChronoZonedDateTime<CopticDate> zonedDateTime(TemporalAccessor temporal) {
-        return (ChronoZonedDateTime<CopticDate>) super.zonedDateTime(temporal);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -313,32 +315,29 @@ public final class CopticChronology
     @Override
     @SuppressWarnings("unchecked")
     public ChronoZonedDateTime<CopticDate> zonedDateTime(Instant instant, ZoneId zone) {
-        return (ChronoZonedDateTime<CopticDate>) super.zonedDateTime(instant, zone);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
     @Override
     public int prolepticYear(Era era, int yearOfEra) {
-        if (era instanceof CopticEra == false) {
-            throw new ClassCastException("Era must be CopticEra");
-        }
-        return (era == CopticEra.AM ? yearOfEra : 1 - yearOfEra);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public CopticEra eraOf(int eraValue) {
-        return CopticEra.of(eraValue);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public List<Era> eras() {
-        return Arrays.<Era>asList(CopticEra.values());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
-    @Override  // override for return type
+    // override for return type
+    @Override
     public CopticDate resolveDate(Map<TemporalField, Long> fieldValues, ResolverStyle resolverStyle) {
-        return (CopticDate) super.resolveDate(fieldValues, resolverStyle);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

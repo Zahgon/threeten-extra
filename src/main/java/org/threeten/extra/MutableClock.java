@@ -33,7 +33,6 @@ package org.threeten.extra;
 
 import static java.time.Instant.EPOCH;
 import static java.time.ZoneOffset.UTC;
-
 import java.io.InvalidObjectException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
@@ -103,9 +102,7 @@ import java.util.Objects;
  *
  * @serial exclude
  */
-public final class MutableClock
-        extends Clock
-        implements Serializable {
+public final class MutableClock extends Clock implements Serializable {
 
     /**
      * Serialization version.
@@ -135,7 +132,7 @@ public final class MutableClock
      * @return a new {@code MutableClock}, not null
      */
     public static MutableClock epochUTC() {
-        return MutableClock.of(EPOCH, UTC);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -147,9 +144,7 @@ public final class MutableClock
      * @return a new {@code MutableClock}, not null
      */
     public static MutableClock of(Instant instant, ZoneId zone) {
-        Objects.requireNonNull(instant, "instant");
-        Objects.requireNonNull(zone, "zone");
-        return new MutableClock(new InstantHolder(instant), zone);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -169,8 +164,7 @@ public final class MutableClock
      * @param instant the new instant for this clock, not null
      */
     public void setInstant(Instant instant) {
-        Objects.requireNonNull(instant, "instant");
-        instantHolder.set(instant);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -189,12 +183,7 @@ public final class MutableClock
      * @see ZonedDateTime#plus(TemporalAmount)
      */
     public void add(TemporalAmount amountToAdd) {
-        Objects.requireNonNull(amountToAdd, "amountToAdd");
-        synchronized (instantHolder) {
-            ZonedDateTime current = ZonedDateTime.ofInstant(instantHolder.get(), zone);
-            ZonedDateTime result = current.plus(amountToAdd);
-            instantHolder.set(result.toInstant());
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -215,12 +204,7 @@ public final class MutableClock
      * @see ZonedDateTime#plus(long, TemporalUnit)
      */
     public void add(long amountToAdd, TemporalUnit unit) {
-        Objects.requireNonNull(unit, "unit");
-        synchronized (instantHolder) {
-            ZonedDateTime current = ZonedDateTime.ofInstant(instantHolder.get(), zone);
-            ZonedDateTime result = current.plus(amountToAdd, unit);
-            instantHolder.set(result.toInstant());
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -239,12 +223,7 @@ public final class MutableClock
      * @see ZonedDateTime#with(TemporalAdjuster)
      */
     public void set(TemporalAdjuster adjuster) {
-        Objects.requireNonNull(adjuster, "adjuster");
-        synchronized (instantHolder) {
-            ZonedDateTime current = ZonedDateTime.ofInstant(instantHolder.get(), zone);
-            ZonedDateTime result = current.with(adjuster);
-            instantHolder.set(result.toInstant());
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -265,17 +244,12 @@ public final class MutableClock
      * @see ZonedDateTime#with(TemporalField, long)
      */
     public void set(TemporalField field, long newValue) {
-        Objects.requireNonNull(field, "field");
-        synchronized (instantHolder) {
-            ZonedDateTime current = ZonedDateTime.ofInstant(instantHolder.get(), zone);
-            ZonedDateTime result = current.with(field, newValue);
-            instantHolder.set(result.toInstant());
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public ZoneId getZone() {
-        return zone;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -290,16 +264,12 @@ public final class MutableClock
      */
     @Override
     public MutableClock withZone(ZoneId zone) {
-        Objects.requireNonNull(zone, "zone");
-        if (zone.equals(this.zone)) {
-            return this;
-        }
-        return new MutableClock(instantHolder, zone);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public Instant instant() {
-        return instantHolder.get();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -317,14 +287,7 @@ public final class MutableClock
      */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj instanceof MutableClock) {
-            MutableClock other = (MutableClock) obj;
-            return instantHolder == other.instantHolder && zone.equals(other.zone);
-        }
-        return false;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -334,12 +297,12 @@ public final class MutableClock
      */
     @Override
     public int hashCode() {
-        return System.identityHashCode(instantHolder) ^ zone.hashCode();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public String toString() {
-        return "MutableClock[" + instant() + "," + getZone() + "]";
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -366,8 +329,7 @@ public final class MutableClock
      *
      * @serial include
      */
-    private static final class SerializationProxy
-            implements Serializable {
+    private static final class SerializationProxy implements Serializable {
 
         /**
          * Serialization version.
@@ -428,6 +390,7 @@ public final class MutableClock
      * operations must synchronize on the holder object instance.
      */
     private static final class InstantHolder {
+
         /**
          * The current value.
          */
@@ -448,7 +411,7 @@ public final class MutableClock
          * @return the current value, not null
          */
         Instant get() {
-            return value;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -457,7 +420,7 @@ public final class MutableClock
          * @param value the new value, validated not null
          */
         void set(Instant value) {
-            this.value = value;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     }
 }

@@ -75,14 +75,7 @@ public enum CopticEra implements Era {
      * @throws DateTimeException if the value is invalid
      */
     public static CopticEra of(int era) {
-        switch (era) {
-            case 0:
-                return BEFORE_AM;
-            case 1:
-                return AM;
-            default:
-                throw new DateTimeException("Invalid era: " + era);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -95,7 +88,6 @@ public enum CopticEra implements Era {
      */
     @Override
     public int getValue() {
-        return ordinal();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

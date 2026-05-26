@@ -32,7 +32,6 @@
 package org.threeten.extra;
 
 import static java.time.temporal.ChronoUnit.SECONDS;
-
 import java.io.Serializable;
 import java.time.DateTimeException;
 import java.time.Duration;
@@ -47,7 +46,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import org.joda.convert.FromString;
 import org.joda.convert.ToString;
 
@@ -67,8 +65,7 @@ import org.joda.convert.ToString;
  * This class must be treated as a value type. Do not synchronize, rely on the
  * identity hash code or use the distinction between equals() and ==.
  */
-public final class Seconds
-        implements TemporalAmount, Comparable<Seconds>, Serializable {
+public final class Seconds implements TemporalAmount, Comparable<Seconds>, Serializable {
 
     /**
      * A constant for zero seconds.
@@ -84,10 +81,12 @@ public final class Seconds
      * The number of seconds per day.
      */
     private static final int SECONDS_PER_DAY = 86400;
+
     /**
      * The number of seconds per hour.
      */
     private static final int SECONDS_PER_HOUR = 3600;
+
     /**
      * The number of seconds per minute.
      */
@@ -96,13 +95,7 @@ public final class Seconds
     /**
      * The pattern for parsing.
      */
-    private static final Pattern PATTERN =
-            Pattern.compile("([-+]?)P"
-                    + "(?:([-+]?[0-9]+)D)?"
-                    + "(?:T"
-                    + "(?:([-+]?[0-9]+)H)?"
-                    + "(?:([-+]?[0-9]+)M)?"
-                    + "(?:([-+]?[0-9]+)S)?)?", Pattern.CASE_INSENSITIVE);
+    private static final Pattern PATTERN = Pattern.compile("([-+]?)P" + "(?:([-+]?[0-9]+)D)?" + "(?:T" + "(?:([-+]?[0-9]+)H)?" + "(?:([-+]?[0-9]+)M)?" + "(?:([-+]?[0-9]+)S)?)?", Pattern.CASE_INSENSITIVE);
 
     /**
      * The number of seconds.
@@ -118,10 +111,7 @@ public final class Seconds
      * @return the number of seconds, not null
      */
     public static Seconds of(int seconds) {
-        if (seconds == 0) {
-            return ZERO;
-        }
-        return new Seconds(seconds);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -136,10 +126,7 @@ public final class Seconds
      * @throws ArithmeticException if numeric overflow occurs
      */
     public static Seconds ofHours(int hours) {
-        if (hours == 0) {
-            return ZERO;
-        }
-        return new Seconds(Math.multiplyExact(hours, SECONDS_PER_HOUR));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -154,10 +141,7 @@ public final class Seconds
      * @throws ArithmeticException if numeric overflow occurs
      */
     public static Seconds ofMinutes(int minutes) {
-        if (minutes == 0) {
-            return ZERO;
-        }
-        return new Seconds(Math.multiplyExact(minutes, SECONDS_PER_MINUTE));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -179,23 +163,7 @@ public final class Seconds
      * @throws ArithmeticException if numeric overflow occurs
      */
     public static Seconds from(TemporalAmount amount) {
-        if (amount instanceof Seconds) {
-            return (Seconds) amount;
-        }
-        Objects.requireNonNull(amount, "amount");
-        int seconds = 0;
-        for (TemporalUnit unit : amount.getUnits()) {
-            long value = amount.get(unit);
-            if (value != 0) {
-                long[] converted = Temporals.convertAmount(value, unit, SECONDS);
-                if (converted[1] != 0) {
-                    throw new DateTimeException(
-                            "Amount could not be converted to a whole number of seconds: " + value + " " + unit);
-                }
-                seconds = Math.addExact(seconds, Math.toIntExact(converted[0]));
-            }
-        }
-        return of(seconds);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -242,51 +210,7 @@ public final class Seconds
      */
     @FromString
     public static Seconds parse(CharSequence text) {
-        Objects.requireNonNull(text, "text");
-        Matcher matcher = PATTERN.matcher(text);
-        if (matcher.matches()) {
-            int negate = "-".equals(matcher.group(1)) ? -1 : 1;
-            String daysStr = matcher.group(2);
-            String hoursStr = matcher.group(3);
-            String minutesStr = matcher.group(4);
-            String secondsStr = matcher.group(5);
-            if (daysStr != null || hoursStr != null || minutesStr != null || secondsStr != null) {
-                int seconds = 0;
-                if (secondsStr != null) {
-                    try {
-                        seconds = Integer.parseInt(secondsStr);
-                    } catch (NumberFormatException ex) {
-                        throw new DateTimeParseException("Text cannot be parsed to Seconds, non-numeric seconds", text, 0, ex);
-                    }
-                }
-                if (minutesStr != null) {
-                    try {
-                        int minutesAsSecs = Math.multiplyExact(Integer.parseInt(minutesStr), SECONDS_PER_MINUTE);
-                        seconds = Math.addExact(seconds, minutesAsSecs);
-                    } catch (NumberFormatException ex) {
-                        throw new DateTimeParseException("Text cannot be parsed to Seconds, non-numeric minutes", text, 0, ex);
-                    }
-                }
-                if (hoursStr != null) {
-                    try {
-                        int hoursAsSecs = Math.multiplyExact(Integer.parseInt(hoursStr), SECONDS_PER_HOUR);
-                        seconds = Math.addExact(seconds, hoursAsSecs);
-                    } catch (NumberFormatException ex) {
-                        throw new DateTimeParseException("Text cannot be parsed to Seconds, non-numeric hours", text, 0, ex);
-                    }
-                }
-                if (daysStr != null) {
-                    try {
-                        int daysAsSecs = Math.multiplyExact(Integer.parseInt(daysStr), SECONDS_PER_DAY);
-                        seconds = Math.addExact(seconds, daysAsSecs);
-                    } catch (NumberFormatException ex) {
-                        throw new DateTimeParseException("Text cannot be parsed to Seconds, non-numeric days", text, 0, ex);
-                    }
-                }
-                return of(Math.multiplyExact(seconds, negate));
-            }
-        }
-        throw new DateTimeParseException("Text cannot be parsed to Seconds", text, 0);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -301,7 +225,7 @@ public final class Seconds
      * @return the number of seconds between the start and end temporals, not null
      */
     public static Seconds between(Temporal startInclusive, Temporal endExclusive) {
-        return of(Math.toIntExact(SECONDS.between(startInclusive, endExclusive)));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -336,10 +260,7 @@ public final class Seconds
      */
     @Override
     public long get(TemporalUnit unit) {
-        if (unit == SECONDS) {
-            return seconds;
-        }
-        throw new UnsupportedTemporalTypeException("Unsupported unit: " + unit);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -354,9 +275,9 @@ public final class Seconds
      */
     @Override
     public List<TemporalUnit> getUnits() {
-        return Collections.singletonList(SECONDS);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-    
+
     //-----------------------------------------------------------------------
     /**
      * Gets the number of seconds in this amount.
@@ -364,7 +285,7 @@ public final class Seconds
      * @return the number of seconds
      */
     public int getAmount() {
-        return seconds;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -373,7 +294,7 @@ public final class Seconds
      * @return true if the amount is negative, false if the amount is zero or positive
      */
     public boolean isNegative() {
-        return getAmount() < 0;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -382,7 +303,7 @@ public final class Seconds
      * @return true if the amount is zero, false if not
      */
     public boolean isZero() {
-        return getAmount() == 0;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -391,7 +312,7 @@ public final class Seconds
      * @return true if the amount is positive, false if the amount is zero or negative
      */
     public boolean isPositive() {
-        return getAmount() > 0;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -408,7 +329,7 @@ public final class Seconds
      * @throws ArithmeticException if numeric overflow occurs
      */
     public Seconds plus(TemporalAmount amountToAdd) {
-        return plus(Seconds.from(amountToAdd).getAmount());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -421,10 +342,7 @@ public final class Seconds
      * @throws ArithmeticException if the result overflows an int
      */
     public Seconds plus(int seconds) {
-        if (seconds == 0) {
-            return this;
-        }
-        return of(Math.addExact(this.seconds, seconds));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -441,7 +359,7 @@ public final class Seconds
      * @throws ArithmeticException if numeric overflow occurs
      */
     public Seconds minus(TemporalAmount amountToSubtract) {
-        return minus(Seconds.from(amountToSubtract).getAmount());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -454,10 +372,7 @@ public final class Seconds
      * @throws ArithmeticException if the result overflows an int
      */
     public Seconds minus(int seconds) {
-        if (seconds == 0) {
-            return this;
-        }
-        return of(Math.subtractExact(this.seconds, seconds));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -471,10 +386,7 @@ public final class Seconds
      * @throws ArithmeticException if numeric overflow occurs
      */
     public Seconds multipliedBy(int scalar) {
-        if (scalar == 1) {
-            return this;
-        }
-        return of(Math.multiplyExact(seconds, scalar));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -489,10 +401,7 @@ public final class Seconds
      * @throws ArithmeticException if the divisor is zero
      */
     public Seconds dividedBy(int divisor) {
-        if (divisor == 1) {
-            return this;
-        }
-        return of(seconds / divisor);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -505,7 +414,7 @@ public final class Seconds
      *  the amount is {@code Long.MIN_VALUE}
      */
     public Seconds negated() {
-        return multipliedBy(-1);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -520,7 +429,7 @@ public final class Seconds
      *  the amount is {@code Long.MIN_VALUE}
      */
     public Seconds abs() {
-        return seconds < 0 ? negated() : this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-------------------------------------------------------------------------
@@ -532,7 +441,7 @@ public final class Seconds
      * @return the equivalent duration, not null
      */
     public Duration toDuration() {
-        return Duration.ofSeconds(seconds);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -562,10 +471,7 @@ public final class Seconds
      */
     @Override
     public Temporal addTo(Temporal temporal) {
-        if (seconds != 0) {
-            temporal = temporal.plus(seconds, SECONDS);
-        }
-        return temporal;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -594,10 +500,7 @@ public final class Seconds
      */
     @Override
     public Temporal subtractFrom(Temporal temporal) {
-        if (seconds != 0) {
-            temporal = temporal.minus(seconds, SECONDS);
-        }
-        return temporal;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -612,9 +515,7 @@ public final class Seconds
      */
     @Override
     public int compareTo(Seconds otherAmount) {
-        int thisValue = this.seconds;
-        int otherValue = otherAmount.seconds;
-        return Integer.compare(thisValue, otherValue);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -628,14 +529,7 @@ public final class Seconds
      */
     @Override
     public boolean equals(Object otherAmount) {
-        if (this == otherAmount) {
-            return true;
-        }
-        if (otherAmount instanceof Seconds) {
-            Seconds other = (Seconds) otherAmount;
-            return this.seconds == other.seconds;
-        }
-        return false;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -645,7 +539,7 @@ public final class Seconds
      */
     @Override
     public int hashCode() {
-        return seconds;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -658,7 +552,6 @@ public final class Seconds
     @Override
     @ToString
     public String toString() {
-        return "PT" + seconds + "S";
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

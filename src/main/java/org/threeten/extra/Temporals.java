@@ -36,7 +36,6 @@ import static java.time.temporal.ChronoUnit.DAYS;
 import static java.time.temporal.ChronoUnit.ERAS;
 import static java.time.temporal.ChronoUnit.FOREVER;
 import static java.time.temporal.ChronoUnit.WEEKS;
-
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
@@ -88,7 +87,7 @@ public final class Temporals {
      * @return the next working day adjuster, not null
      */
     public static TemporalAdjuster nextWorkingDay() {
-        return Adjuster.NEXT_WORKING;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -97,11 +96,11 @@ public final class Temporals {
      * Some territories have weekends that do not consist of Saturday and Sunday.
      * No implementation is supplied to support this, however an adjuster
      * can be easily written to do so.
-     * 
+     *
      * @return the next working day or same adjuster, not null
      */
     public static TemporalAdjuster nextWorkingDayOrSame() {
-        return Adjuster.NEXT_WORKING_OR_SAME;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -114,7 +113,7 @@ public final class Temporals {
      * @return the previous working day adjuster, not null
      */
     public static TemporalAdjuster previousWorkingDay() {
-        return Adjuster.PREVIOUS_WORKING;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -123,11 +122,11 @@ public final class Temporals {
      * Some territories have weekends that do not consist of Saturday and Sunday.
      * No implementation is supplied to support this, however an adjuster
      * can be easily written to do so.
-     * 
+     *
      * @return the previous working day or same adjuster, not null
      */
     public static TemporalAdjuster previousWorkingDayOrSame() {
-        return Adjuster.PREVIOUS_WORKING_OR_SAME;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -135,66 +134,51 @@ public final class Temporals {
      * Enum implementing the adjusters.
      */
     private static enum Adjuster implements TemporalAdjuster {
-        /** Next working day adjuster. */
+
+        /**
+         * Next working day adjuster.
+         */
         NEXT_WORKING {
+
             @Override
             public Temporal adjustInto(Temporal temporal) {
-                int dow = temporal.get(DAY_OF_WEEK);
-                switch (dow) {
-                    case 6:  // Saturday
-                        return temporal.plus(2, DAYS);
-                    case 5:  // Friday
-                        return temporal.plus(3, DAYS);
-                    default:
-                        return temporal.plus(1, DAYS);
-                }
-            }
-        },
-        /** Previous working day adjuster. */
-        PREVIOUS_WORKING {
-            @Override
-            public Temporal adjustInto(Temporal temporal) {
-                int dow = temporal.get(DAY_OF_WEEK);
-                switch (dow) {
-                    case 1:  // Monday
-                        return temporal.minus(3, DAYS);
-                    case 7:  // Sunday
-                        return temporal.minus(2, DAYS);
-                    default:
-                        return temporal.minus(1, DAYS);
-                }
-            }
-        },
-        /** Next working day or same adjuster. */
-        NEXT_WORKING_OR_SAME {
-            @Override
-            public Temporal adjustInto(Temporal temporal) {
-                int dow = temporal.get(DAY_OF_WEEK);
-                switch (dow) {
-                    case 6: // Saturday
-                        return temporal.plus(2, DAYS);
-                    case 7: // Sunday
-                        return temporal.plus(1, DAYS);
-                    default:
-                        return temporal;
-                }
-            }
-        },
-        /** Previous working day or same adjuster. */
-        PREVIOUS_WORKING_OR_SAME {
-            @Override
-            public Temporal adjustInto(Temporal temporal) {
-                int dow = temporal.get(DAY_OF_WEEK);
-                switch (dow) {
-                    case 6: //Saturday
-                        return temporal.minus(1, DAYS);
-                    case 7:  // Sunday
-                        return temporal.minus(2, DAYS);
-                    default:
-                        return temporal;
-                }
+                throw new UnsupportedOperationException("STUB: not implemented");
             }
         }
+        ,
+        /**
+         * Previous working day adjuster.
+         */
+        PREVIOUS_WORKING {
+
+            @Override
+            public Temporal adjustInto(Temporal temporal) {
+                throw new UnsupportedOperationException("STUB: not implemented");
+            }
+        }
+        ,
+        /**
+         * Next working day or same adjuster.
+         */
+        NEXT_WORKING_OR_SAME {
+
+            @Override
+            public Temporal adjustInto(Temporal temporal) {
+                throw new UnsupportedOperationException("STUB: not implemented");
+            }
+        }
+        ,
+        /**
+         * Previous working day or same adjuster.
+         */
+        PREVIOUS_WORKING_OR_SAME {
+
+            @Override
+            public Temporal adjustInto(Temporal temporal) {
+                throw new UnsupportedOperationException("STUB: not implemented");
+            }
+        }
+
     }
 
     //-------------------------------------------------------------------------
@@ -218,28 +202,7 @@ public final class Temporals {
      * @throws DateTimeParseException if unable to parse the requested result
      */
     public static <T> T parseFirstMatching(CharSequence text, TemporalQuery<T> query, DateTimeFormatter... formatters) {
-        Objects.requireNonNull(text, "text");
-        Objects.requireNonNull(query, "query");
-        Objects.requireNonNull(formatters, "formatters");
-        if (formatters.length == 0) {
-            throw new DateTimeParseException("No formatters specified", text, 0);
-        }
-        if (formatters.length == 1) {
-            return formatters[0].parse(text, query);
-        }
-        for (DateTimeFormatter formatter : formatters) {
-            try {
-                ParsePosition pp = new ParsePosition(0);
-                formatter.parseUnresolved(text, pp);
-                int len = text.length();
-                if (pp.getErrorIndex() == -1 && pp.getIndex() == len) {
-                    return formatter.parse(text, query);
-                }
-            } catch (RuntimeException ex) {
-                // should not happen, but ignore if it does
-            }
-        }
-        throw new DateTimeParseException("Text '" + text + "' could not be parsed", text, 0);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-------------------------------------------------------------------------
@@ -247,61 +210,25 @@ public final class Temporals {
      * Converts a {@code TimeUnit} to a {@code ChronoUnit}.
      * <p>
      * This handles the seven units declared in {@code TimeUnit}.
-     * 
+     *
      * @param unit  the unit to convert, not null
      * @return the converted unit, not null
      */
     public static ChronoUnit chronoUnit(TimeUnit unit) {
-        Objects.requireNonNull(unit, "unit");
-        switch (unit) {
-            case NANOSECONDS:
-                return ChronoUnit.NANOS;
-            case MICROSECONDS:
-                return ChronoUnit.MICROS;
-            case MILLISECONDS:
-                return ChronoUnit.MILLIS;
-            case SECONDS:
-                return ChronoUnit.SECONDS;
-            case MINUTES:
-                return ChronoUnit.MINUTES;
-            case HOURS:
-                return ChronoUnit.HOURS;
-            case DAYS:
-                return ChronoUnit.DAYS;
-            default:
-                throw new IllegalArgumentException("Unknown TimeUnit constant");
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * Converts a {@code ChronoUnit} to a {@code TimeUnit}.
      * <p>
      * This handles the seven units declared in {@code TimeUnit}.
-     * 
+     *
      * @param unit  the unit to convert, not null
      * @return the converted unit, not null
      * @throws IllegalArgumentException if the unit cannot be converted
      */
     public static TimeUnit timeUnit(ChronoUnit unit) {
-        Objects.requireNonNull(unit, "unit");
-        switch (unit) {
-            case NANOS:
-                return TimeUnit.NANOSECONDS;
-            case MICROS:
-                return TimeUnit.MICROSECONDS;
-            case MILLIS:
-                return TimeUnit.MILLISECONDS;
-            case SECONDS:
-                return TimeUnit.SECONDS;
-            case MINUTES:
-                return TimeUnit.MINUTES;
-            case HOURS:
-                return TimeUnit.HOURS;
-            case DAYS:
-                return TimeUnit.DAYS;
-            default:
-                throw new IllegalArgumentException("ChronoUnit cannot be converted to TimeUnit: " + unit);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-------------------------------------------------------------------------
@@ -324,35 +251,7 @@ public final class Temporals {
      * @throws ArithmeticException if numeric overflow occurs
      */
     public static long[] convertAmount(long amount, TemporalUnit fromUnit, TemporalUnit toUnit) {
-        Objects.requireNonNull(fromUnit, "fromUnit");
-        Objects.requireNonNull(toUnit, "toUnit");
-        validateUnit(fromUnit);
-        validateUnit(toUnit);
-        if (fromUnit.equals(toUnit)) {
-            return new long[] {amount, 0};
-        }
-        // precise-based
-        if (isPrecise(fromUnit) && isPrecise(toUnit)) {
-            long fromNanos = fromUnit.getDuration().toNanos();
-            long toNanos = toUnit.getDuration().toNanos();
-            if (fromNanos > toNanos) {
-                long multiple = fromNanos / toNanos;
-                return new long[] {Math.multiplyExact(amount, multiple), 0};
-            } else {
-                long multiple = toNanos / fromNanos;
-                return new long[] {amount / multiple, amount % multiple};
-            }
-        }
-        // month-based
-        int fromMonthFactor = monthMonthFactor(fromUnit, fromUnit, toUnit);
-        int toMonthFactor = monthMonthFactor(toUnit, fromUnit, toUnit);
-        if (fromMonthFactor > toMonthFactor) {
-            long multiple = fromMonthFactor / toMonthFactor;
-            return new long[] {Math.multiplyExact(amount, multiple), 0};
-        } else {
-            long multiple = toMonthFactor / fromMonthFactor;
-            return new long[] {amount / multiple, amount % multiple};
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private static void validateUnit(TemporalUnit unit) {
@@ -371,7 +270,7 @@ public final class Temporals {
 
     private static int monthMonthFactor(TemporalUnit unit, TemporalUnit fromUnit, TemporalUnit toUnit) {
         if (unit instanceof ChronoUnit) {
-            switch ((ChronoUnit) unit) {
+            switch((ChronoUnit) unit) {
                 case MONTHS:
                     return 1;
                 case YEARS:
@@ -383,11 +282,11 @@ public final class Temporals {
                 case MILLENNIA:
                     return 12000;
                 default:
-                    throw new DateTimeException(
-                            String.format("Unable to convert between units: %s to %s", fromUnit, toUnit));
+                    throw new DateTimeException(String.format("Unable to convert between units: %s to %s", fromUnit, toUnit));
             }
         }
-        return 3;  // quarters
+        // quarters
+        return 3;
     }
 
     //-------------------------------------------------------------------------
@@ -398,7 +297,7 @@ public final class Temporals {
      * @return the {@code BigDecimal} equivalent of the duration, in seconds with a scale of 9
      */
     public static BigDecimal durationToBigDecimalSeconds(Duration duration) {
-        return BigDecimal.valueOf(duration.getSeconds()).add(BigDecimal.valueOf(duration.getNano(), 9));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -412,9 +311,7 @@ public final class Temporals {
      * @return a {@code Duration}, not null
      */
     public static Duration durationFromBigDecimalSeconds(BigDecimal seconds) {
-        BigInteger nanos = seconds.setScale(9, RoundingMode.UP).max(BigDecimalSeconds.MIN).min(BigDecimalSeconds.MAX).unscaledValue();
-        BigInteger[] secondsNanos = nanos.divideAndRemainder(BigInteger.valueOf(1_000_000_000));
-        return Duration.ofSeconds(secondsNanos[0].longValue(), secondsNanos[1].intValue());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -424,10 +321,7 @@ public final class Temporals {
      * @return the {@code double} equivalent of the duration, in seconds
      */
     public static double durationToDoubleSeconds(Duration duration) {
-        if (duration.getSeconds() < 1_000_000_000) {
-            return duration.toNanos() / 1_000_000_000d;
-        }
-        return durationToBigDecimalSeconds(duration).doubleValue();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -441,7 +335,7 @@ public final class Temporals {
      * @return a {@code Duration}, not null
      */
     public static Duration durationFromDoubleSeconds(double seconds) {
-        return durationFromBigDecimalSeconds(BigDecimal.valueOf(seconds));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -450,28 +344,22 @@ public final class Temporals {
      * The amount is rounded away from zero, thus the result is only zero if zero is passed in.
      * See {@link #durationToBigDecimalSeconds(Duration)} and {@link #durationFromBigDecimalSeconds(BigDecimal)}.
      * Note that due to the rounding up, 1 nanosecond multiplied by any number smaller than 1 will still be 1 nanosecond.
-     * 
+     *
      * @param duration  the duration to multiply, not null
      * @param multiplicand  the multiplication factor
      * @return the multiplied duration, not null
      */
     public static Duration multiply(Duration duration, double multiplicand) {
-        if (multiplicand == 0d || duration.isZero()) {
-            return Duration.ZERO;
-        }
-        if (multiplicand == 1d) {
-            return duration;
-        }
-        BigDecimal amount = durationToBigDecimalSeconds(duration);
-        amount = amount.multiply(BigDecimal.valueOf(multiplicand));
-        return durationFromBigDecimalSeconds(amount);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * Useful Duration constants expressed as BigDecimal seconds with a scale of 9.
      */
     private static final class BigDecimalSeconds {
+
         public static final BigDecimal MIN = BigDecimal.valueOf(Long.MIN_VALUE).add(BigDecimal.valueOf(0, 9));
+
         public static final BigDecimal MAX = BigDecimal.valueOf(Long.MAX_VALUE).add(BigDecimal.valueOf(999_999_999, 9));
 
         private BigDecimalSeconds() {

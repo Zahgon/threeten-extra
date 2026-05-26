@@ -43,7 +43,6 @@ import static org.threeten.extra.chrono.PaxChronology.MONTHS_IN_YEAR;
 import static org.threeten.extra.chrono.PaxChronology.WEEKS_IN_LEAP_MONTH;
 import static org.threeten.extra.chrono.PaxChronology.WEEKS_IN_MONTH;
 import static org.threeten.extra.chrono.PaxChronology.WEEKS_IN_YEAR;
-
 import java.io.Serializable;
 import java.time.Clock;
 import java.time.DateTimeException;
@@ -80,38 +79,43 @@ import java.time.temporal.ValueRange;
  * This class must be treated as a value type. Do not synchronize, rely on the
  * identity hash code or use the distinction between equals() and ==.
  */
-public final class PaxDate
-        extends AbstractDate
-        implements ChronoLocalDate, Serializable {
+public final class PaxDate extends AbstractDate implements ChronoLocalDate, Serializable {
 
     /**
      * Serialization version.
      */
     private static final long serialVersionUID = -2229133057743750072L;
+
     /**
      * The difference between the ISO and Pax epoch day count (Pax 0001-01-01 to ISO 1970-01-01).
      */
     private static final int PAX_0001_TO_ISO_1970 = 719163;
+
     /**
      * The days per 400 year cycle.
      */
     private static final int DAYS_PER_LONG_CYCLE = (DAYS_IN_YEAR * 400) + (DAYS_IN_WEEK * 71);
+
     /**
      * The days per 100 year cycle.
      */
     private static final int DAYS_PER_CYCLE = (DAYS_IN_YEAR * 100) + (DAYS_IN_WEEK * 18);
+
     /**
      * The days per 6 year cycle.
      */
     private static final int DAYS_PER_SIX_CYCLE = (DAYS_IN_YEAR * 6) + (DAYS_IN_WEEK * 1);
+
     /**
      * Number of years in a decade.
      */
     private static final int YEARS_IN_DECADE = 10;
+
     /**
      * Number of years in a century.
      */
     private static final int YEARS_IN_CENTURY = 100;
+
     /**
      * Number of years in a millennium.
      */
@@ -121,10 +125,12 @@ public final class PaxDate
      * The proleptic year.
      */
     private final int prolepticYear;
+
     /**
      * The month.
      */
     private final short month;
+
     /**
      * The day.
      */
@@ -143,7 +149,7 @@ public final class PaxDate
      * @return the current date using the system clock and default time-zone, not null
      */
     public static PaxDate now() {
-        return now(Clock.systemDefaultZone());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -159,7 +165,7 @@ public final class PaxDate
      * @return the current date using the system clock, not null
      */
     public static PaxDate now(ZoneId zone) {
-        return now(Clock.system(zone));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -174,8 +180,7 @@ public final class PaxDate
      * @throws DateTimeException if the current date cannot be obtained
      */
     public static PaxDate now(Clock clock) {
-        LocalDate now = LocalDate.now(clock);
-        return PaxDate.ofEpochDay(now.toEpochDay());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -193,18 +198,7 @@ public final class PaxDate
      *  or if the day-of-month is invalid for the month-year
      */
     public static PaxDate of(int prolepticYear, int month, int dayOfMonth) {
-        YEAR.checkValidValue(prolepticYear);
-        PaxChronology.MONTH_OF_YEAR_RANGE.checkValidValue(month, MONTH_OF_YEAR);
-        PaxChronology.DAY_OF_MONTH_RANGE.checkValidValue(dayOfMonth, DAY_OF_MONTH);
-        if (month == MONTHS_IN_YEAR + 1 && !PaxChronology.INSTANCE.isLeapYear(prolepticYear)) {
-            throw new DateTimeException("Invalid month 14 as " + prolepticYear + "is not a leap year");
-        }
-
-        if (dayOfMonth > DAYS_IN_WEEK && month == MONTHS_IN_YEAR && PaxChronology.INSTANCE.isLeapYear(prolepticYear)) {
-            throw new DateTimeException("Invalid date during Pax as " + prolepticYear + " is a leap year");
-        }
-
-        return new PaxDate(prolepticYear, month, dayOfMonth);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -225,10 +219,7 @@ public final class PaxDate
      * @throws DateTimeException if unable to convert to a {@code PaxDate}
      */
     public static PaxDate from(TemporalAccessor temporal) {
-        if (temporal instanceof PaxDate) {
-            return (PaxDate) temporal;
-        }
-        return PaxDate.ofEpochDay(temporal.getLong(EPOCH_DAY));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -246,29 +237,7 @@ public final class PaxDate
      *  or if the day-of-year is invalid for the year
      */
     static PaxDate ofYearDay(int prolepticYear, int dayOfYear) {
-        YEAR.checkValidValue(prolepticYear);
-        PaxChronology.DAY_OF_YEAR_RANGE.checkValidValue(dayOfYear, DAY_OF_YEAR);
-        boolean leap = PaxChronology.INSTANCE.isLeapYear(prolepticYear);
-        if (dayOfYear > DAYS_IN_YEAR && !leap) {
-            throw new DateTimeException("Invalid date 'DayOfYear " + dayOfYear + "' as '" + prolepticYear + "' is not a leap year");
-        }
-
-        int month = ((dayOfYear - 1) / DAYS_IN_MONTH) + 1;
-
-        // In leap years, the leap-month is shorter than the following month, so needs to be adjusted.
-        if (leap && month == MONTHS_IN_YEAR && dayOfYear >= (DAYS_IN_YEAR + DAYS_IN_WEEK) - DAYS_IN_MONTH + 1) {
-            month++;
-        }
-
-        // Subtract days-at-start-of-month from days in year
-        int dayOfMonth = dayOfYear - (month - 1) * DAYS_IN_MONTH;
-
-        // Adjust for shorter inserted leap-month.
-        if (month == MONTHS_IN_YEAR + 1) {
-            dayOfMonth += (DAYS_IN_MONTH - DAYS_IN_WEEK);
-        }
-
-        return of(prolepticYear, month, dayOfMonth);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -280,52 +249,7 @@ public final class PaxDate
      * @throws DateTimeException if the epoch-day is out of range
      */
     static PaxDate ofEpochDay(long epochDay) {
-        EPOCH_DAY.range().checkValidValue(epochDay, EPOCH_DAY);
-        // use of Pax 0001 makes non-leap century at end of (long) cycle.
-        long paxEpochDay = epochDay + PAX_0001_TO_ISO_1970;
-        int longCycle = (int) Math.floorDiv(paxEpochDay, DAYS_PER_LONG_CYCLE);
-        int cycle = (int) (paxEpochDay - longCycle * DAYS_PER_LONG_CYCLE) / DAYS_PER_CYCLE;
-        int dayOfCycle = (int) Math.floorMod(paxEpochDay - longCycle * DAYS_PER_LONG_CYCLE, DAYS_PER_CYCLE);
-        if (dayOfCycle >= DAYS_PER_CYCLE - DAYS_IN_YEAR - DAYS_IN_WEEK) {
-            // Is in the century year
-            int dayOfYear = dayOfCycle - (DAYS_PER_CYCLE - DAYS_IN_YEAR - DAYS_IN_WEEK) + 1;
-            return ofYearDay(longCycle * (4 * YEARS_IN_CENTURY) + cycle * YEARS_IN_CENTURY + YEARS_IN_CENTURY, dayOfYear);
-        }
-
-        // For negative years, the cycle of leap years runs the other direction for 99s and 6s.
-        if (paxEpochDay >= 0) {
-            if (dayOfCycle >= DAYS_PER_CYCLE - 2 * DAYS_IN_YEAR - 2 * DAYS_IN_WEEK) {
-                // Is in the '99 year
-                int dayOfYear = dayOfCycle - (DAYS_PER_CYCLE - 2 * DAYS_IN_YEAR - 2 * DAYS_IN_WEEK) + 1;
-                return ofYearDay(longCycle * (4 * YEARS_IN_CENTURY) + cycle * YEARS_IN_CENTURY + (YEARS_IN_CENTURY - 1), dayOfYear);
-            }
-            // Otherwise, part of the regular 6-year cycle.
-            int sixCycle = dayOfCycle / DAYS_PER_SIX_CYCLE;
-            int dayOfSixCycle = dayOfCycle % DAYS_PER_SIX_CYCLE;
-            int year = dayOfSixCycle / DAYS_IN_YEAR + 1;
-            int dayOfYear = dayOfSixCycle % DAYS_IN_YEAR + 1;
-            if (year == 7) {
-                year--;
-                dayOfYear += DAYS_IN_YEAR;
-            }
-            return ofYearDay(longCycle * (4 * YEARS_IN_CENTURY) + cycle * YEARS_IN_CENTURY + sixCycle * 6 + year, dayOfYear);
-        } else {
-            if (dayOfCycle < DAYS_IN_YEAR + DAYS_IN_WEEK) {
-                // -'99 year is at _start_ of cycle (first year encountered).
-                return ofYearDay(longCycle * (4 * YEARS_IN_CENTURY) + cycle * YEARS_IN_CENTURY + 1, dayOfCycle + 1);
-            }
-            // Otherwise, part of the regular 6-year cycle, but offset -'96 to be end of six-year-cycle first.
-            int offsetCycle = dayOfCycle + 2 * DAYS_IN_YEAR - DAYS_IN_WEEK;
-            int sixCycle = offsetCycle / DAYS_PER_SIX_CYCLE;
-            int dayOfSixCycle = offsetCycle % DAYS_PER_SIX_CYCLE;
-            int year = dayOfSixCycle / DAYS_IN_YEAR + 1;
-            int dayOfYear = dayOfSixCycle % DAYS_IN_YEAR + 1;
-            if (year == 7) {
-                year--;
-                dayOfYear += DAYS_IN_YEAR;
-            }
-            return ofYearDay(longCycle * (4 * YEARS_IN_CENTURY) + cycle * YEARS_IN_CENTURY - 2 + (sixCycle * 6 + year), dayOfYear);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private static PaxDate resolvePreviousValid(int prolepticYear, int month, int day) {
@@ -335,22 +259,19 @@ public final class PaxDate
     }
 
     /**
-     * Get the count of leap months since proleptic month 0.
-     * <p>
-     * This number is negative if the month is prior to Pax year 0.
-     ** <p>
-     * Remember that if using this for things like turning months into days, you must first subtract this number from the proleptic month count.
+     *  Get the count of leap months since proleptic month 0.
+     *  <p>
+     *  This number is negative if the month is prior to Pax year 0.
+     * * <p>
+     *  Remember that if using this for things like turning months into days, you must first subtract this number from the proleptic month count.
      *
-     * @param prolepticMonth The month.
-     * @return The number of leap months since proleptic month 0.
+     *  @param prolepticMonth The month.
+     *  @return The number of leap months since proleptic month 0.
      */
     private static long getLeapMonthsBefore(long prolepticMonth) {
         long offsetMonth = prolepticMonth - (prolepticMonth <= 0 ? 13 : 13 - 1);
         // First, see getLeapYearsBefore(...) for explanations.
-        return 18L * Math.floorDiv(offsetMonth, 1318)
-                - Math.floorDiv(offsetMonth, 5272)
-                + (((Math.floorMod(offsetMonth, 1318) - (offsetMonth <= 0 ? 1317 : 0)) / 1304) + (offsetMonth <= 0 ? 1 : 0))
-                + (Math.floorMod(offsetMonth, 1318) + (offsetMonth <= 0 ? 25 : 0)) / 79;
+        return 18L * Math.floorDiv(offsetMonth, 1318) - Math.floorDiv(offsetMonth, 5272) + (((Math.floorMod(offsetMonth, 1318) - (offsetMonth <= 0 ? 1317 : 0)) / 1304) + (offsetMonth <= 0 ? 1 : 0)) + (Math.floorMod(offsetMonth, 1318) + (offsetMonth <= 0 ? 25 : 0)) / 79;
     }
 
     /**
@@ -370,9 +291,7 @@ public final class PaxDate
         // - Math.floorMod(...) returns a nicely positive result for negative years, counting 'down', but
         // thus needs to be offset to make sure the first leap year is -6, and not -4...
         // The second line, which calculates the '99 occurrences, runs "backwards", so must first be reversed, then the results flipped.
-        return 18L * Math.floorDiv(prolepticYear - 1, YEARS_IN_CENTURY) - Math.floorDiv(prolepticYear - 1, 4 * YEARS_IN_CENTURY) +
-                (Math.floorMod(prolepticYear - 1, 100) - (prolepticYear <= 0 ? 99 : 0)) / 99 + (prolepticYear <= 0 ? 1 : 0) +
-                ((Math.floorMod(prolepticYear - 1, 100) + (prolepticYear <= 0 ? 2 : 0)) / 6);
+        return 18L * Math.floorDiv(prolepticYear - 1, YEARS_IN_CENTURY) - Math.floorDiv(prolepticYear - 1, 4 * YEARS_IN_CENTURY) + (Math.floorMod(prolepticYear - 1, 100) - (prolepticYear <= 0 ? 99 : 0)) / 99 + (prolepticYear <= 0 ? 1 : 0) + ((Math.floorMod(prolepticYear - 1, 100) + (prolepticYear <= 0 ? 2 : 0)) / 6);
     }
 
     //-----------------------------------------------------------------------
@@ -401,48 +320,42 @@ public final class PaxDate
     //-----------------------------------------------------------------------
     @Override
     int getProlepticYear() {
-        return prolepticYear;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     int getMonth() {
-        return month;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     int getDayOfMonth() {
-        return day;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     int getDayOfYear() {
-        return (month - 1) * DAYS_IN_MONTH
-                - (month == MONTHS_IN_YEAR + 1 ? DAYS_IN_MONTH - DAYS_IN_WEEK : 0) + getDayOfMonth();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     int lengthOfYearInMonths() {
-        return MONTHS_IN_YEAR + (isLeapYear() ? 1 : 0);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     ValueRange rangeAlignedWeekOfMonth() {
-        return ValueRange.of(1, month == MONTHS_IN_YEAR && isLeapYear() ? WEEKS_IN_LEAP_MONTH : WEEKS_IN_MONTH);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     PaxDate resolvePrevious(int newYear, int newMonth, int dayOfMonth) {
-        return resolvePreviousValid(newYear, newMonth, dayOfMonth);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public ValueRange range(TemporalField field) {
-        if (field == ChronoField.ALIGNED_WEEK_OF_YEAR) {
-            return ValueRange.of(1, WEEKS_IN_YEAR + (isLeapYear() ? 1 : 0));
-        } else if (field == ChronoField.MONTH_OF_YEAR) {
-            return ValueRange.of(1, MONTHS_IN_YEAR + (isLeapYear() ? 1 : 0));
-        }
-        return super.range(field);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -452,7 +365,7 @@ public final class PaxDate
      */
     @Override
     long getProlepticMonth() {
-        return ((long) getProlepticYear()) * MONTHS_IN_YEAR + getLeapYearsBefore(getProlepticYear()) + month - 1;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -466,7 +379,7 @@ public final class PaxDate
      */
     @Override
     public PaxChronology getChronology() {
-        return PaxChronology.INSTANCE;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -479,7 +392,7 @@ public final class PaxDate
      */
     @Override
     public PaxEra getEra() {
-        return (prolepticYear >= 1 ? PaxEra.CE : PaxEra.BCE);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -492,43 +405,34 @@ public final class PaxDate
      */
     @Override
     public int lengthOfMonth() {
-        switch (month) {
-            case 13:
-                return (isLeapYear() ? DAYS_IN_WEEK : DAYS_IN_MONTH);
-            default:
-                return DAYS_IN_MONTH;
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public int lengthOfYear() {
-        return DAYS_IN_YEAR + (isLeapYear() ? DAYS_IN_WEEK : 0);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-------------------------------------------------------------------------
     @Override
     public PaxDate with(TemporalAdjuster adjuster) {
-        return (PaxDate) adjuster.adjustInto(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public PaxDate with(TemporalField field, long newValue) {
-        // Evaluate years as a special case, to deal with inserted leap months.
-        if (field == ChronoField.YEAR) {
-            return plusYears(Math.subtractExact(newValue, getProlepticYear()));
-        }
-        return (PaxDate) super.with(field, newValue);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
     @Override
     public PaxDate plus(TemporalAmount amount) {
-        return (PaxDate) amount.addTo(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public PaxDate plus(long amountToAdd, TemporalUnit unit) {
-        return (PaxDate) super.plus(amountToAdd, unit);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -554,21 +458,7 @@ public final class PaxDate
      */
     @Override
     PaxDate plusYears(long yearsToAdd) {
-        if (yearsToAdd == 0) {
-            return this;
-        }
-        int newYear = YEAR.checkValidIntValue(getProlepticYear() + yearsToAdd);
-        // Retain actual month (not index) in the case where a leap month is to be inserted.
-        if (month == MONTHS_IN_YEAR && !isLeapYear() && PaxChronology.INSTANCE.isLeapYear(newYear)) {
-            return of(newYear, MONTHS_IN_YEAR + 1, getDayOfMonth());
-        }
-        // Otherwise, one of the following is true:
-        // 1 - Before the leap month, nothing to do (most common)
-        // 2 - Both source and destination in leap-month, nothing to do
-        // 3 - Both source and destination after leap month in leap year, nothing to do
-        // 4 - Source in leap month, but destination year not leap. Retain month index, preserving day-of-year.
-        // 5 - Source after leap month, but destination year not leap. Move month index back.
-        return resolvePreviousValid(newYear, month, day);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -592,57 +482,35 @@ public final class PaxDate
      */
     @Override
     PaxDate plusMonths(long monthsToAdd) {
-        if (monthsToAdd == 0) {
-            return this;
-        }
-        long calcMonths = Math.addExact(getProlepticMonth(), monthsToAdd);
-        // "Regularize" the month count, as if years were all 13 months long.
-        long monthsRegularized = calcMonths - getLeapMonthsBefore(calcMonths);
-        int newYear = YEAR.checkValidIntValue(Math.floorDiv(monthsRegularized, MONTHS_IN_YEAR));
-        int newMonth = Math.toIntExact(calcMonths - ((long) newYear * MONTHS_IN_YEAR + getLeapYearsBefore(newYear)) + 1);
-        return resolvePreviousValid(newYear, newMonth, getDayOfMonth());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public PaxDate minus(TemporalAmount amount) {
-        return (PaxDate) amount.subtractFrom(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public PaxDate minus(long amountToSubtract, TemporalUnit unit) {
-        return (amountToSubtract == Long.MIN_VALUE ? plus(Long.MAX_VALUE, unit).plus(1, unit) : plus(-amountToSubtract, unit));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-------------------------------------------------------------------------
-    @Override  // for covariant return type
+    // for covariant return type
+    @Override
     @SuppressWarnings("unchecked")
     public ChronoLocalDateTime<PaxDate> atTime(LocalTime localTime) {
-        return (ChronoLocalDateTime<PaxDate>) super.atTime(localTime);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public long until(Temporal endExclusive, TemporalUnit unit) {
-        return until(PaxDate.from(endExclusive), unit);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     long until(AbstractDate end, TemporalUnit unit) {
-        if (unit instanceof ChronoUnit) {
-            PaxDate paxEnd = PaxDate.from(end);
-            switch ((ChronoUnit) unit) {
-                case YEARS:
-                    return yearsUntil(paxEnd);
-                case DECADES:
-                    return yearsUntil(paxEnd) / YEARS_IN_DECADE;
-                case CENTURIES:
-                    return yearsUntil(paxEnd) / YEARS_IN_CENTURY;
-                case MILLENNIA:
-                    return yearsUntil(paxEnd) / YEARS_IN_MILLENNIUM;
-                default:
-                    break;
-            }
-        }
-        return super.until(end, unit);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -652,28 +520,17 @@ public final class PaxDate
      * @return The number of years from this date to the given day.
      */
     long yearsUntil(PaxDate end) {
-        // If either date is after the inserted leap month, and the other year isn't leap, simulate the effect of the inserted month.
-        long startYear = getProlepticYear() * 512L + getDayOfYear() + (this.month == MONTHS_IN_YEAR && !this.isLeapYear() && end.isLeapYear() ? DAYS_IN_WEEK : 0);
-        long endYear = end.getProlepticYear() * 512L + end.getDayOfYear() + (end.month == MONTHS_IN_YEAR && !end.isLeapYear() && this.isLeapYear() ? DAYS_IN_WEEK : 0);
-        return (endYear - startYear) / 512L;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public ChronoPeriod until(ChronoLocalDate endDateExclusive) {
-        PaxDate end = PaxDate.from(endDateExclusive);
-        int years = Math.toIntExact(yearsUntil(end));
-        // Get to the same "whole" year.
-        PaxDate sameYearEnd = this.plusYears(years);
-        int months = (int) sameYearEnd.monthsUntil(end);
-        int days = (int) sameYearEnd.plusMonths(months).daysUntil(end);
-        return getChronology().period(years, months, days);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
     @Override
     public long toEpochDay() {
-        long paxEpochDay = ((long) getProlepticYear() - 1) * DAYS_IN_YEAR + getLeapYearsBefore(getProlepticYear()) * DAYS_IN_WEEK + getDayOfYear() - 1;
-        return paxEpochDay - PAX_0001_TO_ISO_1970;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

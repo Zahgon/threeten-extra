@@ -34,7 +34,6 @@ package org.threeten.extra;
 import static java.time.temporal.ChronoField.MONTH_OF_YEAR;
 import static java.time.temporal.IsoFields.QUARTER_OF_YEAR;
 import static java.time.temporal.IsoFields.QUARTER_YEARS;
-
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.Month;
@@ -110,18 +109,7 @@ public enum Quarter implements TemporalAccessor, TemporalAdjuster {
      * @throws DateTimeException if the quarter-of-year is invalid
      */
     public static Quarter of(int quarterOfYear) {
-        switch (quarterOfYear) {
-            case 1:
-                return Q1;
-            case 2:
-                return Q2;
-            case 3:
-                return Q3;
-            case 4:
-                return Q4;
-            default:
-                throw new DateTimeException("Invalid value for Quarter: " + quarterOfYear);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -138,8 +126,7 @@ public enum Quarter implements TemporalAccessor, TemporalAdjuster {
      * @throws DateTimeException if the month-of-year is invalid
      */
     public static Quarter ofMonth(int monthOfYear) {
-        MONTH_OF_YEAR.range().checkValidValue(monthOfYear, MONTH_OF_YEAR);
-        return of((monthOfYear - 1) / 3 + 1);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -162,22 +149,7 @@ public enum Quarter implements TemporalAccessor, TemporalAdjuster {
      * @throws DateTimeException if unable to convert to a {@code Quarter}
      */
     public static Quarter from(TemporalAccessor temporal) {
-        if (temporal instanceof Quarter) {
-            return (Quarter) temporal;
-        } else if (temporal instanceof Month) {
-            Month month = (Month) temporal;
-            return of(month.ordinal() / 3 + 1);
-        }
-        try {
-            TemporalAccessor adjusted =
-                    !IsoChronology.INSTANCE.equals(Chronology.from(temporal)) ? LocalDate.from(temporal) : temporal;
-            // need to use getLong() as JDK Parsed class get() doesn't work properly
-            int qoy = Math.toIntExact(adjusted.getLong(QUARTER_OF_YEAR));
-            return of(qoy);
-        } catch (DateTimeException ex) {
-            throw new DateTimeException("Unable to obtain Quarter from TemporalAccessor: " +
-                    temporal + " of type " + temporal.getClass().getName(), ex);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -190,7 +162,7 @@ public enum Quarter implements TemporalAccessor, TemporalAdjuster {
      * @return the quarter-of-year, from 1 (Q1) to 4 (Q4)
      */
     public int getValue() {
-        return ordinal() + 1;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -208,7 +180,7 @@ public enum Quarter implements TemporalAccessor, TemporalAdjuster {
      * @return the text value of the quarter-of-year, not null
      */
     public String getDisplayName(TextStyle style, Locale locale) {
-        return new DateTimeFormatterBuilder().appendText(QUARTER_OF_YEAR, style).toFormatter(locale).format(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -233,12 +205,7 @@ public enum Quarter implements TemporalAccessor, TemporalAdjuster {
      */
     @Override
     public boolean isSupported(TemporalField field) {
-        if (field == QUARTER_OF_YEAR) {
-            return true;
-        } else if (field instanceof ChronoField) {
-            return false;
-        }
-        return field != null && field.isSupportedBy(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -265,12 +232,7 @@ public enum Quarter implements TemporalAccessor, TemporalAdjuster {
      */
     @Override
     public ValueRange range(TemporalField field) {
-        if (field == QUARTER_OF_YEAR) {
-            return field.range();
-        } else if (field instanceof ChronoField) {
-            throw new UnsupportedTemporalTypeException("Unsupported field: " + field);
-        }
-        return TemporalAccessor.super.range(field);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -300,12 +262,7 @@ public enum Quarter implements TemporalAccessor, TemporalAdjuster {
      */
     @Override
     public int get(TemporalField field) {
-        if (field == QUARTER_OF_YEAR) {
-            return getValue();
-        } else if (field instanceof ChronoField) {
-            throw new UnsupportedTemporalTypeException("Unsupported field: " + field);
-        }
-        return TemporalAccessor.super.get(field);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -332,12 +289,7 @@ public enum Quarter implements TemporalAccessor, TemporalAdjuster {
      */
     @Override
     public long getLong(TemporalField field) {
-        if (field == QUARTER_OF_YEAR) {
-            return getValue();
-        } else if (field instanceof ChronoField) {
-            throw new UnsupportedTemporalTypeException("Unsupported field: " + field);
-        }
-        return field.getFrom(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -353,8 +305,7 @@ public enum Quarter implements TemporalAccessor, TemporalAdjuster {
      * @return the resulting quarter, not null
      */
     public Quarter plus(long quarters) {
-        int amount = (int) quarters % 4;
-        return values()[(ordinal() + (amount + 4)) % 4];
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -369,7 +320,7 @@ public enum Quarter implements TemporalAccessor, TemporalAdjuster {
      * @return the resulting quarter, not null
      */
     public Quarter minus(long quarters) {
-        return plus(-(quarters % 4));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -386,14 +337,7 @@ public enum Quarter implements TemporalAccessor, TemporalAdjuster {
      * @return the length of this quarter in days, from 90 to 92
      */
     public int length(boolean leapYear) {
-        switch (this) {
-            case Q1:
-                return (leapYear ? 91 : 90);
-            case Q2:
-                return 91;
-            default:
-                return 92;
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -411,18 +355,7 @@ public enum Quarter implements TemporalAccessor, TemporalAdjuster {
      * @return the first month in the quarter, not null
      */
     public Month firstMonth() {
-        switch (this) {
-            case Q1:
-                return Month.JANUARY;
-            case Q2:
-                return Month.APRIL;
-            case Q3:
-                return Month.JULY;
-            case Q4:
-                return Month.OCTOBER;
-            default:
-                throw new IllegalStateException("Unreachable");
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -442,12 +375,7 @@ public enum Quarter implements TemporalAccessor, TemporalAdjuster {
     @SuppressWarnings("unchecked")
     @Override
     public <R> R query(TemporalQuery<R> query) {
-        if (query == TemporalQueries.chronology()) {
-            return (R) IsoChronology.INSTANCE;
-        } else if (query == TemporalQueries.precision()) {
-            return (R) QUARTER_YEARS;
-        }
-        return TemporalAccessor.super.query(query);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -486,10 +414,6 @@ public enum Quarter implements TemporalAccessor, TemporalAdjuster {
      */
     @Override
     public Temporal adjustInto(Temporal temporal) {
-        if (Chronology.from(temporal).equals(IsoChronology.INSTANCE) == false) {
-            throw new DateTimeException("Adjustment only supported on ISO date-time");
-        }
-        return temporal.with(QUARTER_OF_YEAR, getValue());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

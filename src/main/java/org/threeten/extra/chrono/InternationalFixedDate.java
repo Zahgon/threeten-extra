@@ -49,7 +49,6 @@ import static org.threeten.extra.chrono.InternationalFixedChronology.MONTH_OF_YE
 import static org.threeten.extra.chrono.InternationalFixedChronology.WEEKS_IN_MONTH;
 import static org.threeten.extra.chrono.InternationalFixedChronology.WEEKS_IN_YEAR;
 import static org.threeten.extra.chrono.InternationalFixedChronology.YEAR_RANGE;
-
 import java.io.Serializable;
 import java.time.Clock;
 import java.time.DateTimeException;
@@ -99,42 +98,48 @@ import java.time.temporal.ValueRange;
  * This class must be treated as a value type. Do not synchronize, rely on the
  * identity hash code or use the distinction between equals() and ==.
  */
-public final class InternationalFixedDate
-        extends AbstractDate
-        implements ChronoLocalDate, Serializable {
+public final class InternationalFixedDate extends AbstractDate implements ChronoLocalDate, Serializable {
 
     /**
      * Serialization version.
      */
     private static final long serialVersionUID = -5501342824322148215L;
+
     /**
      * Leap Day as day-of-year
      */
     private static final int LEAP_DAY_AS_DAY_OF_YEAR = 6 * DAYS_IN_MONTH + 1;
+
     /**
      * The proleptic year.
      */
     private final int prolepticYear;
+
     /**
      * The month of the year.
      */
     private final int month;
+
     /**
      * The day of the month.
      */
     private final int day;
+
     /**
      * The day of year.
      */
     private final transient int dayOfYear;
+
     /**
      * Is the proleptic year a Leap year ?
      */
     private final transient boolean isLeapYear;
+
     /**
      * Is the day-of-year a Leap Day ?
      */
     private final transient boolean isLeapDay;
+
     /**
      * Is the day-of-year a Year Day ?
      */
@@ -153,7 +158,7 @@ public final class InternationalFixedDate
      * @return the current date using the system clock and default time-zone, not null
      */
     public static InternationalFixedDate now() {
-        return now(Clock.systemDefaultZone());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -169,7 +174,7 @@ public final class InternationalFixedDate
      * @return the current date using the system clock, not null
      */
     public static InternationalFixedDate now(ZoneId zone) {
-        return now(Clock.system(zone));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -184,8 +189,7 @@ public final class InternationalFixedDate
      * @throws DateTimeException if the current date cannot be obtained
      */
     public static InternationalFixedDate now(Clock clock) {
-        LocalDate now = LocalDate.now(clock);
-        return InternationalFixedDate.ofEpochDay(now.toEpochDay());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -203,7 +207,7 @@ public final class InternationalFixedDate
      *  or if the day-of-month is invalid for the month-year
      */
     public static InternationalFixedDate of(int prolepticYear, int month, int dayOfMonth) {
-        return create(prolepticYear, month, dayOfMonth);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -225,10 +229,7 @@ public final class InternationalFixedDate
      * @throws DateTimeException if unable to convert to a {@code InternationalFixedDate}
      */
     public static InternationalFixedDate from(TemporalAccessor temporal) {
-        if (temporal instanceof InternationalFixedDate) {
-            return (InternationalFixedDate) temporal;
-        }
-        return InternationalFixedDate.ofEpochDay(temporal.getLong(ChronoField.EPOCH_DAY));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -246,27 +247,7 @@ public final class InternationalFixedDate
      *  or if the day-of-year is invalid for the year
      */
     static InternationalFixedDate ofYearDay(int prolepticYear, int dayOfYear) {
-        YEAR_RANGE.checkValidValue(prolepticYear, ChronoField.YEAR_OF_ERA);
-        ChronoField.DAY_OF_YEAR.checkValidValue(dayOfYear);
-
-        boolean isLeapYear = INSTANCE.isLeapYear(prolepticYear);
-        int lastDoy = (DAYS_IN_YEAR + (isLeapYear ? 1 : 0));
-        if (dayOfYear > lastDoy) {
-            throw new DateTimeException("Invalid date 'DayOfYear 366' as '" + prolepticYear + "' is not a leap year");
-        }
-        if (dayOfYear == lastDoy) {
-            return new InternationalFixedDate(prolepticYear, 13, 29);
-        }
-        if (dayOfYear == LEAP_DAY_AS_DAY_OF_YEAR && isLeapYear) {
-            return new InternationalFixedDate(prolepticYear, 6, 29);
-        }
-        int doy0 = dayOfYear - 1;
-        if (dayOfYear >= LEAP_DAY_AS_DAY_OF_YEAR && isLeapYear) {
-            doy0--;
-        }
-        int month = (doy0 / DAYS_IN_MONTH) + 1;
-        int day = (doy0 % DAYS_IN_MONTH) + 1;
-        return new InternationalFixedDate(prolepticYear, month, day);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -278,28 +259,7 @@ public final class InternationalFixedDate
      * @throws DateTimeException if the epoch-day is out of range
      */
     static InternationalFixedDate ofEpochDay(long epochDay) {
-        EPOCH_DAY_RANGE.checkValidValue(epochDay, ChronoField.EPOCH_DAY);
-        long zeroDay = epochDay + DAYS_0000_TO_1970;
-
-        // The two values work great for any dates, just not the first (N/01/01) or the last of the year (N/0/0).
-        long year = (400 * zeroDay) / DAYS_PER_CYCLE;
-        long doy = zeroDay - (DAYS_IN_YEAR * year + InternationalFixedChronology.getLeapYearsBefore(year));
-
-        boolean isLeapYear = INSTANCE.isLeapYear(year);
-
-        // In some cases, N/01/01 (January 1st) results in (N-1)/0/0, i.e. -1 day off.
-        if (doy == (DAYS_IN_YEAR + 1) && !isLeapYear) {
-            year += 1;
-            doy = 1;
-        }
-
-        // In some cases, N/0/0 results in (N+1)/0/0 (rubbish), in a way +1 year off.
-        if (doy == 0) {
-            year -= 1;
-            doy = DAYS_IN_YEAR + (isLeapYear ? 1 : 0);
-        }
-
-        return ofYearDay((int) year, (int) doy);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -316,9 +276,7 @@ public final class InternationalFixedDate
      */
     private static InternationalFixedDate resolvePreviousValid(int prolepticYear, int month, int day) {
         int monthR = Math.min(month, MONTHS_IN_YEAR);
-        int dayR = Math.min(day,
-            (monthR == 13 || (monthR == 6 && INSTANCE.isLeapYear(prolepticYear)) ? DAYS_IN_LONG_MONTH : DAYS_IN_MONTH));
-
+        int dayR = Math.min(day, (monthR == 13 || (monthR == 6 && INSTANCE.isLeapYear(prolepticYear)) ? DAYS_IN_LONG_MONTH : DAYS_IN_MONTH));
         return create(prolepticYear, monthR, dayR);
     }
 
@@ -333,17 +291,7 @@ public final class InternationalFixedDate
      * @throws DateTimeException if the date is invalid
      */
     static InternationalFixedDate create(int prolepticYear, int month, int dayOfMonth) {
-        YEAR_RANGE.checkValidValue(prolepticYear, ChronoField.YEAR_OF_ERA);
-        MONTH_OF_YEAR_RANGE.checkValidValue(month, ChronoField.MONTH_OF_YEAR);
-        DAY_OF_MONTH_RANGE.checkValidValue(dayOfMonth, ChronoField.DAY_OF_MONTH);
-
-        if (dayOfMonth == DAYS_IN_LONG_MONTH && month != 6 && month != MONTHS_IN_YEAR) {
-            throw new DateTimeException("Invalid date: " + prolepticYear + '/' + month + '/' + dayOfMonth);
-        }
-        if (month == 6 && dayOfMonth == DAYS_IN_LONG_MONTH && !INSTANCE.isLeapYear(prolepticYear)) {
-            throw new DateTimeException("Invalid Leap Day as '" + prolepticYear + "' is not a leap year");
-        }
-        return new InternationalFixedDate(prolepticYear, month, dayOfMonth);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -365,7 +313,6 @@ public final class InternationalFixedDate
     }
 
     /**
-     *
      * Validates the object.
      *
      * @return InternationalFixedDate the resolved date, not null
@@ -377,53 +324,47 @@ public final class InternationalFixedDate
     //-----------------------------------------------------------------------
     @Override
     int getProlepticYear() {
-        return prolepticYear;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     int getMonth() {
-        return month;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     int getDayOfMonth() {
-        return day;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     int getDayOfYear() {
-        return dayOfYear;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     int lengthOfYearInMonths() {
-        return MONTHS_IN_YEAR;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     int getAlignedDayOfWeekInMonth() {
-        return getDayOfWeek();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     int getAlignedDayOfWeekInYear() {
-        return getDayOfWeek();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     int getAlignedWeekOfMonth() {
-        if (isSpecialDay()) {
-            return 0;
-        }
-        return ((day - 1) / DAYS_IN_WEEK) + 1;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     int getAlignedWeekOfYear() {
-        if (isSpecialDay()) {
-            return 0;
-        }
-        return (month - 1) * WEEKS_IN_MONTH + ((day - 1) / DAYS_IN_WEEK) + 1;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -435,14 +376,11 @@ public final class InternationalFixedDate
      */
     @Override
     int getDayOfWeek() {
-        if (isSpecialDay()) {
-            return 0;
-        }
-        return ((day - 1) % DAYS_IN_WEEK) + 1;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     long getProlepticWeek() {
-        return getProlepticMonth() * WEEKS_IN_MONTH + ((getDayOfMonth() - 1) / DAYS_IN_WEEK) - 1;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private boolean isSpecialDay() {
@@ -452,48 +390,17 @@ public final class InternationalFixedDate
     //-----------------------------------------------------------------------
     @Override
     public ValueRange range(TemporalField field) {
-        if (field instanceof ChronoField) {
-            if (isSupported(field)) {
-                // day 29 is treated as being outside the normal week
-                ChronoField f = (ChronoField) field;
-                switch (f) {
-                    case ALIGNED_DAY_OF_WEEK_IN_MONTH:
-                    case ALIGNED_DAY_OF_WEEK_IN_YEAR:
-                    case DAY_OF_WEEK:
-                        return isSpecialDay() ? EMPTY_RANGE : ValueRange.of(1, DAYS_IN_WEEK);
-                    case ALIGNED_WEEK_OF_MONTH:
-                        return isSpecialDay() ? EMPTY_RANGE : ValueRange.of(1, WEEKS_IN_MONTH);
-                    case ALIGNED_WEEK_OF_YEAR:
-                        return isSpecialDay() ? EMPTY_RANGE : ValueRange.of(1, WEEKS_IN_YEAR);
-                    case DAY_OF_MONTH:
-                        return ValueRange.of(1, lengthOfMonth());
-                    case DAY_OF_YEAR:
-                        return isLeapYear ? DAY_OF_YEAR_LEAP_RANGE : DAY_OF_YEAR_NORMAL_RANGE;
-                    case EPOCH_DAY:
-                        return EPOCH_DAY_RANGE;
-                    case ERA:
-                        return ERA_RANGE;
-                    case MONTH_OF_YEAR:
-                        return MONTH_OF_YEAR_RANGE;
-                    default:
-                        break;
-                }
-            } else {
-                throw new UnsupportedTemporalTypeException("Unsupported field: " + field);
-            }
-        }
-        return super.range(field);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     ValueRange rangeAlignedWeekOfMonth() {
-        // never invoked
-        return isSpecialDay() ? EMPTY_RANGE : ValueRange.of(1, WEEKS_IN_MONTH);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     InternationalFixedDate resolvePrevious(int newYear, int newMonth, int dayOfMonth) {
-        return resolvePreviousValid(newYear, newMonth, dayOfMonth);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -507,7 +414,7 @@ public final class InternationalFixedDate
      */
     @Override
     public InternationalFixedChronology getChronology() {
-        return INSTANCE;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -520,7 +427,7 @@ public final class InternationalFixedDate
      */
     @Override
     public InternationalFixedEra getEra() {
-        return InternationalFixedEra.CE;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -536,7 +443,7 @@ public final class InternationalFixedDate
      */
     @Override
     public int lengthOfMonth() {
-        return (isLongMonth() ? DAYS_IN_LONG_MONTH : DAYS_IN_MONTH);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private boolean isLongMonth() {
@@ -553,135 +460,72 @@ public final class InternationalFixedDate
      */
     @Override
     public int lengthOfYear() {
-        return DAYS_IN_YEAR + (isLeapYear ? 1 : 0);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-------------------------------------------------------------------------
     @Override
     public InternationalFixedDate with(TemporalAdjuster adjuster) {
-        return (InternationalFixedDate) adjuster.adjustInto(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public InternationalFixedDate with(TemporalField field, long newValue) {
-        if (field instanceof ChronoField) {
-            if (newValue == 0 && isSpecialDay()) {
-                return this;
-            }
-
-            ChronoField f = (ChronoField) field;
-            getChronology().range(f).checkValidValue(newValue, f);
-            int nval = (int) newValue;
-
-            switch (f) {
-                case ALIGNED_DAY_OF_WEEK_IN_MONTH:
-                case ALIGNED_DAY_OF_WEEK_IN_YEAR:
-                case DAY_OF_WEEK:
-                    if (newValue == 0 && !isSpecialDay()) {
-                        range(f).checkValidValue(newValue, field);
-                    }
-                    int dom = isSpecialDay() ? 21 : ((getDayOfMonth() - 1) / DAYS_IN_WEEK) * DAYS_IN_WEEK;
-                    return resolvePreviousValid(prolepticYear, month, dom + nval);
-                case ALIGNED_WEEK_OF_MONTH:
-                    if (newValue == 0 && !isSpecialDay()) {
-                        range(f).checkValidValue(newValue, field);
-                    }
-                    int d = isSpecialDay() ? 1 : day % DAYS_IN_WEEK;
-                    return resolvePreviousValid(prolepticYear, month, (nval - 1) * DAYS_IN_WEEK + d);
-                case ALIGNED_WEEK_OF_YEAR:
-                    if (newValue == 0 && !isSpecialDay()) {
-                        range(f).checkValidValue(newValue, field);
-                    }
-                    int newMonth = 1 + ((nval - 1) / WEEKS_IN_MONTH);
-                    int newDay = ((nval - 1) % WEEKS_IN_MONTH) * DAYS_IN_WEEK + 1 + ((day - 1) % DAYS_IN_WEEK);
-                    return resolvePreviousValid(prolepticYear, newMonth, newDay);
-                case DAY_OF_MONTH:
-                    return create(prolepticYear, month, nval);
-                default:
-                    break;
-            }
-        }
-
-        return (InternationalFixedDate) super.with(field, newValue);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     InternationalFixedDate withDayOfYear(int value) {
-        return ofYearDay(prolepticYear, value);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
     @Override
     public InternationalFixedDate plus(TemporalAmount amount) {
-        return (InternationalFixedDate) amount.addTo(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public InternationalFixedDate plus(long amountToAdd, TemporalUnit unit) {
-        return (InternationalFixedDate) super.plus(amountToAdd, unit);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 
     @Override
     InternationalFixedDate plusWeeks(long weeks) {
-        if (weeks == 0) {
-            return this;
-        }
-        if (weeks % WEEKS_IN_MONTH == 0) {
-            return plusMonths(weeks / WEEKS_IN_MONTH);
-        }
-        long calcEm = Math.addExact(getProlepticWeek(), weeks);
-        int newYear = Math.toIntExact(Math.floorDiv(calcEm, WEEKS_IN_YEAR));
-        int newWeek = Math.toIntExact(Math.floorMod(calcEm, WEEKS_IN_YEAR));
-        int newMonth = 1 + Math.floorDiv(newWeek, WEEKS_IN_MONTH);
-        int newDay = 1 + ((newWeek * DAYS_IN_WEEK + 8 +
-                (isLeapDay ? 0 : isYearDay ? -1 : (day - 1) % DAYS_IN_WEEK) - 1) % DAYS_IN_MONTH);
-        return create(newYear, newMonth, newDay);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     InternationalFixedDate plusMonths(long months) {
-        if (months == 0) {
-            return this;
-        }
-        if (months % MONTHS_IN_YEAR == 0) {
-            return plusYears(months / MONTHS_IN_YEAR);
-        }
-        int newMonth = (int) Math.addExact(getProlepticMonth(), months);
-        int newYear = newMonth / MONTHS_IN_YEAR;
-        newMonth = 1 + (newMonth % MONTHS_IN_YEAR);
-        return resolvePreviousValid(newYear, newMonth, day);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     InternationalFixedDate plusYears(long yearsToAdd) {
-        if (yearsToAdd == 0) {
-            return this;
-        }
-        int newYear = YEAR_RANGE.checkValidIntValue(Math.addExact(prolepticYear, yearsToAdd), ChronoField.YEAR);
-        return resolvePreviousValid(newYear, month, day);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public InternationalFixedDate minus(TemporalAmount amount) {
-        return (InternationalFixedDate) amount.subtractFrom(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public InternationalFixedDate minus(long amountToSubtract, TemporalUnit unit) {
-        return (InternationalFixedDate) super.minus(amountToSubtract, unit);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-------------------------------------------------------------------------
-    @Override  // for covariant return type
+    // for covariant return type
+    @Override
     @SuppressWarnings("unchecked")
     public ChronoLocalDateTime<InternationalFixedDate> atTime(LocalTime localTime) {
-        return (ChronoLocalDateTime<InternationalFixedDate>) super.atTime(localTime);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public long until(Temporal endExclusive, TemporalUnit unit) {
-        return until(InternationalFixedDate.from(endExclusive), unit);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -691,9 +535,7 @@ public final class InternationalFixedDate
      * @return The number of years from this date to the given day.
      */
     long yearsUntil(InternationalFixedDate end) {
-        long startYear = this.prolepticYear * 512L + this.getInternalDayOfYear();
-        long endYear = end.prolepticYear * 512L + end.getInternalDayOfYear();
-        return (endYear - startYear) / 512L;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -708,57 +550,23 @@ public final class InternationalFixedDate
 
     @Override
     public ChronoPeriod until(ChronoLocalDate endDateExclusive) {
-        InternationalFixedDate end = InternationalFixedDate.from(endDateExclusive);
-        int years = Math.toIntExact(yearsUntil(end));
-        // Get to the same "whole" year.
-        InternationalFixedDate sameYearEnd = plusYears(years);
-        int months = (int) sameYearEnd.monthsUntil(end);
-        int days = (int) sameYearEnd.plusMonths(months).daysUntil(end);
-
-        // When both Leap Day and Year Day start / end the period, the intra-month difference can be +- 28 days,
-        // because internally day-of-month as 1 (Leap Day) or 29 (Year Day) for calculations.
-        // Thus we have to compensate the difference accordingly.
-        if ((!isYearDay && !isLeapDay) && !(end.isYearDay && !end.isLeapDay)) {
-            if (days == DAYS_IN_MONTH) {
-                days = 0;
-                months += 1;
-            }
-
-            if (days == -DAYS_IN_MONTH) {
-                days = 0;
-                months -= 1;
-            }
-        }
-
-        return getChronology().period(years, months, days);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     long weeksUntil(AbstractDate end) {
-        InternationalFixedDate endDate = InternationalFixedDate.from(end);
-        int offset = (this.day < 1 || endDate.day < 1) && (this.day != endDate.day) &&
-                this.isLeapYear && endDate.isLeapYear ? (this.isBefore(endDate) ? 1 : -1) : 0;
-        long startWeek = this.getProlepticWeek() * 8L + this.getDayOfWeek();
-        long endWeek = endDate.getProlepticWeek() * 8L + end.getDayOfWeek();
-
-        return (endWeek - startWeek - offset) / 8L;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     long monthsUntil(AbstractDate end) {
-        InternationalFixedDate date = InternationalFixedDate.from(end);
-        long monthStart = this.getProlepticMonth() * 32L + this.getDayOfMonth();
-        long monthEnd = date.getProlepticMonth() * 32L + date.getDayOfMonth();
-
-        return (monthEnd - monthStart) / 32L;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
     @Override
     public long toEpochDay() {
-        long epochDay = ((long) this.prolepticYear) * DAYS_IN_YEAR +
-                InternationalFixedChronology.getLeapYearsBefore(this.prolepticYear) + this.dayOfYear;
-        return epochDay - DAYS_0000_TO_1970;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -768,17 +576,6 @@ public final class InternationalFixedDate
      */
     @Override
     public String toString() {
-        StringBuilder buf = new StringBuilder(30);
-        return buf.append(getChronology().toString())
-                .append(' ')
-                .append(getEra())
-                .append(' ')
-                .append(getYearOfEra())
-                .append(this.month < 10 && this.month > 0 ? "/0" : '/')
-                .append(this.month)
-                .append(this.day < 10 ? "/0" : '/')
-                .append(this.day)
-                .toString();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

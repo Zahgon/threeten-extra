@@ -63,14 +63,17 @@ public abstract class UtcRules {
      * Constant for the offset from MJD day 0 to the Java Epoch of 1970-01-01: 40587.
      */
     static final int OFFSET_MJD_EPOCH = 40587;
+
     /**
      * Constant for the offset from MJD day 0 to TAI day 0 of 1958-01-01: 36204.
      */
     static final int OFFSET_MJD_TAI = 36204;
+
     /**
      * Constant for number of seconds per standard day: 86,400.
      */
     static final long SECS_PER_DAY = 24L * 60L * 60L;
+
     /**
      * Constant for nanos per standard second: 1,000,000,000.
      */
@@ -85,7 +88,7 @@ public abstract class UtcRules {
      * @return the system rules, not null
      */
     public static UtcRules system() {
-        return SystemUtcRules.INSTANCE;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -111,7 +114,7 @@ public abstract class UtcRules {
      * @throws ConcurrentModificationException if another thread updates the rules at the same time
      */
     public static void registerLeapSecond(long mjDay, int leapAdjustment) {
-        SystemUtcRules.INSTANCE.register(mjDay, leapAdjustment);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -185,11 +188,7 @@ public abstract class UtcRules {
      * @throws DateTimeException if nanoOfDay is out of range
      */
     public void validateModifiedJulianDay(long mjDay, long nanoOfDay) {
-        long leapSecs = getLeapSecondAdjustment(mjDay);
-        long maxNanos = (SECS_PER_DAY + leapSecs) * NANOS_PER_SECOND;
-        if (nanoOfDay < 0 || nanoOfDay >= maxNanos) {
-            throw new DateTimeException("Nanosecond-of-day must be between 0 and " + maxNanos + " on date " + mjDay);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -205,12 +204,7 @@ public abstract class UtcRules {
      * @throws ArithmeticException if numeric overflow occurs
      */
     public TaiInstant convertToTai(UtcInstant utcInstant) {
-        long mjd = utcInstant.getModifiedJulianDay();
-        long nod = utcInstant.getNanoOfDay();
-        long taiUtcDaySeconds = Math.multiplyExact(Math.subtractExact(mjd, OFFSET_MJD_TAI), SECS_PER_DAY);
-        long taiSecs = Math.addExact(taiUtcDaySeconds, nod / NANOS_PER_SECOND + getTaiOffset(mjd));
-        int nos = (int) (nod % NANOS_PER_SECOND);
-        return TaiInstant.ofTaiSeconds(taiSecs, nos);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -249,17 +243,7 @@ public abstract class UtcRules {
      * @throws ArithmeticException if numeric overflow occurs
      */
     public Instant convertToInstant(UtcInstant utcInstant) {
-        long mjd = utcInstant.getModifiedJulianDay();
-        long utcNanos = utcInstant.getNanoOfDay();
-        long epochDay = Math.subtractExact(mjd, OFFSET_MJD_EPOCH);
-        long epochSec = Math.multiplyExact(epochDay, SECS_PER_DAY);
-        int leapAdj = getLeapSecondAdjustment(mjd);
-        long startSlsNanos = (SECS_PER_DAY + leapAdj - 1000) * NANOS_PER_SECOND;
-        long slsNanos = utcNanos;
-        if (leapAdj != 0 && utcNanos >= startSlsNanos) {
-            slsNanos = utcNanos - leapAdj * (utcNanos - startSlsNanos) / 1000;  // apply UTC-SLS mapping
-        }
-        return Instant.ofEpochSecond(epochSec + slsNanos / NANOS_PER_SECOND, slsNanos % NANOS_PER_SECOND);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -285,16 +269,7 @@ public abstract class UtcRules {
      * @throws ArithmeticException if numeric overflow occurs
      */
     public UtcInstant convertToUtc(Instant instant) {
-        long epochDay = Math.floorDiv(instant.getEpochSecond(), SECS_PER_DAY);
-        long mjd = epochDay + OFFSET_MJD_EPOCH;
-        long slsNanos = Math.floorMod(instant.getEpochSecond(), SECS_PER_DAY) * NANOS_PER_SECOND + instant.getNano();
-        int leapAdj = getLeapSecondAdjustment(mjd);
-        long startSlsNanos = (SECS_PER_DAY + leapAdj - 1000) * NANOS_PER_SECOND;
-        long utcNanos = slsNanos;
-        if (leapAdj != 0 && slsNanos >= startSlsNanos) {
-            utcNanos = startSlsNanos + ((slsNanos - startSlsNanos) * 1000) / (1000 - leapAdj);  // apply UTC-SLS mapping
-        }
-        return UtcInstant.ofModifiedJulianDay(mjd, utcNanos);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-------------------------------------------------------------------------
@@ -313,7 +288,7 @@ public abstract class UtcRules {
      * @throws ArithmeticException if numeric overflow occurs
      */
     public Instant convertToInstant(TaiInstant taiInstant) {
-        return convertToInstant(convertToUtc(taiInstant));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -331,7 +306,7 @@ public abstract class UtcRules {
      * @throws ArithmeticException if numeric overflow occurs
      */
     public TaiInstant convertToTai(Instant instant) {
-        return convertToTai(convertToUtc(instant));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -342,7 +317,6 @@ public abstract class UtcRules {
      */
     @Override
     public String toString() {
-        return "UtcRules[" + getName() + ']';
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

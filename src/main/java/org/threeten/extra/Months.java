@@ -32,7 +32,6 @@
 package org.threeten.extra;
 
 import static java.time.temporal.ChronoUnit.MONTHS;
-
 import java.io.Serializable;
 import java.time.DateTimeException;
 import java.time.Period;
@@ -47,7 +46,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import org.joda.convert.FromString;
 import org.joda.convert.ToString;
 
@@ -65,13 +63,13 @@ import org.joda.convert.ToString;
  * This class must be treated as a value type. Do not synchronize, rely on the
  * identity hash code or use the distinction between equals() and ==.
  */
-public final class Months
-        implements TemporalAmount, Comparable<Months>, Serializable {
+public final class Months implements TemporalAmount, Comparable<Months>, Serializable {
 
     /**
      * A constant for zero months.
      */
     public static final Months ZERO = new Months(0);
+
     /**
      * A constant for one month.
      */
@@ -81,17 +79,16 @@ public final class Months
      * A serialization identifier for this class.
      */
     private static final long serialVersionUID = -8903767091325669093L;
+
     /**
      * The number of months per year.
      */
     private static final int MONTHS_PER_YEAR = 12;
+
     /**
      * The pattern for parsing.
      */
-    private static final Pattern PATTERN =
-            Pattern.compile("([-+]?)P"
-                    + "(?:([-+]?[0-9]+)Y)?"
-                    + "(?:([-+]?[0-9]+)M)?", Pattern.CASE_INSENSITIVE);
+    private static final Pattern PATTERN = Pattern.compile("([-+]?)P" + "(?:([-+]?[0-9]+)Y)?" + "(?:([-+]?[0-9]+)M)?", Pattern.CASE_INSENSITIVE);
 
     /**
      * The number of months.
@@ -107,12 +104,7 @@ public final class Months
      * @return the number of months, not null
      */
     public static Months of(int months) {
-        if (months == 0) {
-            return ZERO;
-        } else if (months == 1) {
-            return ONE;
-        }
-        return new Months(months);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -127,10 +119,7 @@ public final class Months
      * @throws ArithmeticException if numeric overflow occurs
      */
     public static Months ofYears(int years) {
-        if (years == 0) {
-            return ZERO;
-        }
-        return new Months(Math.multiplyExact(years, MONTHS_PER_YEAR));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -152,23 +141,7 @@ public final class Months
      * @throws ArithmeticException if numeric overflow occurs
      */
     public static Months from(TemporalAmount amount) {
-        if (amount instanceof Months) {
-            return (Months) amount;
-        }
-        Objects.requireNonNull(amount, "amount");
-        int months = 0;
-        for (TemporalUnit unit : amount.getUnits()) {
-            long value = amount.get(unit);
-            if (value != 0) {
-                long[] converted = Temporals.convertAmount(value, unit, MONTHS);
-                if (converted[1] != 0) {
-                    throw new DateTimeException(
-                            "Amount could not be converted to a whole number of months: " + value + " " + unit);
-                }
-                months = Math.addExact(months, Math.toIntExact(converted[0]));
-            }
-        }
-        return of(months);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -208,33 +181,7 @@ public final class Months
      */
     @FromString
     public static Months parse(CharSequence text) {
-        Objects.requireNonNull(text, "text");
-        Matcher matcher = PATTERN.matcher(text);
-        if (matcher.matches()) {
-            int negate = "-".equals(matcher.group(1)) ? -1 : 1;
-            String weeksStr = matcher.group(2);
-            String daysStr = matcher.group(3);
-            if (weeksStr != null || daysStr != null) {
-                int months = 0;
-                if (daysStr != null) {
-                    try {
-                        months = Integer.parseInt(daysStr);
-                    } catch (NumberFormatException ex) {
-                        throw new DateTimeParseException("Text cannot be parsed to a Months, non-numeric months", text, 0, ex);
-                    }
-                }
-                if (weeksStr != null) {
-                    try {
-                        int years = Math.multiplyExact(Integer.parseInt(weeksStr), MONTHS_PER_YEAR);
-                        months = Math.addExact(months, years);
-                    } catch (NumberFormatException ex) {
-                        throw new DateTimeParseException("Text cannot be parsed to a Months, non-numeric years", text, 0, ex);
-                    }
-                }
-                return of(Math.multiplyExact(months, negate));
-            }
-        }
-        throw new DateTimeParseException("Text cannot be parsed to a Months", text, 0);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -249,7 +196,7 @@ public final class Months
      * @return the number of months between this date and the end date, not null
      */
     public static Months between(Temporal startDateInclusive, Temporal endDateExclusive) {
-        return of(Math.toIntExact(MONTHS.between(startDateInclusive, endDateExclusive)));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -285,10 +232,7 @@ public final class Months
      */
     @Override
     public long get(TemporalUnit unit) {
-        if (unit == MONTHS) {
-            return months;
-        }
-        throw new UnsupportedTemporalTypeException("Unsupported unit: " + unit);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -303,7 +247,7 @@ public final class Months
      */
     @Override
     public List<TemporalUnit> getUnits() {
-        return Collections.singletonList(MONTHS);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -313,7 +257,7 @@ public final class Months
      * @return the number of months
      */
     public int getAmount() {
-        return months;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -322,7 +266,7 @@ public final class Months
      * @return true if the amount is negative, false if the amount is zero or positive
      */
     public boolean isNegative() {
-        return getAmount() < 0;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -331,7 +275,7 @@ public final class Months
      * @return true if the amount is zero, false if not
      */
     public boolean isZero() {
-        return getAmount() == 0;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -340,7 +284,7 @@ public final class Months
      * @return true if the amount is positive, false if the amount is zero or negative
      */
     public boolean isPositive() {
-        return getAmount() > 0;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -357,7 +301,7 @@ public final class Months
      * @throws ArithmeticException if numeric overflow occurs
      */
     public Months plus(TemporalAmount amountToAdd) {
-        return plus(Months.from(amountToAdd).getAmount());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -370,10 +314,7 @@ public final class Months
      * @throws ArithmeticException if the result overflows an int
      */
     public Months plus(int months) {
-        if (months == 0) {
-            return this;
-        }
-        return of(Math.addExact(this.months, months));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -390,7 +331,7 @@ public final class Months
      * @throws ArithmeticException if numeric overflow occurs
      */
     public Months minus(TemporalAmount amountToSubtract) {
-        return minus(Months.from(amountToSubtract).getAmount());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -403,10 +344,7 @@ public final class Months
      * @throws ArithmeticException if the result overflows an int
      */
     public Months minus(int months) {
-        if (months == 0) {
-            return this;
-        }
-        return of(Math.subtractExact(this.months, months));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -420,10 +358,7 @@ public final class Months
      * @throws ArithmeticException if numeric overflow occurs
      */
     public Months multipliedBy(int scalar) {
-        if (scalar == 1) {
-            return this;
-        }
-        return of(Math.multiplyExact(months, scalar));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -438,10 +373,7 @@ public final class Months
      * @throws ArithmeticException if the divisor is zero
      */
     public Months dividedBy(int divisor) {
-        if (divisor == 1) {
-            return this;
-        }
-        return of(months / divisor);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -454,7 +386,7 @@ public final class Months
      *  the amount is {@code Long.MIN_VALUE}
      */
     public Months negated() {
-        return multipliedBy(-1);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -469,7 +401,7 @@ public final class Months
      *  the amount is {@code Long.MIN_VALUE}
      */
     public Months abs() {
-        return months < 0 ? negated() : this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-------------------------------------------------------------------------
@@ -481,7 +413,7 @@ public final class Months
      * @return the equivalent period, not null
      */
     public Period toPeriod() {
-        return Period.ofMonths(months);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -511,10 +443,7 @@ public final class Months
      */
     @Override
     public Temporal addTo(Temporal temporal) {
-        if (months != 0) {
-            temporal = temporal.plus(months, MONTHS);
-        }
-        return temporal;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -543,10 +472,7 @@ public final class Months
      */
     @Override
     public Temporal subtractFrom(Temporal temporal) {
-        if (months != 0) {
-            temporal = temporal.minus(months, MONTHS);
-        }
-        return temporal;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -561,9 +487,7 @@ public final class Months
      */
     @Override
     public int compareTo(Months otherAmount) {
-        int thisValue = this.months;
-        int otherValue = otherAmount.months;
-        return Integer.compare(thisValue, otherValue);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -577,14 +501,7 @@ public final class Months
      */
     @Override
     public boolean equals(Object otherAmount) {
-        if (this == otherAmount) {
-            return true;
-        }
-        if (otherAmount instanceof Months) {
-            Months other = (Months) otherAmount;
-            return this.months == other.months;
-        }
-        return false;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -594,7 +511,7 @@ public final class Months
      */
     @Override
     public int hashCode() {
-        return months;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -607,7 +524,6 @@ public final class Months
     @Override
     @ToString
     public String toString() {
-        return "P" + months + "M";
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

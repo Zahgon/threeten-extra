@@ -82,80 +82,99 @@ public final class InternationalFixedChronology extends AbstractChronology imple
      * Singleton instance for the International fixed chronology.
      */
     public static final InternationalFixedChronology INSTANCE = new InternationalFixedChronology();
+
     /**
      * Serialization version UID.
      */
     private static final long serialVersionUID = -8252657100538813526L;
+
     /**
      * Standard 7-day week.
      */
     static final int DAYS_IN_WEEK = 7;
+
     /**
      * In all months, there are 4 complete weeks.
      */
     static final int WEEKS_IN_MONTH = 4;
+
     /**
      * There are 13 months in a year.
      */
     static final int MONTHS_IN_YEAR = 13;
+
     /**
      * There are 4 weeks of 7 days, or 28 total days in a month.
      */
     static final int DAYS_IN_MONTH = WEEKS_IN_MONTH * DAYS_IN_WEEK;
+
     /**
      * There are 29 days in a long month.
      */
     static final int DAYS_IN_LONG_MONTH = DAYS_IN_MONTH + 1;
+
     /**
      * There are 13 months of 28 days, or 365 days in a (non-leap) year.
      */
     static final int DAYS_IN_YEAR = MONTHS_IN_YEAR * DAYS_IN_MONTH + 1;
+
     /**
      * There are 52 weeks in a year.
      */
     static final int WEEKS_IN_YEAR = DAYS_IN_YEAR / DAYS_IN_WEEK;
+
     /**
      * The number of days in a 400 year cycle.
      */
     static final int DAYS_PER_CYCLE = 146097;
+
     /**
      * The number of days from year zero to year 1970, still the era only allows year 1 and higher.
      * There are five 400 year cycles from year zero to 2000.
      * There are 7 leap years from 1970 to 2000.
      */
     static final long DAYS_0000_TO_1970 = (DAYS_PER_CYCLE * 5L) - (30L * 365L + 7L);
+
     /**
      * Range of year.
      */
     static final ValueRange YEAR_RANGE = ValueRange.of(1, 1_000_000L);
+
     /**
      * Epoch day range.
      */
     static final ValueRange EPOCH_DAY_RANGE = ValueRange.of(-DAYS_0000_TO_1970, 1_000_000L * DAYS_IN_YEAR + getLeapYearsBefore(1_000_000L) - DAYS_0000_TO_1970);
+
     /**
      * Range of proleptic month.
      */
     private static final ValueRange PROLEPTIC_MONTH_RANGE = ValueRange.of(13, 1_000_000 * 13L - 1);
+
     /**
      * Range of day of month.
      */
     static final ValueRange DAY_OF_MONTH_RANGE = ValueRange.of(1, DAYS_IN_MONTH + 1);
+
     /**
      * Range of day of year.
      */
     static final ValueRange DAY_OF_YEAR_NORMAL_RANGE = ValueRange.of(1, DAYS_IN_YEAR);
+
     /**
      * Range of day of leap year.
      */
     static final ValueRange DAY_OF_YEAR_LEAP_RANGE = ValueRange.of(1, DAYS_IN_YEAR + 1);
+
     /**
      * Range of month of year.
      */
     static final ValueRange MONTH_OF_YEAR_RANGE = ValueRange.of(1, MONTHS_IN_YEAR);
+
     /**
      * Range of eras.
      */
     static final ValueRange ERA_RANGE = ValueRange.of(1, 1);
+
     /**
      * Empty range: [0, 0].
      */
@@ -191,7 +210,7 @@ public final class InternationalFixedChronology extends AbstractChronology imple
      */
     @Override
     public String getId() {
-        return "Ifc";
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -205,7 +224,7 @@ public final class InternationalFixedChronology extends AbstractChronology imple
      */
     @Override
     public String getCalendarType() {
-        return null;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -223,7 +242,7 @@ public final class InternationalFixedChronology extends AbstractChronology imple
      */
     @Override
     public InternationalFixedDate date(Era era, int yearOfEra, int month, int dayOfMonth) {
-        return date(prolepticYear(era, yearOfEra), month, dayOfMonth);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -238,7 +257,7 @@ public final class InternationalFixedChronology extends AbstractChronology imple
      */
     @Override
     public InternationalFixedDate date(int prolepticYear, int month, int dayOfMonth) {
-        return InternationalFixedDate.of(prolepticYear, month, dayOfMonth);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -254,7 +273,7 @@ public final class InternationalFixedChronology extends AbstractChronology imple
      */
     @Override
     public InternationalFixedDate dateYearDay(Era era, int yearOfEra, int dayOfYear) {
-        return dateYearDay(prolepticYear(era, yearOfEra), dayOfYear);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -268,7 +287,7 @@ public final class InternationalFixedChronology extends AbstractChronology imple
      */
     @Override
     public InternationalFixedDate dateYearDay(int prolepticYear, int dayOfYear) {
-        return InternationalFixedDate.ofYearDay(prolepticYear, dayOfYear);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -278,9 +297,10 @@ public final class InternationalFixedChronology extends AbstractChronology imple
      * @return the International Fixed local date, not null
      * @throws DateTimeException if unable to create the date
      */
-    @Override  // override with covariant return type
+    // override with covariant return type
+    @Override
     public InternationalFixedDate dateEpochDay(long epochDay) {
-        return InternationalFixedDate.ofEpochDay(epochDay);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-------------------------------------------------------------------------
@@ -296,9 +316,10 @@ public final class InternationalFixedChronology extends AbstractChronology imple
      * @return the current International Fixed local date using the system clock and default time-zone, not null
      * @throws DateTimeException if unable to create the date
      */
-    @Override  // override with covariant return type
+    // override with covariant return type
+    @Override
     public InternationalFixedDate dateNow() {
-        return InternationalFixedDate.now();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -314,9 +335,10 @@ public final class InternationalFixedChronology extends AbstractChronology imple
      * @return the current International Fixed local date using the system clock, not null
      * @throws DateTimeException if unable to create the date
      */
-    @Override  // override with covariant return type
+    // override with covariant return type
+    @Override
     public InternationalFixedDate dateNow(ZoneId zone) {
-        return InternationalFixedDate.now(zone);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -330,9 +352,10 @@ public final class InternationalFixedChronology extends AbstractChronology imple
      * @return the current International Fixed local date, not null
      * @throws DateTimeException if unable to create the date
      */
-    @Override  // override with covariant return type
+    // override with covariant return type
+    @Override
     public InternationalFixedDate dateNow(Clock clock) {
-        return InternationalFixedDate.now(clock);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-------------------------------------------------------------------------
@@ -345,7 +368,7 @@ public final class InternationalFixedChronology extends AbstractChronology imple
      */
     @Override
     public InternationalFixedDate date(TemporalAccessor temporal) {
-        return InternationalFixedDate.from(temporal);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -358,7 +381,7 @@ public final class InternationalFixedChronology extends AbstractChronology imple
     @Override
     @SuppressWarnings("unchecked")
     public ChronoLocalDateTime<InternationalFixedDate> localDateTime(TemporalAccessor temporal) {
-        return (ChronoLocalDateTime<InternationalFixedDate>) super.localDateTime(temporal);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -371,7 +394,7 @@ public final class InternationalFixedChronology extends AbstractChronology imple
     @Override
     @SuppressWarnings("unchecked")
     public ChronoZonedDateTime<InternationalFixedDate> zonedDateTime(TemporalAccessor temporal) {
-        return (ChronoZonedDateTime<InternationalFixedDate>) super.zonedDateTime(temporal);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -385,7 +408,7 @@ public final class InternationalFixedChronology extends AbstractChronology imple
     @Override
     @SuppressWarnings("unchecked")
     public ChronoZonedDateTime<InternationalFixedDate> zonedDateTime(Instant instant, ZoneId zone) {
-        return (ChronoZonedDateTime<InternationalFixedDate>) super.zonedDateTime(instant, zone);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -400,7 +423,7 @@ public final class InternationalFixedChronology extends AbstractChronology imple
      */
     @Override
     public boolean isLeapYear(long year) {
-        return ((year & 3) == 0) && ((year % 100) != 0 || (year % 400) == 0);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -415,7 +438,7 @@ public final class InternationalFixedChronology extends AbstractChronology imple
      */
     @Override
     public InternationalFixedEra eraOf(int eraValue) {
-        return InternationalFixedEra.of(eraValue);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -427,47 +450,18 @@ public final class InternationalFixedChronology extends AbstractChronology imple
      */
     @Override
     public List<Era> eras() {
-        return Arrays.<Era>asList(InternationalFixedEra.values());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
     @Override
     public ValueRange range(ChronoField field) {
-        switch (field) {
-            case ALIGNED_DAY_OF_WEEK_IN_YEAR:
-            case ALIGNED_DAY_OF_WEEK_IN_MONTH:
-            case DAY_OF_WEEK:
-                return ValueRange.of(0, 1, 0, DAYS_IN_WEEK);
-            case ALIGNED_WEEK_OF_MONTH:
-                return ValueRange.of(0, 1, 0, WEEKS_IN_MONTH);
-            case ALIGNED_WEEK_OF_YEAR:
-                return ValueRange.of(0, 1, 0, WEEKS_IN_YEAR);
-            case DAY_OF_MONTH:
-                return DAY_OF_MONTH_RANGE;
-            case DAY_OF_YEAR:
-                return ChronoField.DAY_OF_YEAR.range();
-            case EPOCH_DAY:
-                return EPOCH_DAY_RANGE;
-            case ERA:
-                return ERA_RANGE;
-            case MONTH_OF_YEAR:
-                return MONTH_OF_YEAR_RANGE;
-            case PROLEPTIC_MONTH:
-                return PROLEPTIC_MONTH_RANGE;
-            case YEAR_OF_ERA:
-            case YEAR:
-                return YEAR_RANGE;
-            default:
-                return field.range();
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public int prolepticYear(Era era, int yearOfEra) {
-        if (!(era instanceof InternationalFixedEra)) {
-            throw new ClassCastException("Invalid era: " + era);
-        }
-        return YEAR_RANGE.checkValidIntValue(yearOfEra, ChronoField.YEAR_OF_ERA);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -477,8 +471,6 @@ public final class InternationalFixedChronology extends AbstractChronology imple
      * @return The number of leap years since International fixed year 1.
      */
     static long getLeapYearsBefore(long prolepticYear) {
-        long yearBefore = prolepticYear - 1;
-        return (yearBefore / 4) - (yearBefore / 100) + (yearBefore / 400);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

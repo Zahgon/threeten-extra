@@ -49,7 +49,6 @@ import static org.threeten.extra.chrono.Symmetry454Chronology.MONTH_OF_YEAR_RANG
 import static org.threeten.extra.chrono.Symmetry454Chronology.WEEKS_IN_MONTH;
 import static org.threeten.extra.chrono.Symmetry454Chronology.WEEKS_IN_YEAR;
 import static org.threeten.extra.chrono.Symmetry454Chronology.YEAR_RANGE;
-
 import java.io.Serializable;
 import java.time.Clock;
 import java.time.DateTimeException;
@@ -101,26 +100,28 @@ import java.time.temporal.ValueRange;
  * This class must be treated as a value type. Do not synchronize, rely on the
  * identity hash code or use the distinction between equals() and ==.
  */
-public final class Symmetry454Date
-        extends AbstractDate
-        implements ChronoLocalDate, Serializable {
+public final class Symmetry454Date extends AbstractDate implements ChronoLocalDate, Serializable {
 
     /**
      * Serialization version.
      */
     private static final long serialVersionUID = -3540913335234762448L;
+
     /**
      * The proleptic year.
      */
     private final int prolepticYear;
+
     /**
      * The month of the year.
      */
     private final int month;
+
     /**
      * The day of the month.
      */
     private final int day;
+
     /**
      * The day of year.
      */
@@ -139,7 +140,7 @@ public final class Symmetry454Date
      * @return the current date using the system clock and default time-zone, not null
      */
     public static Symmetry454Date now() {
-        return now(Clock.systemDefaultZone());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -155,7 +156,7 @@ public final class Symmetry454Date
      * @return the current date using the system clock, not null
      */
     public static Symmetry454Date now(ZoneId zone) {
-        return now(Clock.system(zone));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -170,8 +171,7 @@ public final class Symmetry454Date
      * @throws DateTimeException if the current date cannot be obtained
      */
     public static Symmetry454Date now(Clock clock) {
-        LocalDate now = LocalDate.now(clock);
-        return Symmetry454Date.ofEpochDay(now.toEpochDay());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -190,7 +190,7 @@ public final class Symmetry454Date
      *  or if the day-of-month is invalid for the month-year
      */
     public static Symmetry454Date of(int prolepticYear, int month, int dayOfMonth) {
-        return create(prolepticYear, month, dayOfMonth);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -212,10 +212,7 @@ public final class Symmetry454Date
      * @throws DateTimeException if unable to convert to a {@code Symmetry454Date}
      */
     public static Symmetry454Date from(TemporalAccessor temporal) {
-        if (temporal instanceof Symmetry454Date) {
-            return (Symmetry454Date) temporal;
-        }
-        return Symmetry454Date.ofEpochDay(temporal.getLong(ChronoField.EPOCH_DAY));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -233,26 +230,7 @@ public final class Symmetry454Date
      *  or if the day-of-year is invalid for the year
      */
     static Symmetry454Date ofYearDay(int prolepticYear, int dayOfYear) {
-        YEAR_RANGE.checkValidValue(prolepticYear, ChronoField.YEAR_OF_ERA);
-        DAY_OF_YEAR_RANGE.checkValidValue(dayOfYear, ChronoField.DAY_OF_YEAR);
-        boolean leap = INSTANCE.isLeapYear(prolepticYear);
-        if (dayOfYear > DAYS_IN_YEAR && !leap) {
-            throw new DateTimeException("Invalid date 'DayOfYear " + dayOfYear + "' as '" + prolepticYear + "' is not a leap year");
-        }
-
-        int offset = Math.min(dayOfYear, DAYS_IN_YEAR) - 1;
-        int quarter = offset / DAYS_IN_QUARTER;
-        int day = dayOfYear - quarter * DAYS_IN_QUARTER;
-        int month = 1 + quarter * 3;
-
-        if (day > DAYS_IN_MONTH + DAYS_IN_MONTH + DAYS_IN_WEEK) {
-            month += 2;
-            day -= DAYS_IN_MONTH + DAYS_IN_MONTH + DAYS_IN_WEEK;
-        } else if (day > DAYS_IN_MONTH) {
-            month += 1;
-            day -= DAYS_IN_MONTH;
-        }
-        return new Symmetry454Date(prolepticYear, month, day);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -264,22 +242,7 @@ public final class Symmetry454Date
      * @throws DateTimeException if the epoch-day is out of range
      */
     static Symmetry454Date ofEpochDay(long epochDay) {
-        EPOCH_DAY_RANGE.checkValidValue(epochDay + 3, ChronoField.EPOCH_DAY);
-        long zeroDay = epochDay + DAYS_0001_TO_1970 + 1;
-        long year = 1 + ((293 * zeroDay) / DAYS_PER_CYCLE);
-        long doy = zeroDay - (DAYS_IN_YEAR * (year - 1) + Symmetry454Chronology.getLeapYearsBefore(year) * DAYS_IN_WEEK);
-
-        if (doy < 1) {
-            year--;
-            doy += INSTANCE.isLeapYear(year) ? DAYS_IN_YEAR_LONG : DAYS_IN_YEAR;
-        }
-
-        int diy = INSTANCE.isLeapYear(year) ? DAYS_IN_YEAR_LONG : DAYS_IN_YEAR;
-        if (doy > diy) {
-            doy -= diy;
-            year++;
-        }
-        return ofYearDay((int) year, (int) doy);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -295,9 +258,7 @@ public final class Symmetry454Date
      */
     private static Symmetry454Date resolvePreviousValid(int prolepticYear, int month, int day) {
         int monthR = Math.min(month, MONTHS_IN_YEAR);
-        int dayR = Math.min(day,
-            (monthR % 3 == 2) || (monthR == 12 && INSTANCE.isLeapYear(prolepticYear)) ? DAYS_IN_MONTH_LONG : DAYS_IN_MONTH);
-
+        int dayR = Math.min(day, (monthR % 3 == 2) || (monthR == 12 && INSTANCE.isLeapYear(prolepticYear)) ? DAYS_IN_MONTH_LONG : DAYS_IN_MONTH);
         return create(prolepticYear, monthR, dayR);
     }
 
@@ -313,20 +274,7 @@ public final class Symmetry454Date
      * @throws DateTimeException if the date is invalid
      */
     static Symmetry454Date create(int prolepticYear, int month, int dayOfMonth) {
-        YEAR_RANGE.checkValidValue(prolepticYear, ChronoField.YEAR_OF_ERA);
-        MONTH_OF_YEAR_RANGE.checkValidValue(month, ChronoField.MONTH_OF_YEAR);
-        DAY_OF_MONTH_RANGE.checkValidValue(dayOfMonth, ChronoField.DAY_OF_MONTH);
-
-        if (dayOfMonth > DAYS_IN_MONTH) {
-            if (month == MONTHS_IN_YEAR) {
-                if (!INSTANCE.isLeapYear(prolepticYear)) {
-                    throw new DateTimeException("Invalid Leap Day as '" + prolepticYear + "' is not a leap year");
-                }
-            } else if (month % 3 != 2) {
-                throw new DateTimeException("Invalid date: " + prolepticYear + '/' + month + '/' + dayOfMonth);
-            }
-        }
-        return new Symmetry454Date(prolepticYear, month, dayOfMonth);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -357,111 +305,81 @@ public final class Symmetry454Date
     //-----------------------------------------------------------------------
     @Override
     int getProlepticYear() {
-        return prolepticYear;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     int getMonth() {
-        return month;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     int getDayOfMonth() {
-        return day;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     int getDayOfYear() {
-        return dayOfYear;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     int lengthOfYearInMonths() {
-        return MONTHS_IN_YEAR;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     int getAlignedDayOfWeekInMonth() {
-        return getDayOfWeek();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     int getAlignedDayOfWeekInYear() {
-        return getDayOfWeek();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     int getAlignedWeekOfMonth() {
-        return ((day - 1) / DAYS_IN_WEEK) + 1;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     int getAlignedWeekOfYear() {
-        return ((dayOfYear - 1) / DAYS_IN_WEEK) + 1;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     int getDayOfWeek() {
-        return ((day - 1) % DAYS_IN_WEEK) + 1;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     long getProlepticWeek() {
-        return getProlepticMonth() * WEEKS_IN_MONTH + ((getDayOfMonth() - 1) / DAYS_IN_WEEK) - 1;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * Checks if the date is within the leap week.
-     * 
+     *
      * @return true if this date is in the leap week
      */
     public boolean isLeapWeek() {
-        return isLeapYear() && this.dayOfYear > DAYS_IN_YEAR;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
     @Override
     public ValueRange range(TemporalField field) {
-        if (field instanceof ChronoField) {
-            if (isSupported(field)) {
-                ChronoField f = (ChronoField) field;
-                switch (f) {
-                    case ALIGNED_DAY_OF_WEEK_IN_MONTH:
-                    case ALIGNED_DAY_OF_WEEK_IN_YEAR:
-                    case DAY_OF_WEEK:
-                        return ValueRange.of(1, DAYS_IN_WEEK);
-                    case ALIGNED_WEEK_OF_MONTH:
-                        return ValueRange.of(1, WEEKS_IN_MONTH + (isLongMonth() ? 1 : 0));
-                    case ALIGNED_WEEK_OF_YEAR:
-                        return ValueRange.of(1, WEEKS_IN_YEAR + (isLeapYear() ? 1 : 0));
-                    case DAY_OF_MONTH:
-                        return ValueRange.of(1, lengthOfMonth());
-                    case DAY_OF_YEAR:
-                        return ValueRange.of(1, lengthOfYear());
-                    case EPOCH_DAY:
-                        return EPOCH_DAY_RANGE;
-                    case ERA:
-                        return ERA_RANGE;
-                    case MONTH_OF_YEAR:
-                        return MONTH_OF_YEAR_RANGE;
-                    default:
-                        break;
-                }
-            } else {
-                throw new UnsupportedTemporalTypeException("Unsupported field: " + field);
-            }
-        }
-        return super.range(field);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     ValueRange rangeAlignedWeekOfMonth() {
-        // never invoked
-        return ValueRange.of(1, WEEKS_IN_MONTH);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     Symmetry454Date resolvePrevious(int newYear, int newMonth, int dayOfMonth) {
-        return resolvePreviousValid(newYear, newMonth, dayOfMonth);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -475,7 +393,7 @@ public final class Symmetry454Date
      */
     @Override
     public Symmetry454Chronology getChronology() {
-        return INSTANCE;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -487,7 +405,7 @@ public final class Symmetry454Date
      */
     @Override
     public IsoEra getEra() {
-        return (prolepticYear >= 1 ? IsoEra.CE : IsoEra.BCE);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -503,7 +421,7 @@ public final class Symmetry454Date
      */
     @Override
     public int lengthOfMonth() {
-        return isLongMonth() ? DAYS_IN_MONTH_LONG : DAYS_IN_MONTH;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private boolean isLongMonth() {
@@ -520,85 +438,57 @@ public final class Symmetry454Date
      */
     @Override
     public int lengthOfYear() {
-        return DAYS_IN_YEAR + (isLeapYear() ? DAYS_IN_WEEK : 0);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-------------------------------------------------------------------------
     @Override
     public Symmetry454Date with(TemporalAdjuster adjuster) {
-        return (Symmetry454Date) adjuster.adjustInto(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public Symmetry454Date with(TemporalField field, long newValue) {
-        if (field instanceof ChronoField) {
-            if (newValue == 0) {
-                return this;
-            }
-            ChronoField f = (ChronoField) field;
-            getChronology().range(f).checkValidValue(newValue, f);
-            int nval = (int) newValue;
-            switch (f) {
-                case ALIGNED_DAY_OF_WEEK_IN_MONTH:
-                case ALIGNED_DAY_OF_WEEK_IN_YEAR:
-                case DAY_OF_WEEK:
-                    range(f).checkValidValue(newValue, field);
-                    int dom = ((getDayOfMonth() - 1) / DAYS_IN_WEEK) * DAYS_IN_WEEK;
-                    return resolvePreviousValid(prolepticYear, month, dom + nval);
-                case ALIGNED_WEEK_OF_MONTH:
-                    range(f).checkValidValue(newValue, field);
-                    int d = day % DAYS_IN_WEEK;
-                    return resolvePreviousValid(prolepticYear, month, (nval - 1) * DAYS_IN_WEEK + d);
-                case ALIGNED_WEEK_OF_YEAR:
-                    range(f).checkValidValue(newValue, field);
-                    int newMonth = 1 + ((nval - 1) / WEEKS_IN_MONTH);
-                    int newDay = ((nval - 1) % WEEKS_IN_MONTH) * DAYS_IN_WEEK + 1 + ((day - 1) % DAYS_IN_WEEK);
-                    return resolvePreviousValid(prolepticYear, newMonth, newDay);
-                case DAY_OF_MONTH:
-                    return create(prolepticYear, month, nval);
-                default:
-                    break;
-            }
-        }
-        return (Symmetry454Date) super.with(field, newValue);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     Symmetry454Date withDayOfYear(int value) {
-        return ofYearDay(prolepticYear, value);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
     @Override
     public Symmetry454Date plus(TemporalAmount amount) {
-        return (Symmetry454Date) amount.addTo(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public Symmetry454Date plus(long amountToAdd, TemporalUnit unit) {
-        return (Symmetry454Date) super.plus(amountToAdd, unit);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public Symmetry454Date minus(TemporalAmount amount) {
-        return (Symmetry454Date) amount.subtractFrom(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public Symmetry454Date minus(long amountToSubtract, TemporalUnit unit) {
-        return (Symmetry454Date) super.minus(amountToSubtract, unit);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-------------------------------------------------------------------------
-    @Override  // for covariant return type
+    // for covariant return type
+    @Override
     @SuppressWarnings("unchecked")
     public ChronoLocalDateTime<Symmetry454Date> atTime(LocalTime localTime) {
-        return (ChronoLocalDateTime<Symmetry454Date>) super.atTime(localTime);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public long until(Temporal endExclusive, TemporalUnit unit) {
-        return until(Symmetry454Date.from(endExclusive), unit);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -608,48 +498,28 @@ public final class Symmetry454Date
      * @return The number of years from this date to the given day.
      */
     long yearsUntil(Symmetry454Date end) {
-        long startYear = this.prolepticYear * 512L + this.getDayOfYear();
-        long endYear = end.prolepticYear * 512L + end.getDayOfYear();
-        return (endYear - startYear) / 512L;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public ChronoPeriod until(ChronoLocalDate endDateExclusive) {
-        Symmetry454Date end = Symmetry454Date.from(endDateExclusive);
-        int years = Math.toIntExact(yearsUntil(end));
-        // Get to the same "whole" year.
-        Symmetry454Date sameYearEnd = (Symmetry454Date) plusYears(years);
-        int months = (int) sameYearEnd.monthsUntil(end);
-        int days = (int) sameYearEnd.plusMonths(months).daysUntil(end);
-        return getChronology().period(years, months, days);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     long weeksUntil(AbstractDate end) {
-        Symmetry454Date endDate = Symmetry454Date.from(end);
-        long startWeek = this.getProlepticWeek() * 8L + this.getDayOfWeek();
-        long endWeek = endDate.getProlepticWeek() * 8L + endDate.getDayOfWeek();
-        return (endWeek - startWeek) / 8L;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     long monthsUntil(AbstractDate end) {
-        Symmetry454Date date = Symmetry454Date.from(end);
-        long monthStart = this.getProlepticMonth() * 64L + this.getDayOfMonth();
-        long monthEnd = date.getProlepticMonth() * 64L + date.getDayOfMonth();
-        return (monthEnd - monthStart) / 64L;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
     @Override
     public long toEpochDay() {
-        long epochDay =
-                (long) (this.prolepticYear - 1) * DAYS_IN_YEAR +
-                Symmetry454Chronology.getLeapYearsBefore(this.prolepticYear) * DAYS_IN_WEEK +
-                this.dayOfYear -
-                DAYS_0001_TO_1970 - 1;
-
-        return epochDay;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -659,17 +529,6 @@ public final class Symmetry454Date
      */
     @Override
     public String toString() {
-        StringBuilder buf = new StringBuilder(30);
-        return buf.append(getChronology().toString())
-                .append(' ')
-                .append(getEra())
-                .append(' ')
-                .append(getYearOfEra())
-                .append(this.month < 10 && this.month > 0 ? "/0" : '/')
-                .append(this.month)
-                .append(this.day < 10 ? "/0" : '/')
-                .append(this.day)
-                .toString();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

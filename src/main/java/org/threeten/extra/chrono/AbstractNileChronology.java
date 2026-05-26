@@ -41,37 +41,43 @@ import java.time.temporal.ValueRange;
  * <h3>Implementation Requirements</h3>
  * Implementations must be immutable and thread-safe.
  */
-abstract class AbstractNileChronology
-        extends AbstractChronology {
+abstract class AbstractNileChronology extends AbstractChronology {
 
     /**
      * Range of proleptic-year.
      */
     static final ValueRange YEAR_RANGE = ValueRange.of(-999_998, 999_999);
+
     /**
      * Range of year.
      */
     static final ValueRange YOE_RANGE = ValueRange.of(1, 999_999);
+
     /**
      * Range of proleptic month.
      */
     static final ValueRange PROLEPTIC_MONTH_RANGE = ValueRange.of(-999_998 * 13L, 999_999 * 13L + 12);
+
     /**
      * Range of months.
      */
     static final ValueRange MOY_RANGE = ValueRange.of(1, 13);
+
     /**
      * Range of weeks.
      */
     static final ValueRange ALIGNED_WOM_RANGE = ValueRange.of(1, 1, 5);
+
     /**
      * Range of days.
      */
     static final ValueRange DOM_RANGE = ValueRange.of(1, 5, 30);
+
     /**
      * Range of days.
      */
     static final ValueRange DOM_RANGE_NONLEAP = ValueRange.of(1, 5);
+
     /**
      * Range of days.
      */
@@ -96,29 +102,12 @@ abstract class AbstractNileChronology
      */
     @Override
     public boolean isLeapYear(long prolepticYear) {
-        return Math.floorMod(prolepticYear, 4) == 3;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
     @Override
     public ValueRange range(ChronoField field) {
-        switch (field) {
-            case DAY_OF_MONTH:
-                return DOM_RANGE;
-            case ALIGNED_WEEK_OF_MONTH:
-                return ALIGNED_WOM_RANGE;
-            case MONTH_OF_YEAR:
-                return MOY_RANGE;
-            case PROLEPTIC_MONTH:
-                return PROLEPTIC_MONTH_RANGE;
-            case YEAR_OF_ERA:
-                return YOE_RANGE;
-            case YEAR:
-                return YEAR_RANGE;
-            default:
-                break;
-        }
-        return field.range();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

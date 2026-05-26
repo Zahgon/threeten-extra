@@ -36,7 +36,6 @@ import static java.time.temporal.ChronoField.DAY_OF_YEAR;
 import static java.time.temporal.ChronoField.EPOCH_DAY;
 import static java.time.temporal.ChronoField.MONTH_OF_YEAR;
 import static java.time.temporal.ChronoField.YEAR;
-
 import java.io.Serializable;
 import java.time.Clock;
 import java.time.DateTimeException;
@@ -68,16 +67,15 @@ import java.time.temporal.TemporalUnit;
  * This class must be treated as a value type. Do not synchronize, rely on the
  * identity hash code or use the distinction between equals() and ==.
  */
-public final class EthiopicDate
-        extends AbstractNileDate
-        implements ChronoLocalDate, Serializable {
+public final class EthiopicDate extends AbstractNileDate implements ChronoLocalDate, Serializable {
+
     // TODO: Check epoch day
     // TODO: Check conversion year (and Coptic)
-
     /**
      * Serialization version.
      */
     private static final long serialVersionUID = -268768729L;
+
     /**
      * The difference between the ISO and Ethiopic epoch day count.
      */
@@ -87,10 +85,12 @@ public final class EthiopicDate
      * The proleptic year.
      */
     private final int prolepticYear;
+
     /**
      * The month.
      */
     private final short month;
+
     /**
      * The day.
      */
@@ -109,7 +109,7 @@ public final class EthiopicDate
      * @return the current date using the system clock and default time-zone, not null
      */
     public static EthiopicDate now() {
-        return now(Clock.systemDefaultZone());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -125,7 +125,7 @@ public final class EthiopicDate
      * @return the current date using the system clock, not null
      */
     public static EthiopicDate now(ZoneId zone) {
-        return now(Clock.system(zone));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -140,8 +140,7 @@ public final class EthiopicDate
      * @throws DateTimeException if the current date cannot be obtained
      */
     public static EthiopicDate now(Clock clock) {
-        LocalDate now = LocalDate.now(clock);
-        return EthiopicDate.ofEpochDay(now.toEpochDay());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -159,7 +158,7 @@ public final class EthiopicDate
      *  or if the day-of-month is invalid for the month-year
      */
     public static EthiopicDate of(int prolepticYear, int month, int dayOfMonth) {
-        return EthiopicDate.create(prolepticYear, month, dayOfMonth);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -180,10 +179,7 @@ public final class EthiopicDate
      * @throws DateTimeException if unable to convert to a {@code EthiopicDate}
      */
     public static EthiopicDate from(TemporalAccessor temporal) {
-        if (temporal instanceof EthiopicDate) {
-            return (EthiopicDate) temporal;
-        }
-        return EthiopicDate.ofEpochDay(temporal.getLong(EPOCH_DAY));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -201,12 +197,7 @@ public final class EthiopicDate
      *  or if the day-of-year is invalid for the year
      */
     static EthiopicDate ofYearDay(int prolepticYear, int dayOfYear) {
-        EthiopicChronology.YEAR_RANGE.checkValidValue(prolepticYear, YEAR);
-        DAY_OF_YEAR.range().checkValidValue(dayOfYear, DAY_OF_YEAR);
-        if (dayOfYear == 366 && EthiopicChronology.INSTANCE.isLeapYear(prolepticYear) == false) {
-            throw new DateTimeException("Invalid date 'Pagumen 6' as '" + prolepticYear + "' is not a leap year");
-        }
-        return new EthiopicDate(prolepticYear, (dayOfYear - 1) / 30 + 1, (dayOfYear - 1) % 30 + 1);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -218,19 +209,7 @@ public final class EthiopicDate
      * @throws DateTimeException if the epoch-day is out of range
      */
     static EthiopicDate ofEpochDay(final long epochDay) {
-        EPOCH_DAY.range().checkValidValue(epochDay, EPOCH_DAY);  // validate outer bounds
-        long ethiopicED = epochDay + EPOCH_DAY_DIFFERENCE;
-        int adjustment = 0;
-        if (ethiopicED < 0) {
-            ethiopicED = ethiopicED + (1461L * (1_000_000L / 4));
-            adjustment = -1_000_000;
-        }
-        int prolepticYear = (int) (((ethiopicED * 4) + 1463) / 1461);
-        int startYearEpochDay = (prolepticYear - 1) * 365 + (prolepticYear / 4);
-        int doy0 = (int) (ethiopicED - startYearEpochDay);
-        int month = doy0 / 30 + 1;
-        int dom = doy0 % 30 + 1;
-        return new EthiopicDate(prolepticYear + adjustment, month, dom);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private static EthiopicDate resolvePreviousValid(int prolepticYear, int month, int day) {
@@ -251,23 +230,7 @@ public final class EthiopicDate
      *  or if the day-of-year is invalid for the month-year
      */
     static EthiopicDate create(int prolepticYear, int month, int dayOfMonth) {
-        EthiopicChronology.YEAR_RANGE.checkValidValue(prolepticYear, YEAR);
-        EthiopicChronology.MOY_RANGE.checkValidValue(month, MONTH_OF_YEAR);
-        EthiopicChronology.DOM_RANGE.checkValidValue(dayOfMonth, DAY_OF_MONTH);
-        if (month == 13 && dayOfMonth > 5) {
-            if (EthiopicChronology.INSTANCE.isLeapYear(prolepticYear)) {
-                if (dayOfMonth > 6) {
-                    throw new DateTimeException("Invalid date 'Pagumen " + dayOfMonth + "', valid range from 1 to 5, or 1 to 6 in a leap year");
-                }
-            } else {
-                if (dayOfMonth == 6) {
-                    throw new DateTimeException("Invalid date 'Pagumen 6' as '" + prolepticYear + "' is not a leap year");
-                } else {
-                    throw new DateTimeException("Invalid date 'Pagumen " + dayOfMonth + "', valid range from 1 to 5, or 1 to 6 in a leap year");
-                }
-            }
-        }
-        return new EthiopicDate(prolepticYear, month, dayOfMonth);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -296,27 +259,27 @@ public final class EthiopicDate
     //-----------------------------------------------------------------------
     @Override
     int getEpochDayDifference() {
-        return EPOCH_DAY_DIFFERENCE;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     int getProlepticYear() {
-        return prolepticYear;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     int getMonth() {
-        return month;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     int getDayOfMonth() {
-        return day;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     EthiopicDate resolvePrevious(int newYear, int newMonth, int dayOfMonth) {
-        return resolvePreviousValid(newYear, newMonth, dayOfMonth);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -330,7 +293,7 @@ public final class EthiopicDate
      */
     @Override
     public EthiopicChronology getChronology() {
-        return EthiopicChronology.INSTANCE;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -343,56 +306,56 @@ public final class EthiopicDate
      */
     @Override
     public EthiopicEra getEra() {
-        return (prolepticYear >= 1 ? EthiopicEra.INCARNATION : EthiopicEra.BEFORE_INCARNATION);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-------------------------------------------------------------------------
     @Override
     public EthiopicDate with(TemporalAdjuster adjuster) {
-        return (EthiopicDate) adjuster.adjustInto(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public EthiopicDate with(TemporalField field, long newValue) {
-        return (EthiopicDate) super.with(field, newValue);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
     @Override
     public EthiopicDate plus(TemporalAmount amount) {
-        return (EthiopicDate) amount.addTo(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public EthiopicDate plus(long amountToAdd, TemporalUnit unit) {
-        return (EthiopicDate) super.plus(amountToAdd, unit);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public EthiopicDate minus(TemporalAmount amount) {
-        return (EthiopicDate) amount.subtractFrom(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public EthiopicDate minus(long amountToSubtract, TemporalUnit unit) {
-        return (amountToSubtract == Long.MIN_VALUE ? plus(Long.MAX_VALUE, unit).plus(1, unit) : plus(-amountToSubtract, unit));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-------------------------------------------------------------------------
-    @Override  // for covariant return type
+    // for covariant return type
+    @Override
     @SuppressWarnings("unchecked")
     public ChronoLocalDateTime<EthiopicDate> atTime(LocalTime localTime) {
-        return (ChronoLocalDateTime<EthiopicDate>) super.atTime(localTime);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public long until(Temporal endExclusive, TemporalUnit unit) {
-        return super.until(EthiopicDate.from(endExclusive), unit);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public ChronoPeriod until(ChronoLocalDate endDateExclusive) {
-        return super.doUntil(EthiopicDate.from(endDateExclusive));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

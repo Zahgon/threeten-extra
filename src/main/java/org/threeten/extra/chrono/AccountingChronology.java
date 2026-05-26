@@ -32,7 +32,6 @@
 package org.threeten.extra.chrono;
 
 import static org.threeten.extra.chrono.AccountingYearDivision.THIRTEEN_EVEN_MONTHS_OF_4_WEEKS;
-
 import java.io.Serializable;
 import java.time.Clock;
 import java.time.DateTimeException;
@@ -91,18 +90,22 @@ public final class AccountingChronology extends AbstractChronology implements Se
      * Serialization version.
      */
     private static final long serialVersionUID = 7291205177830286973L;
+
     /**
      * Range of proleptic month for 12-month (period) year.
      */
     private static final ValueRange PROLEPTIC_MONTH_RANGE_12 = ValueRange.of(-999_999 * 12L, 999_999 * 12L + 11);
+
     /**
      * Range of proleptic month for 13-month (period) year.
      */
     private static final ValueRange PROLEPTIC_MONTH_RANGE_13 = ValueRange.of(-999_999 * 13L, 999_999 * 13L + 12);
+
     /**
      * Range of weeks in year.
      */
     private static final ValueRange ALIGNED_WEEK_OF_YEAR_RANGE = ValueRange.of(1, 52, 53);
+
     /**
      * Range of days in year.
      */
@@ -112,23 +115,28 @@ public final class AccountingChronology extends AbstractChronology implements Se
      * The day of the week on which a given Accounting year ends.
      */
     private final DayOfWeek endsOn;
+
     /**
      * Whether the calendar ends in the last week of a given Gregorian/ISO month,
      * or nearest to the last day of the month (will sometimes be in the next month).
      */
     private final boolean inLastWeek;
+
     /**
      * Which Gregorian/ISO end-of-month the year ends in/is nearest to.
      */
     private final Month end;
+
     /**
      * How to divide an accounting year.
      */
     private final AccountingYearDivision division;
+
     /**
      * The month which will have the leap-week added.
      */
     private final int leapWeekInMonth;
+
     /**
      * The year offset.
      */
@@ -138,14 +146,17 @@ public final class AccountingChronology extends AbstractChronology implements Se
      * Difference in days between accounting year end and ISO month end, in ISO year 0.
      */
     private final transient int yearZeroDifference;
+
     /**
      * Number of weeks in a month range.
      */
     private final transient ValueRange alignedWeekOfMonthRange;
+
     /**
      * Number of days in a month range.
      */
     private final transient ValueRange dayOfMonthRange;
+
     /**
      * Number of days from the start of Accounting year 1 (for this chronology) to the start of ISO 1970
      */
@@ -164,40 +175,8 @@ public final class AccountingChronology extends AbstractChronology implements Se
      * @return The created Chronology, not null.
      * @throws DateTimeException if the chronology cannot be built.
      */
-    static AccountingChronology create(DayOfWeek endsOn, Month end, boolean inLastWeek, AccountingYearDivision division,
-            int leapWeekInMonth, int yearOffset) {
-        if (endsOn == null || end == null || division == null || leapWeekInMonth == 0) {
-            throw new IllegalStateException("AccountingCronology cannot be built: "
-                    + (endsOn == null ? "| ending day-of-week |" : "")
-                    + (end == null ? "| month ending in/nearest to |" : "")
-                    + (division == null ? "| how year divided |" : "")
-                    + (leapWeekInMonth == 0 ? "| leap-week month |" : "")
-                    + " not set.");
-        }
-        if (!division.getMonthsInYearRange().isValidValue(leapWeekInMonth)) {
-            throw new IllegalStateException("Leap week cannot not be placed in non-existent month " + leapWeekInMonth
-                    + ", range is [" + division.getMonthsInYearRange() + "].");
-        }
-
-        // Derive cached information.
-        LocalDate endingLimit = inLastWeek ? LocalDate.of(0 + yearOffset, end, 1).with(TemporalAdjusters.lastDayOfMonth()) :
-                LocalDate.of(0 + yearOffset, end, 1).with(TemporalAdjusters.lastDayOfMonth()).plusDays(3);
-        LocalDate yearZeroEnd = endingLimit.with(TemporalAdjusters.previousOrSame(endsOn));
-        int yearZeroDifference = (int) yearZeroEnd.until(endingLimit, ChronoUnit.DAYS);
-        // Longest/shortest month lengths and related
-        int longestMonthLength = 0;
-        int shortestMonthLength = Integer.MAX_VALUE;
-        for (int month = 1; month <= division.getMonthsInYearRange().getMaximum(); month++) {
-            int monthLength = division.getWeeksInMonth(month);
-            shortestMonthLength = Math.min(shortestMonthLength, monthLength);
-            longestMonthLength = Math.max(longestMonthLength, monthLength + (month == leapWeekInMonth ? 1 : 0));
-        }
-        ValueRange alignedWeekOfMonthRange = ValueRange.of(1, shortestMonthLength, longestMonthLength);
-        ValueRange dayOfMonthRange = ValueRange.of(1, shortestMonthLength * 7, longestMonthLength * 7);
-        int daysToEpoch = Math.toIntExact(0 - yearZeroEnd.plusDays(1).toEpochDay());
-
-        return new AccountingChronology(endsOn, end, inLastWeek, division, leapWeekInMonth, yearZeroDifference,
-                alignedWeekOfMonthRange, dayOfMonthRange, daysToEpoch, yearOffset);
+    static AccountingChronology create(DayOfWeek endsOn, Month end, boolean inLastWeek, AccountingYearDivision division, int leapWeekInMonth, int yearOffset) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -214,8 +193,7 @@ public final class AccountingChronology extends AbstractChronology implements Se
      * @param dayOfMonthRange  Range of days in month.
      * @param daysToEpoch  The number of days between the start of Accounting 1 and ISO 1970.
      */
-    private AccountingChronology(DayOfWeek endsOn, Month end, boolean inLastWeek, AccountingYearDivision division, int leapWeekInMonth, int yearZeroDifference, ValueRange alignedWeekOfMonthRange,
-            ValueRange dayOfMonthRange, int daysToEpoch, int yearOffset) {
+    private AccountingChronology(DayOfWeek endsOn, Month end, boolean inLastWeek, AccountingYearDivision division, int leapWeekInMonth, int yearZeroDifference, ValueRange alignedWeekOfMonthRange, ValueRange dayOfMonthRange, int daysToEpoch, int yearOffset) {
         this.endsOn = endsOn;
         this.end = end;
         this.inLastWeek = inLastWeek;
@@ -239,15 +217,15 @@ public final class AccountingChronology extends AbstractChronology implements Se
 
     //-----------------------------------------------------------------------
     AccountingYearDivision getDivision() {
-        return division;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     int getLeapWeekInMonth() {
-        return leapWeekInMonth;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     int getDays0001ToIso1970() {
-        return days0001ToIso1970;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -264,7 +242,7 @@ public final class AccountingChronology extends AbstractChronology implements Se
      */
     @Override
     public String getId() {
-        return "Accounting";
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -280,7 +258,7 @@ public final class AccountingChronology extends AbstractChronology implements Se
      */
     @Override
     public String getCalendarType() {
-        return null;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -298,7 +276,7 @@ public final class AccountingChronology extends AbstractChronology implements Se
      */
     @Override
     public AccountingDate date(Era era, int yearOfEra, int month, int dayOfMonth) {
-        return date(prolepticYear(era, yearOfEra), month, dayOfMonth);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -313,7 +291,7 @@ public final class AccountingChronology extends AbstractChronology implements Se
      */
     @Override
     public AccountingDate date(int prolepticYear, int month, int dayOfMonth) {
-        return AccountingDate.of(this, prolepticYear, month, dayOfMonth);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -329,7 +307,7 @@ public final class AccountingChronology extends AbstractChronology implements Se
      */
     @Override
     public AccountingDate dateYearDay(Era era, int yearOfEra, int dayOfYear) {
-        return dateYearDay(prolepticYear(era, yearOfEra), dayOfYear);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -343,7 +321,7 @@ public final class AccountingChronology extends AbstractChronology implements Se
      */
     @Override
     public AccountingDate dateYearDay(int prolepticYear, int dayOfYear) {
-        return AccountingDate.ofYearDay(this, prolepticYear, dayOfYear);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -353,9 +331,10 @@ public final class AccountingChronology extends AbstractChronology implements Se
      * @return the Accounting local date, not null
      * @throws DateTimeException if unable to create the date
      */
-    @Override  // override with covariant return type
+    // override with covariant return type
+    @Override
     public AccountingDate dateEpochDay(long epochDay) {
-        return AccountingDate.ofEpochDay(this, epochDay);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-------------------------------------------------------------------------
@@ -371,9 +350,10 @@ public final class AccountingChronology extends AbstractChronology implements Se
      * @return the current Accounting local date using the system clock and default time-zone, not null
      * @throws DateTimeException if unable to create the date
      */
-    @Override  // override with covariant return type
+    // override with covariant return type
+    @Override
     public AccountingDate dateNow() {
-        return AccountingDate.now(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -389,9 +369,10 @@ public final class AccountingChronology extends AbstractChronology implements Se
      * @return the current Accounting local date using the system clock, not null
      * @throws DateTimeException if unable to create the date
      */
-    @Override  // override with covariant return type
+    // override with covariant return type
+    @Override
     public AccountingDate dateNow(ZoneId zone) {
-        return AccountingDate.now(this, zone);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -405,9 +386,10 @@ public final class AccountingChronology extends AbstractChronology implements Se
      * @return the current Accounting local date, not null
      * @throws DateTimeException if unable to create the date
      */
-    @Override  // override with covariant return type
+    // override with covariant return type
+    @Override
     public AccountingDate dateNow(Clock clock) {
-        return AccountingDate.now(this, clock);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-------------------------------------------------------------------------
@@ -420,7 +402,7 @@ public final class AccountingChronology extends AbstractChronology implements Se
      */
     @Override
     public AccountingDate date(TemporalAccessor temporal) {
-        return AccountingDate.from(this, temporal);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -433,7 +415,7 @@ public final class AccountingChronology extends AbstractChronology implements Se
     @Override
     @SuppressWarnings("unchecked")
     public ChronoLocalDateTime<AccountingDate> localDateTime(TemporalAccessor temporal) {
-        return (ChronoLocalDateTime<AccountingDate>) super.localDateTime(temporal);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -446,7 +428,7 @@ public final class AccountingChronology extends AbstractChronology implements Se
     @Override
     @SuppressWarnings("unchecked")
     public ChronoZonedDateTime<AccountingDate> zonedDateTime(TemporalAccessor temporal) {
-        return (ChronoZonedDateTime<AccountingDate>) super.zonedDateTime(temporal);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -460,7 +442,7 @@ public final class AccountingChronology extends AbstractChronology implements Se
     @Override
     @SuppressWarnings("unchecked")
     public ChronoZonedDateTime<AccountingDate> zonedDateTime(Instant instant, ZoneId zone) {
-        return (ChronoZonedDateTime<AccountingDate>) super.zonedDateTime(instant, zone);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -477,8 +459,7 @@ public final class AccountingChronology extends AbstractChronology implements Se
      */
     @Override
     public boolean isLeapYear(long prolepticYear) {
-        return Math.floorMod(prolepticYear + getISOLeapYearCount(prolepticYear) + yearZeroDifference, 7) == 0
-                || Math.floorMod(prolepticYear + getISOLeapYearCount(prolepticYear + 1) + yearZeroDifference, 7) == 0;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -493,7 +474,7 @@ public final class AccountingChronology extends AbstractChronology implements Se
      * @return the count of leap years since year 1.
      */
     private long getISOLeapYearCount(long prolepticYear) {
-        long offsetYear = prolepticYear - (end == Month.JANUARY? 1 : 0) - 1 + yearOffset;
+        long offsetYear = prolepticYear - (end == Month.JANUARY ? 1 : 0) - 1 + yearOffset;
         return Math.floorDiv(offsetYear, 4) - Math.floorDiv(offsetYear, 100) + Math.floorDiv(offsetYear, 400) + (end == Month.JANUARY && yearOffset == 0 ? 1 : 0);
     }
 
@@ -509,94 +490,43 @@ public final class AccountingChronology extends AbstractChronology implements Se
      * @return the count of leap years since year 1.
      */
     long previousLeapYears(long prolepticYear) {
-        return Math.floorDiv(prolepticYear - 1 + getISOLeapYearCount(prolepticYear) + yearZeroDifference, 7);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public int prolepticYear(Era era, int yearOfEra) {
-        if (!(era instanceof AccountingEra)) {
-            throw new ClassCastException("Era must be AccountingEra");
-        }
-        return (era == AccountingEra.CE ? yearOfEra : 1 - yearOfEra);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public AccountingEra eraOf(int era) {
-        return AccountingEra.of(era);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public List<Era> eras() {
-        return Arrays.<Era>asList(AccountingEra.values());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
     @Override
     public ValueRange range(ChronoField field) {
-        switch (field) {
-            case ALIGNED_WEEK_OF_MONTH:
-                return alignedWeekOfMonthRange;
-            case ALIGNED_WEEK_OF_YEAR:
-                return ALIGNED_WEEK_OF_YEAR_RANGE;
-            case DAY_OF_MONTH:
-                return dayOfMonthRange;
-            case DAY_OF_YEAR:
-                return DAY_OF_YEAR_RANGE;
-            case MONTH_OF_YEAR:
-                return getDivision().getMonthsInYearRange();
-            case PROLEPTIC_MONTH:
-                return getDivision() == THIRTEEN_EVEN_MONTHS_OF_4_WEEKS ? PROLEPTIC_MONTH_RANGE_13 : PROLEPTIC_MONTH_RANGE_12;
-            default:
-                break;
-        }
-        return field.range();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-------------------------------------------------------------------------
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj instanceof AccountingChronology) {
-            AccountingChronology other = (AccountingChronology) obj;
-            return this.endsOn == other.endsOn &&
-                    this.inLastWeek == other.inLastWeek &&
-                    this.end == other.end &&
-                    this.getDivision() == other.getDivision() &&
-                    this.leapWeekInMonth == other.leapWeekInMonth &&
-                    this.yearOffset == other.yearOffset;
-        }
-        return false;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = 0;
-        result = prime * result + endsOn.hashCode();
-        result = prime * result + (inLastWeek ? 1231 : 1237);
-        result = prime * result + end.hashCode();
-        result = prime * result + leapWeekInMonth;
-        result = prime * result + getDivision().hashCode();
-        result = prime * result + yearOffset;
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public String toString() {
-        StringBuilder bld = new StringBuilder(30);
-        bld.append(getId())
-                .append(" calendar ends on ")
-                .append(endsOn)
-                .append(inLastWeek ? " in last week of " : " nearest end of ")
-                .append(end)
-                .append(", year divided in ")
-                .append(getDivision())
-                .append(" with leap-week in month ")
-                .append(leapWeekInMonth)
-                .append(yearOffset == 0 ? " ending in the given ISO year" : " starting in the given ISO year");
-        return bld.toString();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

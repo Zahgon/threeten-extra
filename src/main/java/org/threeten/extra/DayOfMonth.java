@@ -32,7 +32,6 @@
 package org.threeten.extra;
 
 import static java.time.temporal.ChronoField.DAY_OF_MONTH;
-
 import java.io.Serializable;
 import java.time.Clock;
 import java.time.DateTimeException;
@@ -72,17 +71,18 @@ import java.util.Objects;
  * This class must be treated as a value type. Do not synchronize, rely on the
  * identity hash code or use the distinction between equals() and ==.
  */
-public final class DayOfMonth
-        implements TemporalAccessor, TemporalAdjuster, Comparable<DayOfMonth>, Serializable {
+public final class DayOfMonth implements TemporalAccessor, TemporalAdjuster, Comparable<DayOfMonth>, Serializable {
 
     /**
      * Serialization version.
      */
     private static final long serialVersionUID = -8840172642009917873L;
+
     /**
      * Cache of singleton instances.
      */
     private static final DayOfMonth[] VALUES = new DayOfMonth[31];
+
     static {
         for (int i = 0; i < 31; i++) {
             VALUES[i] = new DayOfMonth(i + 1);
@@ -108,7 +108,7 @@ public final class DayOfMonth
      * @return the current day-of-month using the system clock and default time-zone, not null
      */
     public static DayOfMonth now() {
-        return now(Clock.systemDefaultZone());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -124,7 +124,7 @@ public final class DayOfMonth
      * @return the current day-of-month using the system clock, not null
      */
     public static DayOfMonth now(ZoneId zone) {
-        return now(Clock.system(zone));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -138,8 +138,7 @@ public final class DayOfMonth
      * @return the current day-of-month, not null
      */
     public static DayOfMonth now(Clock clock) {
-        final LocalDate now = LocalDate.now(clock);  // called once
-        return DayOfMonth.of(now.getDayOfMonth());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -153,11 +152,7 @@ public final class DayOfMonth
      * @throws DateTimeException if the day-of-month is invalid
      */
     public static DayOfMonth of(int dayOfMonth) {
-        try {
-            return VALUES[dayOfMonth - 1];
-        } catch (IndexOutOfBoundsException ex) {
-            throw new DateTimeException("Invalid value for DayOfMonth: " + dayOfMonth);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -180,19 +175,7 @@ public final class DayOfMonth
      * @throws DateTimeException if unable to convert to a {@code DayOfMonth}
      */
     public static DayOfMonth from(TemporalAccessor temporal) {
-        if (temporal instanceof DayOfMonth) {
-            return (DayOfMonth) temporal;
-        }
-        Objects.requireNonNull(temporal, "temporal");
-        try {
-            if (IsoChronology.INSTANCE.equals(Chronology.from(temporal)) == false) {
-                temporal = LocalDate.from(temporal);
-            }
-            return of(temporal.get(DAY_OF_MONTH));
-        } catch (DateTimeException ex) {
-            throw new DateTimeException("Unable to obtain DayOfMonth from TemporalAccessor: " +
-                    temporal + " of type " + temporal.getClass().getName(), ex);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -221,7 +204,7 @@ public final class DayOfMonth
      * @return the day-of-month, from 1 to 31
      */
     public int getValue() {
-        return day;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -250,10 +233,7 @@ public final class DayOfMonth
      */
     @Override
     public boolean isSupported(TemporalField field) {
-        if (field instanceof ChronoField) {
-            return field == DAY_OF_MONTH;
-        }
-        return field != null && field.isSupportedBy(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -282,7 +262,7 @@ public final class DayOfMonth
      */
     @Override
     public ValueRange range(TemporalField field) {
-        return TemporalAccessor.super.range(field);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -313,7 +293,7 @@ public final class DayOfMonth
      */
     @Override
     public int get(TemporalField field) {
-        return TemporalAccessor.super.get(field);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -341,12 +321,7 @@ public final class DayOfMonth
      */
     @Override
     public long getLong(TemporalField field) {
-        if (field == DAY_OF_MONTH) {
-            return day;
-        } else if (field instanceof ChronoField) {
-            throw new UnsupportedTemporalTypeException("Unsupported field: " + field);
-        }
-        return field.getFrom(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -360,7 +335,7 @@ public final class DayOfMonth
      * @return true if the year and month are valid for this day
      */
     public boolean isValidYearMonth(YearMonth yearMonth) {
-        return yearMonth != null && yearMonth.isValidDay(day);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -380,12 +355,7 @@ public final class DayOfMonth
     @SuppressWarnings("unchecked")
     @Override
     public <R> R query(TemporalQuery<R> query) {
-        if (query == TemporalQueries.chronology()) {
-            return (R) IsoChronology.INSTANCE;
-        } else if (query == TemporalQueries.precision()) {
-            return (R) ChronoUnit.DAYS;
-        }
-        return TemporalAccessor.super.query(query);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -416,10 +386,7 @@ public final class DayOfMonth
      */
     @Override
     public Temporal adjustInto(Temporal temporal) {
-        if (Chronology.from(temporal).equals(IsoChronology.INSTANCE) == false) {
-            throw new DateTimeException("Adjustment only supported on ISO date-time");
-        }
-        return temporal.with(DAY_OF_MONTH, day);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -440,7 +407,7 @@ public final class DayOfMonth
      * @return the year-month formed from this year and the specified month, not null
      */
     public MonthDay atMonth(Month month) {
-        return MonthDay.of(month, Math.min(day, month.maxLength()));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -461,7 +428,7 @@ public final class DayOfMonth
      * @throws DateTimeException if the month is invalid
      */
     public MonthDay atMonth(int month) {
-        return atMonth(Month.of(month));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -476,7 +443,7 @@ public final class DayOfMonth
      * @return the local date formed from this year and the specified year-month, not null
      */
     public LocalDate atYearMonth(YearMonth yearMonth) {
-        return yearMonth.atDay(Math.min(day, yearMonth.lengthOfMonth()));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -491,7 +458,7 @@ public final class DayOfMonth
      */
     @Override
     public int compareTo(DayOfMonth other) {
-        return day - other.day;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -503,13 +470,7 @@ public final class DayOfMonth
      */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj instanceof DayOfMonth) {
-            return day == ((DayOfMonth) obj).day;
-        }
-        return false;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -519,7 +480,7 @@ public final class DayOfMonth
      */
     @Override
     public int hashCode() {
-        return day;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -530,7 +491,6 @@ public final class DayOfMonth
      */
     @Override
     public String toString() {
-        return "DayOfMonth:" + day;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

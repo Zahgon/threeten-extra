@@ -75,14 +75,7 @@ public enum EthiopicEra implements Era {
      * @throws DateTimeException if the value is invalid
      */
     public static EthiopicEra of(int era) {
-        switch (era) {
-            case 0:
-                return BEFORE_INCARNATION;
-            case 1:
-                return INCARNATION;
-            default:
-                throw new DateTimeException("Invalid era: " + era);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -95,7 +88,6 @@ public enum EthiopicEra implements Era {
      */
     @Override
     public int getValue() {
-        return ordinal();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

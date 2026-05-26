@@ -96,26 +96,32 @@ public final class PaxChronology extends AbstractChronology implements Serializa
      * The leap-month of Pax is only one week long.
      */
     static final int WEEKS_IN_LEAP_MONTH = 1;
+
     /**
      * Standard 7-day week.
      */
     static final int DAYS_IN_WEEK = 7;
+
     /**
      * In all months (except Pax), there are 4 complete weeks.
      */
     static final int WEEKS_IN_MONTH = 4;
+
     /**
      * There are 13 months in a (non-leap) year.
      */
     static final int MONTHS_IN_YEAR = 13;
+
     /**
      * There are 4 weeks of 7 days, or 28 total days in a month.
      */
     static final int DAYS_IN_MONTH = WEEKS_IN_MONTH * DAYS_IN_WEEK;
+
     /**
      * There are 13 months of 28 days, or 364 days in a (non-leap) year.
      */
     static final int DAYS_IN_YEAR = MONTHS_IN_YEAR * DAYS_IN_MONTH;
+
     /**
      * There are 52 weeks in a (non-leap) year.
      */
@@ -125,18 +131,22 @@ public final class PaxChronology extends AbstractChronology implements Serializa
      * Range of aligned week of month.
      */
     static final ValueRange ALIGNED_WEEK_OF_MONTH_RANGE = ValueRange.of(1, WEEKS_IN_LEAP_MONTH, WEEKS_IN_MONTH);
+
     /**
      * Range of aligned week of year.
      */
     static final ValueRange ALIGNED_WEEK_OF_YEAR_RANGE = ValueRange.of(1, WEEKS_IN_YEAR, WEEKS_IN_YEAR + 1);
+
     /**
      * Range of day of month.
      */
     static final ValueRange DAY_OF_MONTH_RANGE = ValueRange.of(1, DAYS_IN_WEEK, DAYS_IN_MONTH);
+
     /**
      * Range of day of year.
      */
     static final ValueRange DAY_OF_YEAR_RANGE = ValueRange.of(1, DAYS_IN_YEAR, DAYS_IN_YEAR + DAYS_IN_WEEK);
+
     /**
      * Range of month of year.
      */
@@ -172,7 +182,7 @@ public final class PaxChronology extends AbstractChronology implements Serializa
      */
     @Override
     public String getId() {
-        return "Pax";
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -187,7 +197,7 @@ public final class PaxChronology extends AbstractChronology implements Serializa
      */
     @Override
     public String getCalendarType() {
-        return "pax";
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -205,7 +215,7 @@ public final class PaxChronology extends AbstractChronology implements Serializa
      */
     @Override
     public PaxDate date(Era era, int yearOfEra, int month, int dayOfMonth) {
-        return date(prolepticYear(era, yearOfEra), month, dayOfMonth);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -220,7 +230,7 @@ public final class PaxChronology extends AbstractChronology implements Serializa
      */
     @Override
     public PaxDate date(int prolepticYear, int month, int dayOfMonth) {
-        return PaxDate.of(prolepticYear, month, dayOfMonth);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -236,7 +246,7 @@ public final class PaxChronology extends AbstractChronology implements Serializa
      */
     @Override
     public PaxDate dateYearDay(Era era, int yearOfEra, int dayOfYear) {
-        return dateYearDay(prolepticYear(era, yearOfEra), dayOfYear);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -250,7 +260,7 @@ public final class PaxChronology extends AbstractChronology implements Serializa
      */
     @Override
     public PaxDate dateYearDay(int prolepticYear, int dayOfYear) {
-        return PaxDate.ofYearDay(prolepticYear, dayOfYear);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -262,7 +272,7 @@ public final class PaxChronology extends AbstractChronology implements Serializa
      */
     @Override
     public PaxDate dateEpochDay(long epochDay) {
-        return PaxDate.ofEpochDay(epochDay);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-------------------------------------------------------------------------
@@ -280,7 +290,7 @@ public final class PaxChronology extends AbstractChronology implements Serializa
      */
     @Override
     public PaxDate dateNow() {
-        return PaxDate.now();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -298,7 +308,7 @@ public final class PaxChronology extends AbstractChronology implements Serializa
      */
     @Override
     public PaxDate dateNow(ZoneId zone) {
-        return PaxDate.now(zone);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -314,7 +324,7 @@ public final class PaxChronology extends AbstractChronology implements Serializa
      */
     @Override
     public PaxDate dateNow(Clock clock) {
-        return PaxDate.now(clock);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-------------------------------------------------------------------------
@@ -327,7 +337,7 @@ public final class PaxChronology extends AbstractChronology implements Serializa
      */
     @Override
     public PaxDate date(TemporalAccessor temporal) {
-        return PaxDate.from(temporal);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -340,7 +350,7 @@ public final class PaxChronology extends AbstractChronology implements Serializa
     @Override
     @SuppressWarnings("unchecked")
     public ChronoLocalDateTime<PaxDate> localDateTime(TemporalAccessor temporal) {
-        return (ChronoLocalDateTime<PaxDate>) super.localDateTime(temporal);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -353,7 +363,7 @@ public final class PaxChronology extends AbstractChronology implements Serializa
     @Override
     @SuppressWarnings("unchecked")
     public ChronoZonedDateTime<PaxDate> zonedDateTime(TemporalAccessor temporal) {
-        return (ChronoZonedDateTime<PaxDate>) super.zonedDateTime(temporal);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -367,19 +377,19 @@ public final class PaxChronology extends AbstractChronology implements Serializa
     @Override
     @SuppressWarnings("unchecked")
     public ChronoZonedDateTime<PaxDate> zonedDateTime(Instant instant, ZoneId zone) {
-        return (ChronoZonedDateTime<PaxDate>) super.zonedDateTime(instant, zone);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
     /**
      * Checks if the specified year is a leap year.
      * <p>
-     * In general, a year is a leap year if the last two digits are divisible by 6 without remainder, or are 99. 
+     * In general, a year is a leap year if the last two digits are divisible by 6 without remainder, or are 99.
      * Years with the last two digits of 00 are also leap years, with the exception of years divisible by 400, which are not.
      * <p>
-     * For example, 2012 is a leap year because the last two digits (12) are divisible by 6. 
-     * 1999 is a leap year as the last two digits are both 9's (99). 
-     * 1900 is a leap year as the last two digits are both 0's (00), however 2000 was not a leap year as it is divisible by 400. 
+     * For example, 2012 is a leap year because the last two digits (12) are divisible by 6.
+     * 1999 is a leap year as the last two digits are both 9's (99).
+     * 1900 is a leap year as the last two digits are both 0's (00), however 2000 was not a leap year as it is divisible by 400.
      * The year 0 is not a leap year.
      *
      * @param prolepticYear  the proleptic-year to check, not validated for range
@@ -387,51 +397,33 @@ public final class PaxChronology extends AbstractChronology implements Serializa
      */
     @Override
     public boolean isLeapYear(long prolepticYear) {
-        long lastTwoDigits = prolepticYear % 100;
-        return Math.abs(lastTwoDigits) == 99 || (prolepticYear % 400 != 0 && (lastTwoDigits == 0 || lastTwoDigits % 6 == 0));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public int prolepticYear(Era era, int yearOfEra) {
-        if (!(era instanceof PaxEra)) {
-            throw new ClassCastException("Era must be PaxEra");
-        }
-        return (era == PaxEra.CE ? yearOfEra : 1 - yearOfEra);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public PaxEra eraOf(int eraValue) {
-        return PaxEra.of(eraValue);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public List<Era> eras() {
-        return Arrays.<Era>asList(PaxEra.values());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
     @Override
     public ValueRange range(ChronoField field) {
-        switch (field) {
-            case ALIGNED_WEEK_OF_MONTH:
-                return ALIGNED_WEEK_OF_MONTH_RANGE;
-            case ALIGNED_WEEK_OF_YEAR:
-                return ALIGNED_WEEK_OF_YEAR_RANGE;
-            case DAY_OF_MONTH:
-                return DAY_OF_MONTH_RANGE;
-            case DAY_OF_YEAR:
-                return DAY_OF_YEAR_RANGE;
-            case MONTH_OF_YEAR:
-                return MONTH_OF_YEAR_RANGE;
-            default:
-                return field.range();
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
     @Override
     public PaxDate resolveDate(Map<TemporalField, Long> fieldValues, ResolverStyle resolverStyle) {
-        return (PaxDate) super.resolveDate(fieldValues, resolverStyle);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

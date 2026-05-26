@@ -32,7 +32,6 @@
 package org.threeten.extra;
 
 import static java.time.temporal.ChronoUnit.HOURS;
-
 import java.io.Serializable;
 import java.time.DateTimeException;
 import java.time.Duration;
@@ -47,7 +46,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import org.joda.convert.FromString;
 import org.joda.convert.ToString;
 
@@ -65,8 +63,7 @@ import org.joda.convert.ToString;
  * This class must be treated as a value type. Do not synchronize, rely on the
  * identity hash code or use the distinction between equals() and ==.
  */
-public final class Hours
-        implements TemporalAmount, Comparable<Hours>, Serializable {
+public final class Hours implements TemporalAmount, Comparable<Hours>, Serializable {
 
     /**
      * A constant for zero hours.
@@ -86,11 +83,7 @@ public final class Hours
     /**
      * The pattern for parsing.
      */
-    private static final Pattern PATTERN =
-            Pattern.compile("([-+]?)P"
-                    + "(?:([-+]?[0-9]+)D)?"
-                    + "(?:T"
-                    + "(?:([-+]?[0-9]+)H)?)?", Pattern.CASE_INSENSITIVE);
+    private static final Pattern PATTERN = Pattern.compile("([-+]?)P" + "(?:([-+]?[0-9]+)D)?" + "(?:T" + "(?:([-+]?[0-9]+)H)?)?", Pattern.CASE_INSENSITIVE);
 
     /**
      * The number of hours.
@@ -106,13 +99,9 @@ public final class Hours
      * @return the number of hours, not null
      */
     public static Hours of(int hours) {
-        if (hours == 0) {
-            return ZERO;
-        } else {
-            return new Hours(hours);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-    
+
     //-----------------------------------------------------------------------
     /**
      * Obtains an instance of {@code Hours} from a temporal amount.
@@ -132,25 +121,9 @@ public final class Hours
      * @throws ArithmeticException if numeric overflow occurs
      */
     public static Hours from(TemporalAmount amount) {
-        if (amount instanceof Hours) {
-            return (Hours) amount;
-        }
-        Objects.requireNonNull(amount, "amount");
-        int hours = 0;
-        for (TemporalUnit unit : amount.getUnits()) {
-            long value = amount.get(unit);
-            if (value != 0) {
-                long[] converted = Temporals.convertAmount(value, unit, HOURS);
-                if (converted[1] != 0) {
-                    throw new DateTimeException(
-                            "Amount could not be converted to a whole number of hours: " + value + " " + unit);
-                }
-                hours = Math.addExact(hours, Math.toIntExact(converted[0]));
-            }
-        }
-        return of(hours);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-    
+
     //-----------------------------------------------------------------------
     /**
      * Obtains a {@code Hours} from a text string such as {@code PTnH}.
@@ -191,33 +164,7 @@ public final class Hours
      */
     @FromString
     public static Hours parse(CharSequence text) {
-        Objects.requireNonNull(text, "text");
-        Matcher matcher = PATTERN.matcher(text);
-        if (matcher.matches()) {
-            int negate = "-".equals(matcher.group(1)) ? -1 : 1;
-            String daysStr = matcher.group(2);
-            String hoursStr = matcher.group(3);
-            if (daysStr != null || hoursStr != null) {
-                int hours = 0;
-                if (hoursStr != null) {
-                    try {
-                        hours = Integer.parseInt(hoursStr);
-                    } catch (NumberFormatException ex) {
-                        throw new DateTimeParseException("Text cannot be parsed to Hours, non-numeric hours", text, 0, ex);
-                    }
-                }
-                if (daysStr != null) {
-                    try {
-                        int daysAsHours = Math.multiplyExact(Integer.parseInt(daysStr), HOURS_PER_DAY);
-                        hours = Math.addExact(hours, daysAsHours);
-                    } catch (NumberFormatException ex) {
-                        throw new DateTimeParseException("Text cannot be parsed to Hours, non-numeric days", text, 0, ex);
-                    }
-                }
-                return of(Math.multiplyExact(hours, negate));
-            }
-        }
-        throw new DateTimeParseException("Text cannot be parsed to Hours", text, 0);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -232,7 +179,7 @@ public final class Hours
      * @return the number of hours between the start and end temporals, not null
      */
     public static Hours between(Temporal startInclusive, Temporal endExclusive) {
-        return of(Math.toIntExact(HOURS.between(startInclusive, endExclusive)));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -267,10 +214,7 @@ public final class Hours
      */
     @Override
     public long get(TemporalUnit unit) {
-        if (unit == HOURS) {
-            return hours;
-        }
-        throw new UnsupportedTemporalTypeException("Unsupported unit: " + unit);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -285,7 +229,7 @@ public final class Hours
      */
     @Override
     public List<TemporalUnit> getUnits() {
-        return Collections.singletonList(HOURS);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -295,7 +239,7 @@ public final class Hours
      * @return the number of hours
      */
     public int getAmount() {
-        return hours;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -304,7 +248,7 @@ public final class Hours
      * @return true if the amount is negative, false if the amount is zero or positive
      */
     public boolean isNegative() {
-        return getAmount() < 0;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -313,7 +257,7 @@ public final class Hours
      * @return true if the amount is zero, false if not
      */
     public boolean isZero() {
-        return getAmount() == 0;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -322,7 +266,7 @@ public final class Hours
      * @return true if the amount is positive, false if the amount is zero or negative
      */
     public boolean isPositive() {
-        return getAmount() > 0;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -339,7 +283,7 @@ public final class Hours
      * @throws ArithmeticException if numeric overflow occurs
      */
     public Hours plus(TemporalAmount amountToAdd) {
-        return plus(Hours.from(amountToAdd).getAmount());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -352,10 +296,7 @@ public final class Hours
      * @throws ArithmeticException if the result overflows an int
      */
     public Hours plus(int hours) {
-        if (hours == 0) {
-            return this;
-        }
-        return of(Math.addExact(this.hours, hours));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -372,7 +313,7 @@ public final class Hours
      * @throws ArithmeticException if numeric overflow occurs
      */
     public Hours minus(TemporalAmount amountToSubtract) {
-        return minus(Hours.from(amountToSubtract).getAmount());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -385,10 +326,7 @@ public final class Hours
      * @throws ArithmeticException if the result overflows an int
      */
     public Hours minus(int hours) {
-        if (hours == 0) {
-            return this;
-        }
-        return of(Math.subtractExact(this.hours, hours));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -402,10 +340,7 @@ public final class Hours
      * @throws ArithmeticException if numeric overflow occurs
      */
     public Hours multipliedBy(int scalar) {
-        if (scalar == 1) {
-            return this;
-        }
-        return of(Math.multiplyExact(hours, scalar));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -420,10 +355,7 @@ public final class Hours
      * @throws ArithmeticException if the divisor is zero
      */
     public Hours dividedBy(int divisor) {
-        if (divisor == 1) {
-            return this;
-        }
-        return of(hours / divisor);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -436,7 +368,7 @@ public final class Hours
      *  the amount is {@code Long.MIN_VALUE}
      */
     public Hours negated() {
-        return multipliedBy(-1);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -451,7 +383,7 @@ public final class Hours
      *  the amount is {@code Long.MIN_VALUE}
      */
     public Hours abs() {
-        return hours < 0 ? negated() : this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-------------------------------------------------------------------------
@@ -477,7 +409,7 @@ public final class Hours
      * @return the equivalent duration, not null
      */
     public Duration toDuration() {
-        return Duration.ofHours(hours);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -507,10 +439,7 @@ public final class Hours
      */
     @Override
     public Temporal addTo(Temporal temporal) {
-        if (hours != 0) {
-            temporal = temporal.plus(hours, HOURS);
-        }
-        return temporal;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -539,10 +468,7 @@ public final class Hours
      */
     @Override
     public Temporal subtractFrom(Temporal temporal) {
-        if (hours != 0) {
-            temporal = temporal.minus(hours, HOURS);
-        }
-        return temporal;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -557,9 +483,7 @@ public final class Hours
      */
     @Override
     public int compareTo(Hours otherAmount) {
-        int thisValue = this.hours;
-        int otherValue = otherAmount.hours;
-        return Integer.compare(thisValue, otherValue);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -573,14 +497,7 @@ public final class Hours
      */
     @Override
     public boolean equals(Object otherAmount) {
-        if (this == otherAmount) {
-            return true;
-        }
-        if (otherAmount instanceof Hours) {
-            Hours other = (Hours) otherAmount;
-            return this.hours == other.hours;
-        }
-        return false;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -590,7 +507,7 @@ public final class Hours
      */
     @Override
     public int hashCode() {
-        return hours;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -603,7 +520,6 @@ public final class Hours
     @Override
     @ToString
     public String toString() {
-        return "PT" + hours + "H";
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

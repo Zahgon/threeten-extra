@@ -36,7 +36,6 @@ import static java.time.temporal.ChronoField.EPOCH_DAY;
 import static java.time.temporal.ChronoField.MONTH_OF_YEAR;
 import static java.time.temporal.ChronoField.YEAR;
 import static org.threeten.extra.chrono.AccountingChronology.DAY_OF_YEAR_RANGE;
-
 import java.io.Serializable;
 import java.time.Clock;
 import java.time.DateTimeException;
@@ -77,14 +76,17 @@ public final class AccountingDate extends AbstractDate implements ChronoLocalDat
      * Serialization version.
      */
     private static final long serialVersionUID = -126140328940081914L;
+
     /**
      * Number of days in a week.
      */
     private static final int DAYS_IN_WEEK = 7;
-    /** 
+
+    /**
      * Number of weeks in a regular (non-leap) year.
      */
     private static final int WEEKS_IN_YEAR = 52;
+
     /**
      * Number of days in a long (400-year) cycle.
      */
@@ -94,14 +96,17 @@ public final class AccountingDate extends AbstractDate implements ChronoLocalDat
      * The chronology for manipulating this date.
      */
     private final AccountingChronology chronology;
+
     /**
      * The proleptic year.
      */
     private final int prolepticYear;
+
     /**
      * The month (period).
      */
     private final short month;
+
     /**
      * The day.
      */
@@ -117,14 +122,14 @@ public final class AccountingDate extends AbstractDate implements ChronoLocalDat
      * <p>
      * Using this method will prevent the ability to use an alternate clock for testing
      * because the clock is hard-coded.
-     * 
+     *
      * @param chronology  the Accounting chronology to base the date on, not null
      * @return the current date using the system clock and default time-zone, not null
      * @throws DateTimeException if the current date cannot be obtained,
      *  NullPointerException if an AccountingChronology was not provided
      */
     public static AccountingDate now(AccountingChronology chronology) {
-        return now(chronology, Clock.systemDefaultZone());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -136,7 +141,7 @@ public final class AccountingDate extends AbstractDate implements ChronoLocalDat
      * <p>
      * Using this method will prevent the ability to use an alternate clock for testing
      * because the clock is hard-coded.
-     * 
+     *
      * @param chronology  the Accounting chronology to base the date on, not null
      * @param zone  the zone ID to use, not null
      * @return the current date using the system clock, not null
@@ -144,7 +149,7 @@ public final class AccountingDate extends AbstractDate implements ChronoLocalDat
      *  NullPointerException if an AccountingChronology was not provided
      */
     public static AccountingDate now(AccountingChronology chronology, ZoneId zone) {
-        return now(chronology, Clock.system(zone));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -162,8 +167,7 @@ public final class AccountingDate extends AbstractDate implements ChronoLocalDat
      *  NullPointerException if an AccountingChronology was not provided
      */
     public static AccountingDate now(AccountingChronology chronology, Clock clock) {
-        LocalDate now = LocalDate.now(clock);
-        return ofEpochDay(chronology, now.toEpochDay());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -182,7 +186,7 @@ public final class AccountingDate extends AbstractDate implements ChronoLocalDat
      *  or if an AccountingChronology was not provided
      */
     public static AccountingDate of(AccountingChronology chronology, int prolepticYear, int month, int dayOfMonth) {
-        return create(chronology, prolepticYear, month, dayOfMonth);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -207,10 +211,7 @@ public final class AccountingDate extends AbstractDate implements ChronoLocalDat
      *  NullPointerException if an AccountingChronology was not provided
      */
     public static AccountingDate from(AccountingChronology chronology, TemporalAccessor temporal) {
-        if (temporal instanceof AccountingDate && ((AccountingDate) temporal).getChronology().equals(chronology)) {
-            return (AccountingDate) temporal;
-        }
-        return ofEpochDay(chronology, temporal.getLong(EPOCH_DAY));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -230,20 +231,7 @@ public final class AccountingDate extends AbstractDate implements ChronoLocalDat
      *  NullPointerException if an AccountingChronology was not provided
      */
     static AccountingDate ofYearDay(AccountingChronology chronology, int prolepticYear, int dayOfYear) {
-        Objects.requireNonNull(chronology, "A previously setup chronology is required.");
-        YEAR.checkValidValue(prolepticYear);
-        DAY_OF_YEAR_RANGE.checkValidValue(dayOfYear, DAY_OF_YEAR);
-        boolean leap = chronology.isLeapYear(prolepticYear);
-        if (dayOfYear > WEEKS_IN_YEAR * DAYS_IN_WEEK && !leap) {
-            throw new DateTimeException("Invalid date 'DayOfYear " + dayOfYear + "' as '" + prolepticYear + "' is not a leap year");
-        }
-
-        int month = (leap ? chronology.getDivision().getMonthFromElapsedWeeks((dayOfYear - 1) / DAYS_IN_WEEK, chronology.getLeapWeekInMonth())
-                : chronology.getDivision().getMonthFromElapsedWeeks((dayOfYear - 1) / DAYS_IN_WEEK));
-        int dayOfMonth = dayOfYear - (leap ? chronology.getDivision().getWeeksAtStartOfMonth(month, chronology.getLeapWeekInMonth())
-                : chronology.getDivision().getWeeksAtStartOfMonth(month)) * DAYS_IN_WEEK;
-
-        return new AccountingDate(chronology, prolepticYear, month, dayOfMonth);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -257,27 +245,7 @@ public final class AccountingDate extends AbstractDate implements ChronoLocalDat
      *  NullPointerException if an AccountingChronology was not provided
      */
     static AccountingDate ofEpochDay(AccountingChronology chronology, long epochDay) {
-        EPOCH_DAY.range().checkValidValue(epochDay, EPOCH_DAY);  // validate outer bounds
-        // Use Accounting 1 to help with 0-counts.  Leap years can occur at any time.
-        long accountingEpochDay = epochDay + chronology.getDays0001ToIso1970();
-
-        int longCycle = (int) Math.floorDiv(accountingEpochDay, DAYS_PER_LONG_CYCLE);
-        int daysInLongCycle = (int) Math.floorMod(accountingEpochDay, DAYS_PER_LONG_CYCLE);
-
-        // Value is an estimate, as the floating leap-years make this difficult.
-        int year = (daysInLongCycle - (daysInLongCycle / 365 + daysInLongCycle / (4 * 365 + 1) - daysInLongCycle / (100 * 365 + 24)) / 7) / (DAYS_IN_WEEK * WEEKS_IN_YEAR);
-        int yearStart = (int) (WEEKS_IN_YEAR * (year - 1) + chronology.previousLeapYears(year)) * DAYS_IN_WEEK;
-
-        // Despite the year being an estimate, the effect should still be within a few days.
-        if (yearStart > daysInLongCycle) {
-            year--;
-            yearStart -= (WEEKS_IN_YEAR + (chronology.isLeapYear(year) ? 1 : 0)) * DAYS_IN_WEEK;
-        } else if (daysInLongCycle - yearStart >= (WEEKS_IN_YEAR + (chronology.isLeapYear(year) ? 1 : 0)) * DAYS_IN_WEEK) {
-            yearStart += (WEEKS_IN_YEAR + (chronology.isLeapYear(year) ? 1 : 0)) * DAYS_IN_WEEK;
-            year++;
-        }
-
-        return ofYearDay(chronology, year + 400 * longCycle, daysInLongCycle - yearStart + 1);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private static AccountingDate resolvePreviousValid(AccountingChronology chronology, int prolepticYear, int month, int day) {
@@ -286,8 +254,7 @@ public final class AccountingDate extends AbstractDate implements ChronoLocalDat
     }
 
     private static int lengthOfMonth(AccountingChronology chronology, int prolepticYear, int month) {
-        return (chronology.isLeapYear(prolepticYear) ? chronology.getDivision().getWeeksInMonth(month, chronology.getLeapWeekInMonth())
-                : chronology.getDivision().getWeeksInMonth(month)) * DAYS_IN_WEEK;
+        return (chronology.isLeapYear(prolepticYear) ? chronology.getDivision().getWeeksInMonth(month, chronology.getLeapWeekInMonth()) : chronology.getDivision().getWeeksInMonth(month)) * DAYS_IN_WEEK;
     }
 
     /**
@@ -301,20 +268,7 @@ public final class AccountingDate extends AbstractDate implements ChronoLocalDat
      *  NullPointerException if an AccountingChronology was not provided
      */
     static AccountingDate create(AccountingChronology chronology, int prolepticYear, int month, int dayOfMonth) {
-        Objects.requireNonNull(chronology, "A previously setup chronology is required.");
-        YEAR.checkValidValue(prolepticYear);
-        chronology.range(MONTH_OF_YEAR).checkValidValue(month, MONTH_OF_YEAR);
-
-        if (dayOfMonth < 1 || dayOfMonth > lengthOfMonth(chronology, prolepticYear, month)) {
-            if (month == chronology.getLeapWeekInMonth() && dayOfMonth < (chronology.getDivision().getWeeksInMonth(month) + 1) * DAYS_IN_WEEK
-                    && !chronology.isLeapYear(prolepticYear)) {
-                throw new DateTimeException("Invalid date '" + month + "/" + dayOfMonth + "' as '" + prolepticYear + "' is not a leap year");
-            } else {
-                throw new DateTimeException("Invalid date '" + month + "/" + dayOfMonth + "'");
-            }
-        }
-
-        return new AccountingDate(chronology, prolepticYear, month, dayOfMonth);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -345,44 +299,42 @@ public final class AccountingDate extends AbstractDate implements ChronoLocalDat
     //-----------------------------------------------------------------------
     @Override
     int getProlepticYear() {
-        return prolepticYear;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     int getMonth() {
-        return month;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     int getDayOfMonth() {
-        return day;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     int getDayOfYear() {
-        int weeksAtStartOfMonth = (isLeapYear() ? chronology.getDivision().getWeeksAtStartOfMonth(month, chronology.getLeapWeekInMonth())
-                : chronology.getDivision().getWeeksAtStartOfMonth(month));
-        return weeksAtStartOfMonth * DAYS_IN_WEEK + day;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     AbstractDate withDayOfYear(int value) {
-        return plusDays(value - getDayOfYear());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     int lengthOfYearInMonths() {
-        return chronology.getDivision().lengthOfYearInMonths();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     ValueRange rangeAlignedWeekOfMonth() {
-        return ValueRange.of(1, (lengthOfMonth() - 1) / DAYS_IN_WEEK + 1);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     AccountingDate resolvePrevious(int newYear, int newMonth, int dayOfMonth) {
-        return resolvePreviousValid(chronology, newYear, newMonth, dayOfMonth);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -396,74 +348,73 @@ public final class AccountingDate extends AbstractDate implements ChronoLocalDat
      */
     @Override
     public AccountingChronology getChronology() {
-        return chronology;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public int lengthOfMonth() {
-        return lengthOfMonth(chronology, prolepticYear, month);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public int lengthOfYear() {
-        return (WEEKS_IN_YEAR + (isLeapYear() ? 1 : 0)) * DAYS_IN_WEEK;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-------------------------------------------------------------------------
     @Override
     public AccountingDate with(TemporalAdjuster adjuster) {
-        return (AccountingDate) adjuster.adjustInto(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public AccountingDate with(TemporalField field, long newValue) {
-        return (AccountingDate) super.with(field, newValue);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
     @Override
     public AccountingDate plus(TemporalAmount amount) {
-        return (AccountingDate) amount.addTo(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public AccountingDate plus(long amountToAdd, TemporalUnit unit) {
-        return (AccountingDate) super.plus(amountToAdd, unit);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public AccountingDate minus(TemporalAmount amount) {
-        return (AccountingDate) amount.subtractFrom(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public AccountingDate minus(long amountToSubtract, TemporalUnit unit) {
-        return (amountToSubtract == Long.MIN_VALUE ? plus(Long.MAX_VALUE, unit).plus(1, unit) : plus(-amountToSubtract, unit));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-------------------------------------------------------------------------
-    @Override  // for covariant return type
+    // for covariant return type
+    @Override
     @SuppressWarnings("unchecked")
     public ChronoLocalDateTime<AccountingDate> atTime(LocalTime localTime) {
-        return (ChronoLocalDateTime<AccountingDate>) super.atTime(localTime);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public long until(Temporal endExclusive, TemporalUnit unit) {
-        return super.until(AccountingDate.from(chronology, endExclusive), unit);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public ChronoPeriod until(ChronoLocalDate endDateExclusive) {
-        return super.doUntil(AccountingDate.from(chronology, endDateExclusive));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
     @Override
     public long toEpochDay() {
-        long year = prolepticYear;
-        long accountingEpochDay = ((year - 1) * WEEKS_IN_YEAR + chronology.previousLeapYears(year)) * DAYS_IN_WEEK + (getDayOfYear() - 1);
-        return accountingEpochDay - chronology.getDays0001ToIso1970();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-------------------------------------------------------------------------
@@ -481,17 +432,7 @@ public final class AccountingDate extends AbstractDate implements ChronoLocalDat
      */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj instanceof AccountingDate) {
-            AccountingDate other = (AccountingDate) obj;
-            return this.prolepticYear == other.prolepticYear &&
-                    this.month == other.month &&
-                    this.day == other.day &&
-                    this.chronology.equals(other.chronology);
-        }
-        return false;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -499,9 +440,9 @@ public final class AccountingDate extends AbstractDate implements ChronoLocalDat
      *
      * @return a suitable hash code based only on the Chronology and the date
      */
-    @Override  // override for performance
+    // override for performance
+    @Override
     public int hashCode() {
-        return chronology.hashCode() ^
-                ((prolepticYear & 0xFFFFF800) ^ ((prolepticYear << 11) + (month << 6) + (day)));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

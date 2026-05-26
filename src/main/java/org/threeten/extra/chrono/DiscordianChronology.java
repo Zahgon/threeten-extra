@@ -77,9 +77,7 @@ import java.util.Map;
  * <h3>Implementation Requirements</h3>
  * This class is immutable and thread-safe.
  */
-public final class DiscordianChronology
-        extends AbstractChronology
-        implements Serializable {
+public final class DiscordianChronology extends AbstractChronology implements Serializable {
 
     /**
      * Singleton instance for the Discordian chronology.
@@ -90,62 +88,77 @@ public final class DiscordianChronology
      * Serialization version.
      */
     private static final long serialVersionUID = 1075529146344250850L;
+
     /**
      * Offset from ISO 0
      */
     static final int OFFSET_FROM_ISO_0000 = 1166;
+
     /**
      * Days in a regular month.
      */
     static final int DAYS_IN_MONTH = 73;
+
     /**
      * Days in a regular week.
      */
     static final int DAYS_IN_WEEK = 5;
+
     /**
      * Months in a regular year.
      */
     static final int MONTHS_IN_YEAR = 5;
+
     /**
      * Weeks in a regular year.
      */
     static final int WEEKS_IN_YEAR = 73;
+
     /**
      * Range of proleptic-year.
      */
     static final ValueRange YEAR_RANGE = ValueRange.of(1, 999_999);
+
     /**
      * Range of month-of-year.
      */
     static final ValueRange MONTH_OF_YEAR_RANGE = ValueRange.of(0, 1, MONTHS_IN_YEAR, MONTHS_IN_YEAR);
+
     /**
      * Range of day-of-month.
      */
     static final ValueRange DAY_OF_MONTH_RANGE = ValueRange.of(0, 1, 0, DAYS_IN_MONTH);
+
     /**
      * Range of epoch day.
      */
     static final ValueRange EPOCH_DAY_RANGE = ValueRange.of(-1_145_400, 999_999 * 365L + 242_499);
+
     /**
      * Range of proleptic month.
      */
     private static final ValueRange PROLEPTIC_MONTH_RANGE = ValueRange.of(0, (long) 999_999 * MONTHS_IN_YEAR + MONTHS_IN_YEAR - 1);
+
     /**
      * Range of day-of-week.
      */
     private static final ValueRange DAY_OF_WEEK_RANGE = ValueRange.of(0, 1, 0, DAYS_IN_WEEK);
+
     /**
      * Range of aligned day-of-week of year.
      */
     private static final ValueRange ALIGNED_DOW_OF_YEAR_RANGE = ValueRange.of(0, 1, DAYS_IN_WEEK, DAYS_IN_WEEK);
+
     /**
      * Range of week-of-month.
      */
     private static final ValueRange WEEK_OF_MONTH_RANGE = ValueRange.of(0, 1, 0, 15);
+
     /**
      * Range of week-of-year.
      */
     private static final ValueRange WEEK_OF_YEAR_RANGE = ValueRange.of(0, 1, WEEKS_IN_YEAR, WEEKS_IN_YEAR);
+
     /**
      * Range of eras.
      */
@@ -180,7 +193,7 @@ public final class DiscordianChronology
      */
     @Override
     public String getId() {
-        return "Discordian";
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -195,7 +208,7 @@ public final class DiscordianChronology
      */
     @Override
     public String getCalendarType() {
-        return "discordian";
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -213,7 +226,7 @@ public final class DiscordianChronology
      */
     @Override
     public DiscordianDate date(Era era, int yearOfEra, int month, int dayOfMonth) {
-        return date(prolepticYear(era, yearOfEra), month, dayOfMonth);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -228,7 +241,7 @@ public final class DiscordianChronology
      */
     @Override
     public DiscordianDate date(int prolepticYear, int month, int dayOfMonth) {
-        return DiscordianDate.of(prolepticYear, month, dayOfMonth);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -244,7 +257,7 @@ public final class DiscordianChronology
      */
     @Override
     public DiscordianDate dateYearDay(Era era, int yearOfEra, int dayOfYear) {
-        return dateYearDay(prolepticYear(era, yearOfEra), dayOfYear);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -258,7 +271,7 @@ public final class DiscordianChronology
      */
     @Override
     public DiscordianDate dateYearDay(int prolepticYear, int dayOfYear) {
-        return DiscordianDate.ofYearDay(prolepticYear, dayOfYear);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -268,9 +281,10 @@ public final class DiscordianChronology
      * @return the Discordian local date, not null
      * @throws DateTimeException if unable to create the date
      */
-    @Override  // override with covariant return type
+    // override with covariant return type
+    @Override
     public DiscordianDate dateEpochDay(long epochDay) {
-        return DiscordianDate.ofEpochDay(epochDay);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-------------------------------------------------------------------------
@@ -286,9 +300,10 @@ public final class DiscordianChronology
      * @return the current Discordian local date using the system clock and default time-zone, not null
      * @throws DateTimeException if unable to create the date
      */
-    @Override  // override with covariant return type
+    // override with covariant return type
+    @Override
     public DiscordianDate dateNow() {
-        return DiscordianDate.now();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -304,9 +319,10 @@ public final class DiscordianChronology
      * @return the current Discordian local date using the system clock, not null
      * @throws DateTimeException if unable to create the date
      */
-    @Override  // override with covariant return type
+    // override with covariant return type
+    @Override
     public DiscordianDate dateNow(ZoneId zone) {
-        return DiscordianDate.now(zone);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -320,9 +336,10 @@ public final class DiscordianChronology
      * @return the current Discordian local date, not null
      * @throws DateTimeException if unable to create the date
      */
-    @Override  // override with covariant return type
+    // override with covariant return type
+    @Override
     public DiscordianDate dateNow(Clock clock) {
-        return DiscordianDate.now(clock);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-------------------------------------------------------------------------
@@ -335,7 +352,7 @@ public final class DiscordianChronology
      */
     @Override
     public DiscordianDate date(TemporalAccessor temporal) {
-        return DiscordianDate.from(temporal);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -348,7 +365,7 @@ public final class DiscordianChronology
     @Override
     @SuppressWarnings("unchecked")
     public ChronoLocalDateTime<DiscordianDate> localDateTime(TemporalAccessor temporal) {
-        return (ChronoLocalDateTime<DiscordianDate>) super.localDateTime(temporal);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -361,7 +378,7 @@ public final class DiscordianChronology
     @Override
     @SuppressWarnings("unchecked")
     public ChronoZonedDateTime<DiscordianDate> zonedDateTime(TemporalAccessor temporal) {
-        return (ChronoZonedDateTime<DiscordianDate>) super.zonedDateTime(temporal);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -375,7 +392,7 @@ public final class DiscordianChronology
     @Override
     @SuppressWarnings("unchecked")
     public ChronoZonedDateTime<DiscordianDate> zonedDateTime(Instant instant, ZoneId zone) {
-        return (ChronoZonedDateTime<DiscordianDate>) super.zonedDateTime(instant, zone);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -393,64 +410,34 @@ public final class DiscordianChronology
      */
     @Override
     public boolean isLeapYear(long prolepticYear) {
-        long offsetYear = prolepticYear - OFFSET_FROM_ISO_0000;
-        return (offsetYear % 4 == 0) && ((offsetYear % 400 == 0) || (offsetYear % 100 != 0));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public int prolepticYear(Era era, int yearOfEra) {
-        if (!DiscordianEra.YOLD.equals(era)) {
-            throw new ClassCastException("Era must be DiscordianEra.YOLD");
-        }
-        return YEAR_RANGE.checkValidIntValue(yearOfEra, ChronoField.YEAR_OF_ERA);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public DiscordianEra eraOf(int era) {
-        return DiscordianEra.of(era);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public List<Era> eras() {
-        return Arrays.<Era>asList(DiscordianEra.values());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
     @Override
     public ValueRange range(ChronoField field) {
-        switch (field) {
-            case ALIGNED_DAY_OF_WEEK_IN_YEAR:
-                return ALIGNED_DOW_OF_YEAR_RANGE;
-            case ALIGNED_DAY_OF_WEEK_IN_MONTH:
-            case DAY_OF_WEEK:
-                return DAY_OF_WEEK_RANGE;
-            case ALIGNED_WEEK_OF_MONTH:
-                return WEEK_OF_MONTH_RANGE;
-            case ALIGNED_WEEK_OF_YEAR:
-                return WEEK_OF_YEAR_RANGE;
-            case DAY_OF_MONTH:
-                return DAY_OF_MONTH_RANGE;
-            case EPOCH_DAY:
-                return EPOCH_DAY_RANGE;
-            case ERA:
-                return ERA_RANGE;
-            case MONTH_OF_YEAR:
-                return MONTH_OF_YEAR_RANGE;
-            case PROLEPTIC_MONTH:
-                return PROLEPTIC_MONTH_RANGE;
-            case YEAR_OF_ERA:
-            case YEAR:
-                return YEAR_RANGE;
-            default:
-                break;
-        }
-        return field.range();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
-    @Override  // override for return type
+    // override for return type
+    @Override
     public DiscordianDate resolveDate(Map<TemporalField, Long> fieldValues, ResolverStyle resolverStyle) {
-        return (DiscordianDate) super.resolveDate(fieldValues, resolverStyle);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

@@ -32,7 +32,6 @@
 package org.threeten.extra;
 
 import static java.time.temporal.ChronoUnit.WEEKS;
-
 import java.io.Serializable;
 import java.time.DateTimeException;
 import java.time.Period;
@@ -47,7 +46,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import org.joda.convert.FromString;
 import org.joda.convert.ToString;
 
@@ -65,13 +63,13 @@ import org.joda.convert.ToString;
  * This class must be treated as a value type. Do not synchronize, rely on the
  * identity hash code or use the distinction between equals() and ==.
  */
-public final class Weeks
-        implements TemporalAmount, Comparable<Weeks>, Serializable {
+public final class Weeks implements TemporalAmount, Comparable<Weeks>, Serializable {
 
     /**
      * A constant for zero weeks.
      */
     public static final Weeks ZERO = new Weeks(0);
+
     /**
      * A constant for one week.
      */
@@ -81,11 +79,11 @@ public final class Weeks
      * A serialization identifier for this class.
      */
     private static final long serialVersionUID = -8903767091325669093L;
+
     /**
      * The pattern for parsing.
      */
-    private static final Pattern PATTERN =
-            Pattern.compile("([-+]?)P([-+]?[0-9]+)W", Pattern.CASE_INSENSITIVE);
+    private static final Pattern PATTERN = Pattern.compile("([-+]?)P([-+]?[0-9]+)W", Pattern.CASE_INSENSITIVE);
 
     /**
      * The number of weeks.
@@ -101,12 +99,7 @@ public final class Weeks
      * @return the number of weeks, not null
      */
     public static Weeks of(int weeks) {
-        if (weeks == 0) {
-            return ZERO;
-        } else if (weeks == 1) {
-            return ONE;
-        }
-        return new Weeks(weeks);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -129,23 +122,7 @@ public final class Weeks
      * @throws ArithmeticException if numeric overflow occurs
      */
     public static Weeks from(TemporalAmount amount) {
-        if (amount instanceof Weeks) {
-            return (Weeks) amount;
-        }
-        Objects.requireNonNull(amount, "amount");
-        int weeks = 0;
-        for (TemporalUnit unit : amount.getUnits()) {
-            long value = amount.get(unit);
-            if (value != 0) {
-                long[] converted = Temporals.convertAmount(value, unit, WEEKS);
-                if (converted[1] != 0) {
-                    throw new DateTimeException(
-                            "Amount could not be converted to a whole number of weeks: " + value + " " + unit);
-                }
-                weeks = Math.addExact(weeks, Math.toIntExact(converted[0]));
-            }
-        }
-        return of(weeks);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -178,19 +155,7 @@ public final class Weeks
      */
     @FromString
     public static Weeks parse(CharSequence text) {
-        Objects.requireNonNull(text, "text");
-        Matcher matcher = PATTERN.matcher(text);
-        if (matcher.matches()) {
-            int negate = "-".equals(matcher.group(1)) ? -1 : 1;
-            String str = matcher.group(2);
-            try {
-                int val = Integer.parseInt(str);
-                return of(Math.multiplyExact(val, negate));
-            } catch (NumberFormatException ex) {
-                throw new DateTimeParseException("Text cannot be parsed to a Weeks", text, 0, ex);
-            }
-        }
-        throw new DateTimeParseException("Text cannot be parsed to a Weeks", text, 0);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -205,7 +170,7 @@ public final class Weeks
      * @return the number of weeks between this date and the end date, not null
      */
     public static Weeks between(Temporal startDateInclusive, Temporal endDateExclusive) {
-        return of(Math.toIntExact(WEEKS.between(startDateInclusive, endDateExclusive)));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -241,10 +206,7 @@ public final class Weeks
      */
     @Override
     public long get(TemporalUnit unit) {
-        if (unit == WEEKS) {
-            return weeks;
-        }
-        throw new UnsupportedTemporalTypeException("Unsupported unit: " + unit);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -259,7 +221,7 @@ public final class Weeks
      */
     @Override
     public List<TemporalUnit> getUnits() {
-        return Collections.singletonList(WEEKS);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -269,7 +231,7 @@ public final class Weeks
      * @return the number of weeks
      */
     public int getAmount() {
-        return weeks;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -278,7 +240,7 @@ public final class Weeks
      * @return true if the amount is negative, false if the amount is zero or positive
      */
     public boolean isNegative() {
-        return getAmount() < 0;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -287,7 +249,7 @@ public final class Weeks
      * @return true if the amount is zero, false if not
      */
     public boolean isZero() {
-        return getAmount() == 0;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -296,7 +258,7 @@ public final class Weeks
      * @return true if the amount is positive, false if the amount is zero or negative
      */
     public boolean isPositive() {
-        return getAmount() > 0;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -313,7 +275,7 @@ public final class Weeks
      * @throws ArithmeticException if numeric overflow occurs
      */
     public Weeks plus(TemporalAmount amountToAdd) {
-        return plus(Weeks.from(amountToAdd).getAmount());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -326,10 +288,7 @@ public final class Weeks
      * @throws ArithmeticException if the result overflows an int
      */
     public Weeks plus(int weeks) {
-        if (weeks == 0) {
-            return this;
-        }
-        return of(Math.addExact(this.weeks, weeks));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -346,7 +305,7 @@ public final class Weeks
      * @throws ArithmeticException if numeric overflow occurs
      */
     public Weeks minus(TemporalAmount amountToSubtract) {
-        return minus(Weeks.from(amountToSubtract).getAmount());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -359,10 +318,7 @@ public final class Weeks
      * @throws ArithmeticException if the result overflows an int
      */
     public Weeks minus(int weeks) {
-        if (weeks == 0) {
-            return this;
-        }
-        return of(Math.subtractExact(this.weeks, weeks));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -376,10 +332,7 @@ public final class Weeks
      * @throws ArithmeticException if numeric overflow occurs
      */
     public Weeks multipliedBy(int scalar) {
-        if (scalar == 1) {
-            return this;
-        }
-        return of(Math.multiplyExact(weeks, scalar));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -394,10 +347,7 @@ public final class Weeks
      * @throws ArithmeticException if the divisor is zero
      */
     public Weeks dividedBy(int divisor) {
-        if (divisor == 1) {
-            return this;
-        }
-        return of(weeks / divisor);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -410,7 +360,7 @@ public final class Weeks
      *  the amount is {@code Long.MIN_VALUE}
      */
     public Weeks negated() {
-        return multipliedBy(-1);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -425,7 +375,7 @@ public final class Weeks
      *  the amount is {@code Long.MIN_VALUE}
      */
     public Weeks abs() {
-        return weeks < 0 ? negated() : this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-------------------------------------------------------------------------
@@ -437,7 +387,7 @@ public final class Weeks
      * @return the equivalent period, not null
      */
     public Period toPeriod() {
-        return Period.ofWeeks(weeks);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -467,10 +417,7 @@ public final class Weeks
      */
     @Override
     public Temporal addTo(Temporal temporal) {
-        if (weeks != 0) {
-            temporal = temporal.plus(weeks, WEEKS);
-        }
-        return temporal;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -499,10 +446,7 @@ public final class Weeks
      */
     @Override
     public Temporal subtractFrom(Temporal temporal) {
-        if (weeks != 0) {
-            temporal = temporal.minus(weeks, WEEKS);
-        }
-        return temporal;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -517,9 +461,7 @@ public final class Weeks
      */
     @Override
     public int compareTo(Weeks otherAmount) {
-        int thisValue = this.weeks;
-        int otherValue = otherAmount.weeks;
-        return Integer.compare(thisValue, otherValue);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -533,14 +475,7 @@ public final class Weeks
      */
     @Override
     public boolean equals(Object otherAmount) {
-        if (this == otherAmount) {
-            return true;
-        }
-        if (otherAmount instanceof Weeks) {
-            Weeks other = (Weeks) otherAmount;
-            return this.weeks == other.weeks;
-        }
-        return false;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -550,7 +485,7 @@ public final class Weeks
      */
     @Override
     public int hashCode() {
-        return weeks;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -563,7 +498,6 @@ public final class Weeks
     @Override
     @ToString
     public String toString() {
-        return "P" + weeks + "W";
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

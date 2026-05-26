@@ -44,7 +44,6 @@ import java.util.Spliterators;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
-
 import org.joda.convert.FromString;
 import org.joda.convert.ToString;
 
@@ -74,17 +73,18 @@ import org.joda.convert.ToString;
  * This class must be treated as a value type. Do not synchronize, rely on the
  * identity hash code or use the distinction between equals() and ==.
  */
-public final class LocalDateRange
-        implements Serializable {
+public final class LocalDateRange implements Serializable {
 
     /**
      * The day after the MIN date.
      */
     private static final LocalDate MINP1 = LocalDate.MIN.plusDays(1);
+
     /**
      * The day before the MAX date.
      */
     private static final LocalDate MAXM1 = LocalDate.MAX.minusDays(1);
+
     /**
      * A range over the whole time-line.
      */
@@ -99,6 +99,7 @@ public final class LocalDateRange
      * The start date (inclusive).
      */
     private final LocalDate start;
+
     /**
      * The end date (exclusive).
      */
@@ -127,9 +128,7 @@ public final class LocalDateRange
      *   or the end date is {@code LocalDate.MIN} or {@code LocalDate.MIN.plusDays(1)}
      */
     public static LocalDateRange of(LocalDate startInclusive, LocalDate endExclusive) {
-        Objects.requireNonNull(startInclusive, "startInclusive");
-        Objects.requireNonNull(endExclusive, "endExclusive");
-        return new LocalDateRange(startInclusive, endExclusive);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -144,7 +143,7 @@ public final class LocalDateRange
      * <p>
      * The start inclusive date must not be {@code LocalDate.MAX} or {@code LocalDate.MAX.minusDays(1)}.
      * The end inclusive date must not be {@code LocalDate.MIN}.
-     * 
+     *
      * @param startInclusive  the inclusive start date, not null
      * @param endInclusive  the inclusive end date, not null
      * @return the closed range
@@ -153,13 +152,7 @@ public final class LocalDateRange
      *   or the end date is {@code LocalDate.MIN}
      */
     public static LocalDateRange ofClosed(LocalDate startInclusive, LocalDate endInclusive) {
-        Objects.requireNonNull(startInclusive, "startInclusive");
-        Objects.requireNonNull(endInclusive, "endInclusive");
-        if (endInclusive.isBefore(startInclusive)) {
-            throw new DateTimeException("Start date must be on or before end date");
-        }
-        LocalDate end = (endInclusive.equals(LocalDate.MAX) ? LocalDate.MAX : endInclusive.plusDays(1));
-        return new LocalDateRange(startInclusive, end);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -180,12 +173,7 @@ public final class LocalDateRange
      * @throws ArithmeticException if numeric overflow occurs when adding the period
      */
     public static LocalDateRange of(LocalDate startInclusive, Period period) {
-        Objects.requireNonNull(startInclusive, "startInclusive");
-        Objects.requireNonNull(period, "period");
-        if (period.isNegative()) {
-            throw new DateTimeException("Period must not be zero or negative");
-        }
-        return new LocalDateRange(startInclusive, startInclusive.plus(period));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -201,17 +189,16 @@ public final class LocalDateRange
      *   {@code LocalDate.MAX} or {@code LocalDate.MAX.minusDays(1)}
      */
     public static LocalDateRange ofEmpty(LocalDate date) {
-        Objects.requireNonNull(date, "date");
-        return new LocalDateRange(date, date);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * Obtains a range that is unbounded at the start and end.
-     * 
+     *
      * @return the range, with an unbounded start and unbounded end
      */
     public static LocalDateRange ofUnbounded() {
-        return ALL;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -219,13 +206,13 @@ public final class LocalDateRange
      * <p>
      * The range includes all dates from the unbounded start, denoted by {@code LocalDate.MIN}, to the end date.
      * The end date is exclusive and cannot be {@code LocalDate.MIN} or {@code LocalDate.MIN.plusDays(1)}.
-     * 
+     *
      * @param endExclusive  the exclusive end date, {@code LocalDate.MAX} treated as unbounded, not null
      * @return the range, with an unbounded start
      * @throws DateTimeException if the end date is {@code LocalDate.MIN} or  {@code LocalDate.MIN.plusDays(1)}
      */
     public static LocalDateRange ofUnboundedStart(LocalDate endExclusive) {
-        return LocalDateRange.of(LocalDate.MIN, endExclusive);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -233,13 +220,13 @@ public final class LocalDateRange
      * <p>
      * The range includes all dates from the start date to the unbounded end, denoted by {@code LocalDate.MAX}.
      * The start date is inclusive and cannot be {@code LocalDate.MAX} or {@code LocalDate.MAX.minusDays(1)}.
-     * 
+     *
      * @param startInclusive  the inclusive start date, {@code LocalDate.MIN} treated as unbounded, not null
      * @return the range, with an unbounded end
      * @throws DateTimeException if the start date is {@code LocalDate.MAX} or {@code LocalDate.MAX.minusDays(1)}
      */
     public static LocalDateRange ofUnboundedEnd(LocalDate startInclusive) {
-        return LocalDateRange.of(startInclusive, LocalDate.MAX);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -263,31 +250,7 @@ public final class LocalDateRange
      */
     @FromString
     public static LocalDateRange parse(CharSequence text) {
-        Objects.requireNonNull(text, "text");
-        for (int i = 0; i < text.length(); i++) {
-            if (text.charAt(i) == '/') {
-                char firstChar = text.charAt(0);
-                if (firstChar == 'P' || firstChar == 'p') {
-                    // period followed by date
-                    Period duration = Period.parse(text.subSequence(0, i));
-                    LocalDate end = LocalDate.parse(text.subSequence(i + 1, text.length()));
-                    return LocalDateRange.of(end.minus(duration), end);
-                } else {
-                    // date followed by date or period
-                    LocalDate start = LocalDate.parse(text.subSequence(0, i));
-                    if (i + 1 < text.length()) {
-                        char c = text.charAt(i + 1);
-                        if (c == 'P' || c == 'p') {
-                            Period duration = Period.parse(text.subSequence(i + 1, text.length()));
-                            return LocalDateRange.of(start, start.plus(duration));
-                        }
-                    }
-                    LocalDate end = LocalDate.parse(text.subSequence(i + 1, text.length()));
-                    return LocalDateRange.of(start, end);
-                }
-            }
-        }
-        throw new DateTimeParseException("LocalDateRange cannot be parsed, no forward slash found", text, 0);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -326,7 +289,7 @@ public final class LocalDateRange
      * @return the start date
      */
     public LocalDate getStart() {
-        return start;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -340,7 +303,7 @@ public final class LocalDateRange
      * @return the end date, exclusive
      */
     public LocalDate getEnd() {
-        return end;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -352,14 +315,11 @@ public final class LocalDateRange
      * This returns the date before the end date.
      * <p>
      * This never returns {@code LocalDate.MIN}.
-     * 
+     *
      * @return the end date, inclusive
      */
     public LocalDate getEndInclusive() {
-        if (isUnboundedEnd()) {
-            return LocalDate.MAX;
-        }
-        return end.minusDays(1);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -369,33 +329,33 @@ public final class LocalDateRange
      * An empty range occurs when the start date equals the end date.
      * <p>
      * An empty range is never unbounded.
-     * 
+     *
      * @return true if the range is empty
      */
     public boolean isEmpty() {
-        return start.equals(end);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * Checks if the start of the range is unbounded.
      * <p>
      * An unbounded range is never empty.
-     * 
+     *
      * @return true if start is unbounded
      */
     public boolean isUnboundedStart() {
-        return start.equals(LocalDate.MIN);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * Checks if the end of the range is unbounded.
      * <p>
      * An unbounded range is never empty.
-     * 
+     *
      * @return true if end is unbounded
      */
     public boolean isUnboundedEnd() {
-        return end.equals(LocalDate.MAX);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -410,13 +370,13 @@ public final class LocalDateRange
      * <pre>
      *  range = range.withStart(date -&gt; date.minus(1, ChronoUnit.WEEKS));
      * </pre>
-     * 
+     *
      * @param adjuster  the adjuster to use, not null
      * @return a copy of this range with the start date adjusted
      * @throws DateTimeException if the new start date is after the current end date
      */
     public LocalDateRange withStart(TemporalAdjuster adjuster) {
-        return LocalDateRange.of(start.with(adjuster), end);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -430,13 +390,13 @@ public final class LocalDateRange
      * <pre>
      *  range = range.withEnd(date -&gt; date.plus(1, ChronoUnit.WEEKS));
      * </pre>
-     * 
+     *
      * @param adjuster  the adjuster to use, not null
      * @return a copy of this range with the end date adjusted
      * @throws DateTimeException if the new end date is before the current start date
      */
     public LocalDateRange withEnd(TemporalAdjuster adjuster) {
-        return LocalDateRange.of(start, end.with(adjuster));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -447,13 +407,12 @@ public final class LocalDateRange
      * If this range is empty then this method always returns false.
      * Else if this range has an unbounded start then {@code contains(LocalDate#MIN)} returns true.
      * Else if this range has an unbounded end then {@code contains(LocalDate#MAX)} returns true.
-     * 
+     *
      * @param date  the date to check for, not null
      * @return true if this range contains the date
      */
     public boolean contains(LocalDate date) {
-        Objects.requireNonNull(date, "date");
-        return start.compareTo(date) <= 0 && (date.compareTo(end) < 0 || isUnboundedEnd());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -461,13 +420,12 @@ public final class LocalDateRange
      * <p>
      * This checks if the bounds of the specified range are within the bounds of this range.
      * An empty range encloses itself.
-     * 
+     *
      * @param other  the other range to check for, not null
      * @return true if this range contains all dates in the other range
      */
     public boolean encloses(LocalDateRange other) {
-        Objects.requireNonNull(other, "other");
-        return start.compareTo(other.start) <= 0 && other.end.compareTo(end) <= 0;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -480,8 +438,7 @@ public final class LocalDateRange
      * @return true if this range abuts the other range
      */
     public boolean abuts(LocalDateRange other) {
-        Objects.requireNonNull(other, "other");
-        return end.equals(other.start) ^ start.equals(other.end);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -496,8 +453,7 @@ public final class LocalDateRange
      * @return true if this range is connected to the other range
      */
     public boolean isConnected(LocalDateRange other) {
-        Objects.requireNonNull(other, "other");
-        return this.equals(other) || (start.compareTo(other.end) <= 0 && other.start.compareTo(end) <= 0);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -512,8 +468,7 @@ public final class LocalDateRange
      * @return true if the time ranges overlap
      */
     public boolean overlaps(LocalDateRange other) {
-        Objects.requireNonNull(other, "other");
-        return other.equals(this) || (start.compareTo(other.end) < 0 && other.start.compareTo(end) < 0);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -522,27 +477,13 @@ public final class LocalDateRange
      * <p>
      * This finds the intersection of two ranges.
      * This throws an exception if the two ranges are not {@linkplain #isConnected(LocalDateRange) connected}.
-     * 
+     *
      * @param other  the other range to check for, not null
      * @return the range that is the intersection of the two ranges
      * @throws DateTimeException if the ranges do not connect
      */
     public LocalDateRange intersection(LocalDateRange other) {
-        Objects.requireNonNull(other, "other");
-        if (isConnected(other) == false) {
-            throw new DateTimeException("Ranges do not connect: " + this + " and " + other);
-        }
-        int cmpStart = start.compareTo(other.start);
-        int cmpEnd = end.compareTo(other.end);
-        if (cmpStart >= 0 && cmpEnd <= 0) {
-            return this;
-        } else if (cmpStart <= 0 && cmpEnd >= 0) {
-            return other;
-        } else {
-            LocalDate newStart = (cmpStart >= 0 ? start : other.start);
-            LocalDate newEnd = (cmpEnd <= 0 ? end : other.end);
-            return LocalDateRange.of(newStart, newEnd);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -550,27 +491,13 @@ public final class LocalDateRange
      * <p>
      * This finds the union of two ranges.
      * This throws an exception if the two ranges are not {@linkplain #isConnected(LocalDateRange) connected}.
-     * 
+     *
      * @param other  the other range to check for, not null
      * @return the range that is the union of the two ranges
      * @throws DateTimeException if the ranges do not connect
      */
     public LocalDateRange union(LocalDateRange other) {
-        Objects.requireNonNull(other, "other");
-        if (isConnected(other) == false) {
-            throw new DateTimeException("Ranges do not connect: " + this + " and " + other);
-        }
-        int cmpStart = start.compareTo(other.start);
-        int cmpEnd = end.compareTo(other.end);
-        if (cmpStart >= 0 && cmpEnd <= 0) {
-            return other;
-        } else if (cmpStart <= 0 && cmpEnd >= 0) {
-            return this;
-        } else {
-            LocalDate newStart = (cmpStart >= 0 ? other.start : start);
-            LocalDate newEnd = (cmpEnd <= 0 ? other.end : end);
-            return LocalDateRange.of(newStart, newEnd);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -578,17 +505,12 @@ public final class LocalDateRange
      * <p>
      * The result of this method will {@linkplain #encloses(LocalDateRange) enclose}
      * this range and the specified range.
-     * 
+     *
      * @param other  the other range to check for, not null
      * @return the range that spans the two ranges
      */
     public LocalDateRange span(LocalDateRange other) {
-        Objects.requireNonNull(other, "other");
-        int cmpStart = start.compareTo(other.start);
-        int cmpEnd = end.compareTo(other.end);
-        LocalDate newStart = (cmpStart >= 0 ? other.start : start);
-        LocalDate newEnd = (cmpEnd <= 0 ? other.end : end);
-        return LocalDateRange.of(newStart, newEnd);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -597,41 +519,11 @@ public final class LocalDateRange
      * <p>
      * This returns a stream consisting of each date in the range.
      * The stream is ordered.
-     * 
+     *
      * @return the stream of dates from the start to the end
      */
     public Stream<LocalDate> stream() {
-        long count = end.toEpochDay() - start.toEpochDay() + (isUnboundedEnd() ? 1 : 0);
-        Spliterator<LocalDate> spliterator = new Spliterators.AbstractSpliterator<LocalDate>(
-                count,
-                Spliterator.IMMUTABLE | Spliterator.NONNULL | Spliterator.DISTINCT | Spliterator.ORDERED |
-                        Spliterator.SORTED | Spliterator.SIZED | Spliterator.SUBSIZED) {
-
-            private LocalDate current = start;
-            
-            @Override
-            public boolean tryAdvance(Consumer<? super LocalDate> action) {
-                if (current != null) {
-                    if (current.isBefore(end)) {
-                        action.accept(current);
-                        current = current.plusDays(1);
-                        return true;
-                    }
-                    if (current.equals(LocalDate.MAX)) {
-                        action.accept(LocalDate.MAX);
-                        current = null;
-                        return true;
-                    }
-                }
-                return false;
-            }
-            
-            @Override
-            public Comparator<? super LocalDate> getComparator() {
-                return null;
-            }
-        };
-        return StreamSupport.stream(spliterator, false);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -645,7 +537,7 @@ public final class LocalDateRange
      * @return true if the start of this range is after the specified date
      */
     public boolean isAfter(LocalDate date) {
-        return start.compareTo(date) > 0;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -658,7 +550,7 @@ public final class LocalDateRange
      * @return true if the start of this range is before the specified date
      */
     public boolean isBefore(LocalDate date) {
-        return end.compareTo(date) <= 0 && start.compareTo(date) < 0;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -672,7 +564,7 @@ public final class LocalDateRange
      * @return true if every date in this range is after every date in the other range
      */
     public boolean isAfter(LocalDateRange other) {
-        return start.compareTo(other.end) >= 0 && !other.equals(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -685,7 +577,7 @@ public final class LocalDateRange
      * @return true if every date in this range is before every date in the other range
      */
     public boolean isBefore(LocalDateRange range) {
-        return end.compareTo(range.start) <= 0 && !range.equals(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -699,11 +591,7 @@ public final class LocalDateRange
      * @return the length in days, Integer.MAX_VALUE if unbounded or too large
      */
     public int lengthInDays() {
-        if (isUnboundedStart() || isUnboundedEnd()) {
-            return Integer.MAX_VALUE;
-        }
-        long length = end.toEpochDay() - start.toEpochDay();
-        return length > Integer.MAX_VALUE ? Integer.MAX_VALUE : (int) length;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -717,10 +605,7 @@ public final class LocalDateRange
      *   or the range is unbounded
      */
     public Period toPeriod() {
-        if (isUnboundedStart() || isUnboundedEnd()) {
-            throw new ArithmeticException("Unbounded range cannot be converted to a Period");
-        }
-        return Period.between(start, end);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -735,14 +620,7 @@ public final class LocalDateRange
      */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj instanceof LocalDateRange) {
-            LocalDateRange other = (LocalDateRange) obj;
-            return start.equals(other.start) && end.equals(other.end);
-        }
-        return false;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -752,7 +630,7 @@ public final class LocalDateRange
      */
     @Override
     public int hashCode() {
-        return start.hashCode() ^ end.hashCode();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -767,7 +645,6 @@ public final class LocalDateRange
     @Override
     @ToString
     public String toString() {
-        return start.toString() + '/' + end.toString();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

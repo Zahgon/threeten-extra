@@ -41,7 +41,6 @@ import static java.time.temporal.ChronoUnit.DAYS;
 import static java.time.temporal.ChronoUnit.FOREVER;
 import static java.time.temporal.ChronoUnit.MINUTES;
 import static java.time.temporal.ChronoUnit.SECONDS;
-
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.chrono.ChronoLocalDate;
@@ -76,6 +75,7 @@ public final class PackedFields {
      * dates will be accepted. For example, 20121301 will result in 2013-01-01.
      */
     public static final TemporalField PACKED_DATE = PackedDate.INSTANCE;
+
     /**
      * Packed hour-minute time field.
      * <p>
@@ -90,6 +90,7 @@ public final class PackedFields {
      * times will be accepted. For example, 1073 will result in 11:13.
      */
     public static final TemporalField PACKED_HOUR_MIN = PackedHourMin.INSTANCE;
+
     /**
      * Packed hour-minute-second time field.
      * <p>
@@ -116,68 +117,59 @@ public final class PackedFields {
      * Implementation of packed date.
      */
     private static enum PackedDate implements TemporalField {
+
         INSTANCE;
 
         private static final ValueRange RANGE = ValueRange.of(10000101, 99991231);
+
         private static final long serialVersionUID = -38752465672576L;
 
         //-----------------------------------------------------------------------
         @Override
         public TemporalUnit getBaseUnit() {
-            return DAYS;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         public TemporalUnit getRangeUnit() {
-            return FOREVER;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         public boolean isDateBased() {
-            return true;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         public boolean isTimeBased() {
-            return false;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         public ValueRange range() {
-            return RANGE;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         //-----------------------------------------------------------------------
         @Override
         public boolean isSupportedBy(TemporalAccessor temporal) {
-            return temporal.isSupported(EPOCH_DAY);
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         public ValueRange rangeRefinedBy(TemporalAccessor temporal) {
-            if (!temporal.isSupported(this)) {
-                throw new DateTimeException("Unsupported field: " + this);
-            }
-            return range();
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         public long getFrom(TemporalAccessor temporal) {
-            LocalDate date = LocalDate.ofEpochDay(temporal.getLong(EPOCH_DAY));
-            int year = date.getYear();
-            if (year < 1000 || year > 9999) {
-                throw new DateTimeException("Unable to obtain PackedDate from LocalDate: " + date);
-            }
-            int moy = date.getMonthValue();
-            int dom = date.getDayOfMonth();
-            return year * 10000 + moy * 100 + dom;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @SuppressWarnings("unchecked")
         @Override
         public <R extends Temporal> R adjustInto(R temporal, long newValue) {
-            LocalDate date = toDate(newValue);
-            return (R) temporal.with(date);
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         private LocalDate toDate(long newValue) {
@@ -193,26 +185,14 @@ public final class PackedFields {
 
         //-----------------------------------------------------------------------
         @Override
-        public ChronoLocalDate resolve(
-                Map<TemporalField, Long> fieldValues, TemporalAccessor partialTemporal, ResolverStyle resolverStyle) {
-            long value = fieldValues.remove(this);
-            LocalDate date;
-            if (resolverStyle == ResolverStyle.LENIENT) {
-                int year = Math.toIntExact(value / 10000);
-                int moy = (int) ((value % 10000) / 100);
-                long dom = value % 100;
-                date = LocalDate.of(year, 1, 1).plusMonths(moy - 1).plusDays(dom - 1);
-            } else {
-                date = toDate(value);
-            }
-            Chronology chrono = Chronology.from(partialTemporal);
-            return chrono.date(date);
+        public ChronoLocalDate resolve(Map<TemporalField, Long> fieldValues, TemporalAccessor partialTemporal, ResolverStyle resolverStyle) {
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         //-----------------------------------------------------------------------
         @Override
         public String toString() {
-            return "PackedDate";
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     }
 
@@ -221,89 +201,71 @@ public final class PackedFields {
      * Implementation of packed hour-min.
      */
     private static enum PackedHourMin implements TemporalField {
+
         INSTANCE;
 
         private static final ValueRange RANGE = ValueRange.of(0, 2359);
+
         private static final long serialVersionUID = -871357658587L;
 
         //-----------------------------------------------------------------------
         @Override
         public TemporalUnit getBaseUnit() {
-            return MINUTES;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         public TemporalUnit getRangeUnit() {
-            return DAYS;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         public boolean isDateBased() {
-            return false;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         public boolean isTimeBased() {
-            return true;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         public ValueRange range() {
-            return RANGE;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         //-----------------------------------------------------------------------
         @Override
         public boolean isSupportedBy(TemporalAccessor temporal) {
-            return temporal.isSupported(MINUTE_OF_DAY);
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         public ValueRange rangeRefinedBy(TemporalAccessor temporal) {
-            if (!temporal.isSupported(this)) {
-                throw new DateTimeException("Unsupported field: " + this);
-            }
-            return range();
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         public long getFrom(TemporalAccessor temporal) {
-            int mod = temporal.get(MINUTE_OF_DAY);
-            int hour = mod / 60;
-            int min = mod % 60;
-            return hour * 100 + min;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @SuppressWarnings("unchecked")
         @Override
         public <R extends Temporal> R adjustInto(R temporal, long newValue) {
-            long hour = newValue / 100;
-            long min = newValue % 100;
-            HOUR_OF_DAY.checkValidValue(hour);
-            MINUTE_OF_HOUR.checkValidValue(min);
-            return (R) temporal.with(HOUR_OF_DAY, hour).with(MINUTE_OF_HOUR, min);
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         //-----------------------------------------------------------------------
         @Override
-        public ChronoLocalDate resolve(
-                Map<TemporalField, Long> fieldValues, TemporalAccessor partialTemporal, ResolverStyle resolverStyle) {
-            long value = fieldValues.remove(this);
-            long hour = value / 100;
-            long min = value % 100;
-            if (resolverStyle != ResolverStyle.LENIENT) {
-                HOUR_OF_DAY.checkValidValue(hour);
-                MINUTE_OF_HOUR.checkValidValue(min);
-            }
-            long mod = hour * 60 + min;
-            updateCheckConflict(fieldValues, this, MINUTE_OF_DAY, mod);
-            return null;
+        public ChronoLocalDate resolve(Map<TemporalField, Long> fieldValues, TemporalAccessor partialTemporal, ResolverStyle resolverStyle) {
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         //-----------------------------------------------------------------------
         @Override
         public String toString() {
-            return "PackedHourMin";
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     }
 
@@ -312,113 +274,79 @@ public final class PackedFields {
      * Implementation of packed hour-min-sec.
      */
     private static enum PackedTime implements TemporalField {
+
         INSTANCE;
 
         private static final ValueRange RANGE = ValueRange.of(0, 235959);
+
         private static final long serialVersionUID = -98266827687L;
 
         //-----------------------------------------------------------------------
         @Override
         public TemporalUnit getBaseUnit() {
-            return SECONDS;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         public TemporalUnit getRangeUnit() {
-            return DAYS;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         public boolean isDateBased() {
-            return false;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         public boolean isTimeBased() {
-            return true;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         public ValueRange range() {
-            return RANGE;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         //-----------------------------------------------------------------------
         @Override
         public boolean isSupportedBy(TemporalAccessor temporal) {
-            return temporal.isSupported(SECOND_OF_DAY);
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         public ValueRange rangeRefinedBy(TemporalAccessor temporal) {
-            if (!temporal.isSupported(this)) {
-                throw new DateTimeException("Unsupported field: " + this);
-            }
-            return range();
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         public long getFrom(TemporalAccessor temporal) {
-            int sod = temporal.get(SECOND_OF_DAY);
-            int hour = sod / 3600;
-            int min = (sod / 60) % 60;
-            int sec = sod % 60;
-            return hour * 10000 + min * 100 + sec;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @SuppressWarnings("unchecked")
         @Override
         public <R extends Temporal> R adjustInto(R temporal, long newValue) {
-            RANGE.checkValidValue(newValue, INSTANCE);
-            long hour = newValue / 10000;
-            long min = (newValue % 10000) / 100;
-            long sec = newValue % 100;
-            HOUR_OF_DAY.checkValidValue(hour);
-            MINUTE_OF_HOUR.checkValidValue(min);
-            SECOND_OF_MINUTE.checkValidValue(sec);
-            long sod = 3600 * hour + 60 * min + sec;
-            return (R) temporal.with(SECOND_OF_DAY, sod);
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         //-----------------------------------------------------------------------
         @Override
-        public ChronoLocalDate resolve(
-                Map<TemporalField, Long> fieldValues, TemporalAccessor partialTemporal, ResolverStyle resolverStyle) {
-            long value = fieldValues.remove(this);
-            long hour = value / 10000;
-            long min = (value % 10000) / 100;
-            long sec = value % 100;
-            if (resolverStyle != ResolverStyle.LENIENT) {
-                HOUR_OF_DAY.checkValidValue(hour);
-                MINUTE_OF_HOUR.checkValidValue(min);
-                SECOND_OF_MINUTE.checkValidValue(sec);
-            }
-            long sod = 3600 * hour + 60 * min + sec;
-            updateCheckConflict(fieldValues, this, SECOND_OF_DAY, sod);
-            return null;
+        public ChronoLocalDate resolve(Map<TemporalField, Long> fieldValues, TemporalAccessor partialTemporal, ResolverStyle resolverStyle) {
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         //-----------------------------------------------------------------------
         @Override
         public String toString() {
-            return "PackedTime";
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     }
 
     //-------------------------------------------------------------------------
-    private static void updateCheckConflict(
-            Map<TemporalField, Long> fieldValues,
-            TemporalField targetField,
-            TemporalField changeField,
-            long changeValue) {
-        
+    private static void updateCheckConflict(Map<TemporalField, Long> fieldValues, TemporalField targetField, TemporalField changeField, long changeValue) {
         Long old = fieldValues.put(changeField, changeValue);
         if (old != null && changeValue != old.longValue()) {
-            throw new DateTimeException(
-                    "Conflict found: " + changeField + " " + old +
-                    " differs from " + changeField + " " + changeValue +
-                    " while resolving  " + targetField);
+            throw new DateTimeException("Conflict found: " + changeField + " " + old + " differs from " + changeField + " " + changeValue + " while resolving  " + targetField);
         }
     }
-
 }

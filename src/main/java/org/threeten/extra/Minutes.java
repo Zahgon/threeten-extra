@@ -32,7 +32,6 @@
 package org.threeten.extra;
 
 import static java.time.temporal.ChronoUnit.MINUTES;
-
 import java.io.Serializable;
 import java.time.DateTimeException;
 import java.time.Duration;
@@ -47,7 +46,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import org.joda.convert.FromString;
 import org.joda.convert.ToString;
 
@@ -65,8 +63,7 @@ import org.joda.convert.ToString;
  * This class must be treated as a value type. Do not synchronize, rely on the
  * identity hash code or use the distinction between equals() and ==.
  */
-public final class Minutes
-        implements TemporalAmount, Comparable<Minutes>, Serializable {
+public final class Minutes implements TemporalAmount, Comparable<Minutes>, Serializable {
 
     /**
      * A constant for zero minutes.
@@ -82,6 +79,7 @@ public final class Minutes
      * The number of minutes per day.
      */
     private static final int MINUTES_PER_DAY = 24 * 60;
+
     /**
      * The number of minutes per hour.
      */
@@ -90,12 +88,7 @@ public final class Minutes
     /**
      * The pattern for parsing.
      */
-    private static final Pattern PATTERN =
-            Pattern.compile("([-+]?)P"
-                    + "(?:([-+]?[0-9]+)D)?"
-                    + "(?:T"
-                    + "(?:([-+]?[0-9]+)H)?"
-                    + "(?:([-+]?[0-9]+)M)?)?", Pattern.CASE_INSENSITIVE);
+    private static final Pattern PATTERN = Pattern.compile("([-+]?)P" + "(?:([-+]?[0-9]+)D)?" + "(?:T" + "(?:([-+]?[0-9]+)H)?" + "(?:([-+]?[0-9]+)M)?)?", Pattern.CASE_INSENSITIVE);
 
     /**
      * The number of minutes.
@@ -111,10 +104,7 @@ public final class Minutes
      * @return the number of minutes, not null
      */
     public static Minutes of(int minutes) {
-        if (minutes == 0) {
-            return ZERO;
-        }
-        return new Minutes(minutes);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -129,10 +119,7 @@ public final class Minutes
      * @throws ArithmeticException if numeric overflow occurs
      */
     public static Minutes ofHours(int hours) {
-        if (hours == 0) {
-            return ZERO;
-        }
-        return new Minutes(Math.multiplyExact(hours, MINUTES_PER_HOUR));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -154,23 +141,7 @@ public final class Minutes
      * @throws ArithmeticException if numeric overflow occurs
      */
     public static Minutes from(TemporalAmount amount) {
-        if (amount instanceof Minutes) {
-            return (Minutes) amount;
-        }
-        Objects.requireNonNull(amount, "amount");
-        int minutes = 0;
-        for (TemporalUnit unit : amount.getUnits()) {
-            long value = amount.get(unit);
-            if (value != 0) {
-                long[] converted = Temporals.convertAmount(value, unit, MINUTES);
-                if (converted[1] != 0) {
-                    throw new DateTimeException(
-                            "Amount could not be converted to a whole number of minutes: " + value + " " + unit);
-                }
-                minutes = Math.addExact(minutes, Math.toIntExact(converted[0]));
-            }
-        }
-        return of(minutes);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -216,42 +187,7 @@ public final class Minutes
      */
     @FromString
     public static Minutes parse(CharSequence text) {
-        Objects.requireNonNull(text, "text");
-        Matcher matcher = PATTERN.matcher(text);
-        if (matcher.matches()) {
-            int negate = "-".equals(matcher.group(1)) ? -1 : 1;
-            String daysStr = matcher.group(2);
-            String hoursStr = matcher.group(3);
-            String minutesStr = matcher.group(4);
-            if (daysStr != null || hoursStr != null || minutesStr != null) {
-                int minutes = 0;
-                if (minutesStr != null) {
-                    try {
-                        minutes = Integer.parseInt(minutesStr);
-                    } catch (NumberFormatException ex) {
-                        throw new DateTimeParseException("Text cannot be parsed to Minutes, non-numeric minutes", text, 0, ex);
-                    }
-                }
-                if (hoursStr != null) {
-                    try {
-                        int hoursAsMins = Math.multiplyExact(Integer.parseInt(hoursStr), MINUTES_PER_HOUR);
-                        minutes = Math.addExact(minutes, hoursAsMins);
-                    } catch (NumberFormatException ex) {
-                        throw new DateTimeParseException("Text cannot be parsed to Minutes, non-numeric hours", text, 0, ex);
-                    }
-                }
-                if (daysStr != null) {
-                    try {
-                        int daysAsMins = Math.multiplyExact(Integer.parseInt(daysStr), MINUTES_PER_DAY);
-                        minutes = Math.addExact(minutes, daysAsMins);
-                    } catch (NumberFormatException ex) {
-                        throw new DateTimeParseException("Text cannot be parsed to Minutes, non-numeric days", text, 0, ex);
-                    }
-                }
-                return of(Math.multiplyExact(minutes, negate));
-            }
-        }
-        throw new DateTimeParseException("Text cannot be parsed to Minutes", text, 0);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -266,7 +202,7 @@ public final class Minutes
      * @return the number of minutes between the start and end temporals, not null
      */
     public static Minutes between(Temporal startInclusive, Temporal endExclusive) {
-        return of(Math.toIntExact(MINUTES.between(startInclusive, endExclusive)));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -301,10 +237,7 @@ public final class Minutes
      */
     @Override
     public long get(TemporalUnit unit) {
-        if (unit == MINUTES) {
-            return minutes;
-        }
-        throw new UnsupportedTemporalTypeException("Unsupported unit: " + unit);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -319,9 +252,9 @@ public final class Minutes
      */
     @Override
     public List<TemporalUnit> getUnits() {
-        return Collections.singletonList(MINUTES);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-    
+
     //-----------------------------------------------------------------------
     /**
      * Gets the number of minutes in this amount.
@@ -329,7 +262,7 @@ public final class Minutes
      * @return the number of minutes
      */
     public int getAmount() {
-        return minutes;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -338,7 +271,7 @@ public final class Minutes
      * @return true if the amount is negative, false if the amount is zero or positive
      */
     public boolean isNegative() {
-        return getAmount() < 0;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -347,7 +280,7 @@ public final class Minutes
      * @return true if the amount is zero, false if not
      */
     public boolean isZero() {
-        return getAmount() == 0;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -356,7 +289,7 @@ public final class Minutes
      * @return true if the amount is positive, false if the amount is zero or negative
      */
     public boolean isPositive() {
-        return getAmount() > 0;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -373,7 +306,7 @@ public final class Minutes
      * @throws ArithmeticException if numeric overflow occurs
      */
     public Minutes plus(TemporalAmount amountToAdd) {
-        return plus(Minutes.from(amountToAdd).getAmount());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -386,10 +319,7 @@ public final class Minutes
      * @throws ArithmeticException if the result overflows an int
      */
     public Minutes plus(int minutes) {
-        if (minutes == 0) {
-            return this;
-        }
-        return of(Math.addExact(this.minutes, minutes));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -406,7 +336,7 @@ public final class Minutes
      * @throws ArithmeticException if numeric overflow occurs
      */
     public Minutes minus(TemporalAmount amountToSubtract) {
-        return minus(Minutes.from(amountToSubtract).getAmount());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -419,10 +349,7 @@ public final class Minutes
      * @throws ArithmeticException if the result overflows an int
      */
     public Minutes minus(int minutes) {
-        if (minutes == 0) {
-            return this;
-        }
-        return of(Math.subtractExact(this.minutes, minutes));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -436,10 +363,7 @@ public final class Minutes
      * @throws ArithmeticException if numeric overflow occurs
      */
     public Minutes multipliedBy(int scalar) {
-        if (scalar == 1) {
-            return this;
-        }
-        return of(Math.multiplyExact(minutes, scalar));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -454,10 +378,7 @@ public final class Minutes
      * @throws ArithmeticException if the divisor is zero
      */
     public Minutes dividedBy(int divisor) {
-        if (divisor == 1) {
-            return this;
-        }
-        return of(minutes / divisor);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -470,7 +391,7 @@ public final class Minutes
      *  the amount is {@code Long.MIN_VALUE}
      */
     public Minutes negated() {
-        return multipliedBy(-1);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -485,7 +406,7 @@ public final class Minutes
      *  the amount is {@code Long.MIN_VALUE}
      */
     public Minutes abs() {
-        return minutes < 0 ? negated() : this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-------------------------------------------------------------------------
@@ -497,7 +418,7 @@ public final class Minutes
      * @return the equivalent duration, not null
      */
     public Duration toDuration() {
-        return Duration.ofMinutes(minutes);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -527,10 +448,7 @@ public final class Minutes
      */
     @Override
     public Temporal addTo(Temporal temporal) {
-        if (minutes != 0) {
-            temporal = temporal.plus(minutes, MINUTES);
-        }
-        return temporal;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -559,10 +477,7 @@ public final class Minutes
      */
     @Override
     public Temporal subtractFrom(Temporal temporal) {
-        if (minutes != 0) {
-            temporal = temporal.minus(minutes, MINUTES);
-        }
-        return temporal;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -577,9 +492,7 @@ public final class Minutes
      */
     @Override
     public int compareTo(Minutes otherAmount) {
-        int thisValue = this.minutes;
-        int otherValue = otherAmount.minutes;
-        return Integer.compare(thisValue, otherValue);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -593,14 +506,7 @@ public final class Minutes
      */
     @Override
     public boolean equals(Object otherAmount) {
-        if (this == otherAmount) {
-            return true;
-        }
-        if (otherAmount instanceof Minutes) {
-            Minutes other = (Minutes) otherAmount;
-            return this.minutes == other.minutes;
-        }
-        return false;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -610,7 +516,7 @@ public final class Minutes
      */
     @Override
     public int hashCode() {
-        return minutes;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -623,7 +529,6 @@ public final class Minutes
     @Override
     @ToString
     public String toString() {
-        return "PT" + minutes + "M";
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

@@ -42,7 +42,6 @@ import static java.time.temporal.ChronoUnit.YEARS;
 import static java.time.temporal.IsoFields.DAY_OF_QUARTER;
 import static java.time.temporal.IsoFields.QUARTER_OF_YEAR;
 import static java.time.temporal.IsoFields.QUARTER_YEARS;
-
 import java.io.Serializable;
 import java.time.Clock;
 import java.time.DateTimeException;
@@ -73,7 +72,6 @@ import java.time.temporal.ValueRange;
 import java.util.Objects;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
-
 import org.joda.convert.FromString;
 import org.joda.convert.ToString;
 
@@ -102,28 +100,23 @@ import org.joda.convert.ToString;
  * This class must be treated as a value type. Do not synchronize, rely on the
  * identity hash code or use the distinction between equals() and ==.
  */
-public final class YearQuarter
-        implements Temporal, TemporalAdjuster, Comparable<YearQuarter>, Serializable {
+public final class YearQuarter implements Temporal, TemporalAdjuster, Comparable<YearQuarter>, Serializable {
 
     /**
      * Serialization version.
      */
     private static final long serialVersionUID = 4183400860270640070L;
+
     /**
      * Parser.
      */
-    private static final DateTimeFormatter PARSER = new DateTimeFormatterBuilder()
-            .parseCaseInsensitive()
-            .appendValue(YEAR, 4, 10, SignStyle.EXCEEDS_PAD)
-            .appendLiteral('-')
-            .appendLiteral('Q')
-            .appendValue(QUARTER_OF_YEAR, 1)
-            .toFormatter();
+    private static final DateTimeFormatter PARSER = new DateTimeFormatterBuilder().parseCaseInsensitive().appendValue(YEAR, 4, 10, SignStyle.EXCEEDS_PAD).appendLiteral('-').appendLiteral('Q').appendValue(QUARTER_OF_YEAR, 1).toFormatter();
 
     /**
      * The year.
      */
     private final int year;
+
     /**
      * The quarter-of-year, not null.
      */
@@ -143,7 +136,7 @@ public final class YearQuarter
      * @return the current year-quarter using the system clock and default time-zone, not null
      */
     public static YearQuarter now() {
-        return now(Clock.systemDefaultZone());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -159,7 +152,7 @@ public final class YearQuarter
      * @return the current year-quarter using the system clock, not null
      */
     public static YearQuarter now(ZoneId zone) {
-        return now(Clock.system(zone));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -173,8 +166,7 @@ public final class YearQuarter
      * @return the current year-quarter, not null
      */
     public static YearQuarter now(Clock clock) {
-        final LocalDate now = LocalDate.now(clock);  // called once
-        return YearQuarter.of(now.getYear(), Quarter.from(now.getMonth()));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -186,7 +178,7 @@ public final class YearQuarter
      * @return the year-quarter, not null
      */
     public static YearQuarter of(Year year, Quarter quarter) {
-        return of(year.getValue(), quarter);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -198,7 +190,7 @@ public final class YearQuarter
      * @throws DateTimeException if the quarter value is invalid
      */
     public static YearQuarter of(Year year, int quarter) {
-        return of(year.getValue(), Quarter.of(quarter));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -210,9 +202,7 @@ public final class YearQuarter
      * @throws DateTimeException if the year value is invalid
      */
     public static YearQuarter of(int year, Quarter quarter) {
-        YEAR.checkValidValue(year);
-        Objects.requireNonNull(quarter, "quarter");
-        return new YearQuarter(year, quarter);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -224,8 +214,7 @@ public final class YearQuarter
      * @throws DateTimeException if either field value is invalid
      */
     public static YearQuarter of(int year, int quarter) {
-        YEAR.checkValidValue(year);
-        return new YearQuarter(year, Quarter.of(quarter));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -249,21 +238,7 @@ public final class YearQuarter
      * @throws DateTimeException if unable to convert to a {@code YearQuarter}
      */
     public static YearQuarter from(TemporalAccessor temporal) {
-        if (temporal instanceof YearQuarter) {
-            return (YearQuarter) temporal;
-        }
-        Objects.requireNonNull(temporal, "temporal");
-        try {
-            TemporalAccessor adjusted =
-                    !IsoChronology.INSTANCE.equals(Chronology.from(temporal)) ? LocalDate.from(temporal) : temporal;
-            // need to use getLong() as JDK Parsed class get() doesn't work properly
-            int year = Math.toIntExact(adjusted.getLong(YEAR));
-            int qoy = Math.toIntExact(adjusted.getLong(QUARTER_OF_YEAR));
-            return of(year, qoy);
-        } catch (DateTimeException ex) {
-            throw new DateTimeException("Unable to obtain YearQuarter from TemporalAccessor: " +
-                    temporal + " of type " + temporal.getClass().getName(), ex);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -280,7 +255,7 @@ public final class YearQuarter
      */
     @FromString
     public static YearQuarter parse(CharSequence text) {
-        return parse(text, PARSER);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -294,8 +269,7 @@ public final class YearQuarter
      * @throws DateTimeParseException if the text cannot be parsed
      */
     public static YearQuarter parse(CharSequence text, DateTimeFormatter formatter) {
-        Objects.requireNonNull(formatter, "formatter");
-        return formatter.parse(text, YearQuarter::from);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -363,12 +337,7 @@ public final class YearQuarter
      */
     @Override
     public boolean isSupported(TemporalField field) {
-        if (field == QUARTER_OF_YEAR) {
-            return true;
-        } else if (field instanceof ChronoField) {
-            return field == YEAR || field == YEAR_OF_ERA || field == ERA;
-        }
-        return field != null && field.isSupportedBy(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -400,12 +369,7 @@ public final class YearQuarter
      */
     @Override
     public boolean isSupported(TemporalUnit unit) {
-        if (unit == QUARTER_YEARS) {
-            return true;
-        } else if (unit instanceof ChronoUnit) {
-            return unit == YEARS || unit == DECADES || unit == CENTURIES || unit == MILLENNIA || unit == ERAS;
-        }
-        return unit != null && unit.isSupportedBy(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -434,13 +398,7 @@ public final class YearQuarter
      */
     @Override
     public ValueRange range(TemporalField field) {
-        if (field == QUARTER_OF_YEAR) {
-            return QUARTER_OF_YEAR.range();
-        }
-        if (field == YEAR_OF_ERA) {
-            return (getYear() <= 0 ? ValueRange.of(1, Year.MAX_VALUE + 1) : ValueRange.of(1, Year.MAX_VALUE));
-        }
-        return Temporal.super.range(field);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -471,21 +429,7 @@ public final class YearQuarter
      */
     @Override
     public int get(TemporalField field) {
-        if (field == QUARTER_OF_YEAR) {
-            return quarter.getValue();
-        } else if (field instanceof ChronoField) {
-            switch ((ChronoField) field) {
-                case YEAR_OF_ERA:
-                    return (year < 1 ? 1 - year : year);
-                case YEAR:
-                    return year;
-                case ERA:
-                    return (year < 1 ? 0 : 1);
-                default:
-                    throw new UnsupportedTemporalTypeException("Unsupported field: " + field);
-            }
-        }
-        return Temporal.super.get(field);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -513,21 +457,7 @@ public final class YearQuarter
      */
     @Override
     public long getLong(TemporalField field) {
-        if (field == QUARTER_OF_YEAR) {
-            return quarter.getValue();
-        } else if (field instanceof ChronoField) {
-            switch ((ChronoField) field) {
-                case YEAR_OF_ERA:
-                    return (year < 1 ? 1 - year : year);
-                case YEAR:
-                    return year;
-                case ERA:
-                    return (year < 1 ? 0 : 1);
-                default:
-                    throw new UnsupportedTemporalTypeException("Unsupported field: " + field);
-            }
-        }
-        return field.getFrom(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private long getProlepticQuarter() {
@@ -545,7 +475,7 @@ public final class YearQuarter
      * @return the year, from MIN_YEAR to MAX_YEAR
      */
     public int getYear() {
-        return year;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -559,7 +489,7 @@ public final class YearQuarter
      * @see #getQuarter()
      */
     public int getQuarterValue() {
-        return quarter.getValue();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -574,7 +504,7 @@ public final class YearQuarter
      * @see #getQuarterValue()
      */
     public Quarter getQuarter() {
-        return quarter;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -597,7 +527,7 @@ public final class YearQuarter
      * @return true if the year is leap, false otherwise
      */
     public boolean isLeapYear() {
-        return IsoChronology.INSTANCE.isLeapYear(year);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -610,7 +540,7 @@ public final class YearQuarter
      * @return true if the day is valid for this year-quarter
      */
     public boolean isValidDay(int dayOfQuarter) {
-        return dayOfQuarter >= 1 && dayOfQuarter <= lengthOfQuarter();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -621,7 +551,7 @@ public final class YearQuarter
      * @return the length of the quarter in days, from 90 to 92
      */
     public int lengthOfQuarter() {
-        return quarter.length(isLeapYear());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -632,7 +562,7 @@ public final class YearQuarter
      * @return 366 if the year is leap, 365 otherwise
      */
     public int lengthOfYear() {
-        return (isLeapYear() ? 366 : 365);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -660,7 +590,7 @@ public final class YearQuarter
      */
     @Override
     public YearQuarter with(TemporalAdjuster adjuster) {
-        return (YearQuarter) adjuster.adjustInto(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -710,23 +640,7 @@ public final class YearQuarter
      */
     @Override
     public YearQuarter with(TemporalField field, long newValue) {
-        if (field == QUARTER_OF_YEAR) {
-            return withQuarter(QUARTER_OF_YEAR.range().checkValidIntValue(newValue, QUARTER_OF_YEAR));
-        } else if (field instanceof ChronoField) {
-            ChronoField f = (ChronoField) field;
-            f.checkValidValue(newValue);
-            switch (f) {
-                case YEAR_OF_ERA:
-                    return withYear((int) (year < 1 ? 1 - newValue : newValue));
-                case YEAR:
-                    return withYear((int) newValue);
-                case ERA:
-                    return (getLong(ERA) == newValue ? this : withYear(1 - year));
-                default:
-                    throw new UnsupportedTemporalTypeException("Unsupported field: " + field);
-            }
-        }
-        return field.adjustInto(this, newValue);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -740,8 +654,7 @@ public final class YearQuarter
      * @throws DateTimeException if the year value is invalid
      */
     public YearQuarter withYear(int year) {
-        YEAR.checkValidValue(year);
-        return with(year, quarter);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -754,8 +667,7 @@ public final class YearQuarter
      * @throws DateTimeException if the quarter-of-year value is invalid
      */
     public YearQuarter withQuarter(int quarter) {
-        QUARTER_OF_YEAR.range().checkValidValue(quarter, QUARTER_OF_YEAR);
-        return with(year, Quarter.of(quarter));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -781,7 +693,7 @@ public final class YearQuarter
      */
     @Override
     public YearQuarter plus(TemporalAmount amountToAdd) {
-        return (YearQuarter) amountToAdd.addTo(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -837,25 +749,7 @@ public final class YearQuarter
      */
     @Override
     public YearQuarter plus(long amountToAdd, TemporalUnit unit) {
-        if (unit == QUARTER_YEARS) {
-            return plusQuarters(amountToAdd);
-        } else if (unit instanceof ChronoUnit) {
-            switch ((ChronoUnit) unit) {
-                case YEARS:
-                    return plusYears(amountToAdd);
-                case DECADES:
-                    return plusYears(Math.multiplyExact(amountToAdd, 10));
-                case CENTURIES:
-                    return plusYears(Math.multiplyExact(amountToAdd, 100));
-                case MILLENNIA:
-                    return plusYears(Math.multiplyExact(amountToAdd, 1000));
-                case ERAS:
-                    return with(ERA, Math.addExact(getLong(ERA), amountToAdd));
-                default:
-                    throw new UnsupportedTemporalTypeException("Unsupported unit: " + unit);
-            }
-        }
-        return unit.addTo(this, amountToAdd);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -868,11 +762,7 @@ public final class YearQuarter
      * @throws DateTimeException if the result exceeds the supported range
      */
     public YearQuarter plusYears(long yearsToAdd) {
-        if (yearsToAdd == 0) {
-            return this;
-        }
-        int newYear = YEAR.checkValidIntValue(year + yearsToAdd);  // safe overflow
-        return with(newYear, quarter);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -885,14 +775,7 @@ public final class YearQuarter
      * @throws DateTimeException if the result exceeds the supported range
      */
     public YearQuarter plusQuarters(long quartersToAdd) {
-        if (quartersToAdd == 0) {
-            return this;
-        }
-        long quarterCount = year * 4L + (quarter.getValue() - 1);
-        long calcQuarters = quarterCount + quartersToAdd;  // safe overflow
-        int newYear = YEAR.checkValidIntValue(Math.floorDiv(calcQuarters, 4));
-        int newQuarter = (int) Math.floorMod(calcQuarters, 4L) + 1;
-        return with(newYear, Quarter.of(newQuarter));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -918,7 +801,7 @@ public final class YearQuarter
      */
     @Override
     public YearQuarter minus(TemporalAmount amountToSubtract) {
-        return (YearQuarter) amountToSubtract.subtractFrom(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -942,7 +825,7 @@ public final class YearQuarter
      */
     @Override
     public YearQuarter minus(long amountToSubtract, TemporalUnit unit) {
-        return (amountToSubtract == Long.MIN_VALUE ? plus(Long.MAX_VALUE, unit).plus(1, unit) : plus(-amountToSubtract, unit));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -955,7 +838,7 @@ public final class YearQuarter
      * @throws DateTimeException if the result exceeds the supported range
      */
     public YearQuarter minusYears(long yearsToSubtract) {
-        return (yearsToSubtract == Long.MIN_VALUE ? plusYears(Long.MAX_VALUE).plusYears(1) : plusYears(-yearsToSubtract));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -968,7 +851,7 @@ public final class YearQuarter
      * @throws DateTimeException if the result exceeds the supported range
      */
     public YearQuarter minusQuarters(long quartersToSubtract) {
-        return (quartersToSubtract == Long.MIN_VALUE ? plusQuarters(Long.MAX_VALUE).plusQuarters(1) : plusQuarters(-quartersToSubtract));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -988,12 +871,7 @@ public final class YearQuarter
     @SuppressWarnings("unchecked")
     @Override
     public <R> R query(TemporalQuery<R> query) {
-        if (query == TemporalQueries.chronology()) {
-            return (R) IsoChronology.INSTANCE;
-        } else if (query == TemporalQueries.precision()) {
-            return (R) QUARTER_YEARS;
-        }
-        return Temporal.super.query(query);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1024,12 +902,7 @@ public final class YearQuarter
      */
     @Override
     public Temporal adjustInto(Temporal temporal) {
-        if (Chronology.from(temporal).equals(IsoChronology.INSTANCE) == false) {
-            throw new DateTimeException("Adjustment only supported on ISO date-time");
-        }
-        long newProlepticQuarter = getProlepticQuarter();
-        long oldProlepticQuarter = temporal.get(YEAR) * 4L + (temporal.get(QUARTER_OF_YEAR) - 1);
-        return temporal.plus(newProlepticQuarter - oldProlepticQuarter, QUARTER_YEARS);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1081,27 +954,7 @@ public final class YearQuarter
      */
     @Override
     public long until(Temporal endExclusive, TemporalUnit unit) {
-        YearQuarter end = YearQuarter.from(endExclusive);
-        long quartersUntil = end.getProlepticQuarter() - getProlepticQuarter();  // no overflow
-        if (unit == QUARTER_YEARS) {
-            return quartersUntil;
-        } else if (unit instanceof ChronoUnit) {
-            switch ((ChronoUnit) unit) {
-                case YEARS:
-                    return quartersUntil / 4;
-                case DECADES:
-                    return quartersUntil / 40;
-                case CENTURIES:
-                    return quartersUntil / 400;
-                case MILLENNIA:
-                    return quartersUntil / 4000;
-                case ERAS:
-                    return end.getLong(ERA) - getLong(ERA);
-                default:
-                    throw new UnsupportedTemporalTypeException("Unsupported unit: " + unit);
-            }
-        }
-        return unit.between(this, end);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1109,17 +962,13 @@ public final class YearQuarter
      * (inclusive) and goes to {@code endExclusive} (exclusive) by an incremental step of 1 {@code QUARTER_YEARS}.
      * <p>
      * This instance is immutable and unaffected by this method call.
-     * 
+     *
      * @param endExclusive  the end year-quarter, exclusive, not null
      * @return a sequential {@code Stream} for the range of {@code YearQuarter} values
      * @throws IllegalArgumentException if end year-quarter is before this year-quarter
      */
     public Stream<YearQuarter> quartersUntil(YearQuarter endExclusive) {
-        if (endExclusive.isBefore(this)) {
-            throw new IllegalArgumentException(endExclusive + " < " + this);
-        }
-        long intervalLength = until(endExclusive, QUARTER_YEARS);
-        return LongStream.range(0, intervalLength).mapToObj(n -> plusQuarters(n));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1132,8 +981,7 @@ public final class YearQuarter
      * @throws DateTimeException if an error occurs during printing
      */
     public String format(DateTimeFormatter formatter) {
-        Objects.requireNonNull(formatter, "formatter");
-        return formatter.format(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -1155,15 +1003,7 @@ public final class YearQuarter
      * @see #isValidDay(int)
      */
     public LocalDate atDay(int dayOfQuarter) {
-        ValueRange.of(1, lengthOfQuarter()).checkValidValue(dayOfQuarter, DAY_OF_QUARTER);
-        boolean leap = Year.isLeap(year);
-        Month month = quarter.firstMonth();
-        int dom = dayOfQuarter;
-        while (dom > month.length(leap)) {
-            dom -= month.length(leap);
-            month = month.plus(1);
-        }
-        return LocalDate.of(year, month, dom);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1181,8 +1021,7 @@ public final class YearQuarter
      * @return the last valid date of this year-quarter, not null
      */
     public LocalDate atEndOfQuarter() {
-        Month month = quarter.firstMonth().plus(2);
-        return LocalDate.of(year, month, month.maxLength());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -1197,11 +1036,7 @@ public final class YearQuarter
      */
     @Override
     public int compareTo(YearQuarter other) {
-        int cmp = (year - other.year);
-        if (cmp == 0) {
-            cmp = quarter.compareTo(other.quarter);
-        }
-        return cmp;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1211,7 +1046,7 @@ public final class YearQuarter
      * @return true if this is after the specified year-quarter
      */
     public boolean isAfter(YearQuarter other) {
-        return compareTo(other) > 0;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1221,7 +1056,7 @@ public final class YearQuarter
      * @return true if this point is before the specified year-quarter
      */
     public boolean isBefore(YearQuarter other) {
-        return compareTo(other) < 0;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -1235,14 +1070,7 @@ public final class YearQuarter
      */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj instanceof YearQuarter) {
-            YearQuarter other = (YearQuarter) obj;
-            return year == other.year && quarter == other.quarter;
-        }
-        return false;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1252,7 +1080,7 @@ public final class YearQuarter
      */
     @Override
     public int hashCode() {
-        return year ^ (quarter.getValue() << 27);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -1266,21 +1094,6 @@ public final class YearQuarter
     @Override
     @ToString
     public String toString() {
-        int absYear = Math.abs(year);
-        StringBuilder buf = new StringBuilder(10);
-        if (absYear < 1000) {
-            if (year < 0) {
-                buf.append(year - 10000).deleteCharAt(1);
-            } else {
-                buf.append(year + 10000).deleteCharAt(0);
-            }
-        } else {
-            if (year > 9999) {
-                buf.append('+');
-            }
-            buf.append(year);
-        }
-        return buf.append('-').append(quarter).toString();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

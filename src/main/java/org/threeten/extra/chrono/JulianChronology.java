@@ -94,14 +94,17 @@ public final class JulianChronology extends AbstractChronology implements Serial
      * Serialization version.
      */
     private static final long serialVersionUID = 7291205177830286973L;
+
     /**
      * Range of proleptic-year.
      */
     static final ValueRange YEAR_RANGE = ValueRange.of(-999_998, 999_999);
+
     /**
      * Range of year.
      */
     static final ValueRange YOE_RANGE = ValueRange.of(1, 999_999);
+
     /**
      * Range of proleptic month.
      */
@@ -136,7 +139,7 @@ public final class JulianChronology extends AbstractChronology implements Serial
      */
     @Override
     public String getId() {
-        return "Julian";
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -151,7 +154,7 @@ public final class JulianChronology extends AbstractChronology implements Serial
      */
     @Override
     public String getCalendarType() {
-        return "julian";
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -169,7 +172,7 @@ public final class JulianChronology extends AbstractChronology implements Serial
      */
     @Override
     public JulianDate date(Era era, int yearOfEra, int month, int dayOfMonth) {
-        return date(prolepticYear(era, yearOfEra), month, dayOfMonth);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -184,7 +187,7 @@ public final class JulianChronology extends AbstractChronology implements Serial
      */
     @Override
     public JulianDate date(int prolepticYear, int month, int dayOfMonth) {
-        return JulianDate.of(prolepticYear, month, dayOfMonth);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -200,7 +203,7 @@ public final class JulianChronology extends AbstractChronology implements Serial
      */
     @Override
     public JulianDate dateYearDay(Era era, int yearOfEra, int dayOfYear) {
-        return dateYearDay(prolepticYear(era, yearOfEra), dayOfYear);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -214,7 +217,7 @@ public final class JulianChronology extends AbstractChronology implements Serial
      */
     @Override
     public JulianDate dateYearDay(int prolepticYear, int dayOfYear) {
-        return JulianDate.ofYearDay(prolepticYear, dayOfYear);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -224,9 +227,10 @@ public final class JulianChronology extends AbstractChronology implements Serial
      * @return the Julian local date, not null
      * @throws DateTimeException if unable to create the date
      */
-    @Override  // override with covariant return type
+    // override with covariant return type
+    @Override
     public JulianDate dateEpochDay(long epochDay) {
-        return JulianDate.ofEpochDay(epochDay);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-------------------------------------------------------------------------
@@ -242,9 +246,10 @@ public final class JulianChronology extends AbstractChronology implements Serial
      * @return the current Julian local date using the system clock and default time-zone, not null
      * @throws DateTimeException if unable to create the date
      */
-    @Override  // override with covariant return type
+    // override with covariant return type
+    @Override
     public JulianDate dateNow() {
-        return JulianDate.now();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -260,9 +265,10 @@ public final class JulianChronology extends AbstractChronology implements Serial
      * @return the current Julian local date using the system clock, not null
      * @throws DateTimeException if unable to create the date
      */
-    @Override  // override with covariant return type
+    // override with covariant return type
+    @Override
     public JulianDate dateNow(ZoneId zone) {
-        return JulianDate.now(zone);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -276,9 +282,10 @@ public final class JulianChronology extends AbstractChronology implements Serial
      * @return the current Julian local date, not null
      * @throws DateTimeException if unable to create the date
      */
-    @Override  // override with covariant return type
+    // override with covariant return type
+    @Override
     public JulianDate dateNow(Clock clock) {
-        return JulianDate.now(clock);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-------------------------------------------------------------------------
@@ -291,7 +298,7 @@ public final class JulianChronology extends AbstractChronology implements Serial
      */
     @Override
     public JulianDate date(TemporalAccessor temporal) {
-        return JulianDate.from(temporal);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -304,7 +311,7 @@ public final class JulianChronology extends AbstractChronology implements Serial
     @Override
     @SuppressWarnings("unchecked")
     public ChronoLocalDateTime<JulianDate> localDateTime(TemporalAccessor temporal) {
-        return (ChronoLocalDateTime<JulianDate>) super.localDateTime(temporal);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -317,7 +324,7 @@ public final class JulianChronology extends AbstractChronology implements Serial
     @Override
     @SuppressWarnings("unchecked")
     public ChronoZonedDateTime<JulianDate> zonedDateTime(TemporalAccessor temporal) {
-        return (ChronoZonedDateTime<JulianDate>) super.zonedDateTime(temporal);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -331,7 +338,7 @@ public final class JulianChronology extends AbstractChronology implements Serial
     @Override
     @SuppressWarnings("unchecked")
     public ChronoZonedDateTime<JulianDate> zonedDateTime(Instant instant, ZoneId zone) {
-        return (ChronoZonedDateTime<JulianDate>) super.zonedDateTime(instant, zone);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -347,47 +354,34 @@ public final class JulianChronology extends AbstractChronology implements Serial
      */
     @Override
     public boolean isLeapYear(long prolepticYear) {
-        return (prolepticYear % 4) == 0;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public int prolepticYear(Era era, int yearOfEra) {
-        if (era instanceof JulianEra == false) {
-            throw new ClassCastException("Era must be JulianEra");
-        }
-        return (era == JulianEra.AD ? yearOfEra : 1 - yearOfEra);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public JulianEra eraOf(int eraValue) {
-        return JulianEra.of(eraValue);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public List<Era> eras() {
-        return Arrays.<Era>asList(JulianEra.values());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
     @Override
     public ValueRange range(ChronoField field) {
-        switch (field) {
-            case PROLEPTIC_MONTH:
-                return PROLEPTIC_MONTH_RANGE;
-            case YEAR_OF_ERA:
-                return YOE_RANGE;
-            case YEAR:
-                return YEAR_RANGE;
-            default:
-                break;
-        }
-        return field.range();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
-    @Override  // override for return type
+    // override for return type
+    @Override
     public JulianDate resolveDate(Map<TemporalField, Long> fieldValues, ResolverStyle resolverStyle) {
-        return (JulianDate) super.resolveDate(fieldValues, resolverStyle);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

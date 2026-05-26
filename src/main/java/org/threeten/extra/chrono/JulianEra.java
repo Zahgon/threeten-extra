@@ -75,14 +75,7 @@ public enum JulianEra implements Era {
      * @throws DateTimeException if the value is invalid
      */
     public static JulianEra of(int era) {
-        switch (era) {
-            case 0:
-                return BC;
-            case 1:
-                return AD;
-            default:
-                throw new DateTimeException("Invalid era: " + era);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -95,7 +88,6 @@ public enum JulianEra implements Era {
      */
     @Override
     public int getValue() {
-        return ordinal();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

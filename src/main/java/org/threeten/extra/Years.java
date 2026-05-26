@@ -32,7 +32,6 @@
 package org.threeten.extra;
 
 import static java.time.temporal.ChronoUnit.YEARS;
-
 import java.io.Serializable;
 import java.time.DateTimeException;
 import java.time.Period;
@@ -47,7 +46,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import org.joda.convert.FromString;
 import org.joda.convert.ToString;
 
@@ -65,13 +63,13 @@ import org.joda.convert.ToString;
  * This class must be treated as a value type. Do not synchronize, rely on the
  * identity hash code or use the distinction between equals() and ==.
  */
-public final class Years
-        implements TemporalAmount, Comparable<Years>, Serializable {
+public final class Years implements TemporalAmount, Comparable<Years>, Serializable {
 
     /**
      * A constant for zero years.
      */
     public static final Years ZERO = new Years(0);
+
     /**
      * A constant for one year.
      */
@@ -81,11 +79,11 @@ public final class Years
      * A serialization identifier for this class.
      */
     private static final long serialVersionUID = -8903767091325669093L;
+
     /**
      * The pattern for parsing.
      */
-    private static final Pattern PATTERN =
-            Pattern.compile("([-+]?)P([-+]?[0-9]+)Y", Pattern.CASE_INSENSITIVE);
+    private static final Pattern PATTERN = Pattern.compile("([-+]?)P([-+]?[0-9]+)Y", Pattern.CASE_INSENSITIVE);
 
     /**
      * The number of years.
@@ -101,12 +99,7 @@ public final class Years
      * @return the number of years, not null
      */
     public static Years of(int years) {
-        if (years == 0) {
-            return ZERO;
-        } else if (years == 1) {
-            return ONE;
-        }
-        return new Years(years);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -129,23 +122,7 @@ public final class Years
      * @throws ArithmeticException if numeric overflow occurs
      */
     public static Years from(TemporalAmount amount) {
-        if (amount instanceof Years) {
-            return (Years) amount;
-        }
-        Objects.requireNonNull(amount, "amount");
-        int years = 0;
-        for (TemporalUnit unit : amount.getUnits()) {
-            long value = amount.get(unit);
-            if (value != 0) {
-                long[] converted = Temporals.convertAmount(value, unit, YEARS);
-                if (converted[1] != 0) {
-                    throw new DateTimeException(
-                            "Amount could not be converted to a whole number of years: " + value + " " + unit);
-                }
-                years = Math.addExact(years, Math.toIntExact(converted[0]));
-            }
-        }
-        return of(years);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -178,19 +155,7 @@ public final class Years
      */
     @FromString
     public static Years parse(CharSequence text) {
-        Objects.requireNonNull(text, "text");
-        Matcher matcher = PATTERN.matcher(text);
-        if (matcher.matches()) {
-            int negate = "-".equals(matcher.group(1)) ? -1 : 1;
-            String str = matcher.group(2);
-            try {
-                int val = Integer.parseInt(str);
-                return of(Math.multiplyExact(val, negate));
-            } catch (NumberFormatException ex) {
-                throw new DateTimeParseException("Text cannot be parsed to a Years", text, 0, ex);
-            }
-        }
-        throw new DateTimeParseException("Text cannot be parsed to a Years", text, 0);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -205,7 +170,7 @@ public final class Years
      * @return the number of years between this date and the end date, not null
      */
     public static Years between(Temporal startDateInclusive, Temporal endDateExclusive) {
-        return of(Math.toIntExact(YEARS.between(startDateInclusive, endDateExclusive)));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -241,10 +206,7 @@ public final class Years
      */
     @Override
     public long get(TemporalUnit unit) {
-        if (unit == YEARS) {
-            return years;
-        }
-        throw new UnsupportedTemporalTypeException("Unsupported unit: " + unit);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -259,7 +221,7 @@ public final class Years
      */
     @Override
     public List<TemporalUnit> getUnits() {
-        return Collections.singletonList(YEARS);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -269,7 +231,7 @@ public final class Years
      * @return the number of years
      */
     public int getAmount() {
-        return years;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -278,7 +240,7 @@ public final class Years
      * @return true if the amount is negative, false if the amount is zero or positive
      */
     public boolean isNegative() {
-        return getAmount() < 0;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -287,7 +249,7 @@ public final class Years
      * @return true if the amount is zero, false if not
      */
     public boolean isZero() {
-        return getAmount() == 0;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -296,7 +258,7 @@ public final class Years
      * @return true if the amount is positive, false if the amount is zero or negative
      */
     public boolean isPositive() {
-        return getAmount() > 0;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -313,7 +275,7 @@ public final class Years
      * @throws ArithmeticException if numeric overflow occurs
      */
     public Years plus(TemporalAmount amountToAdd) {
-        return plus(Years.from(amountToAdd).getAmount());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -326,10 +288,7 @@ public final class Years
      * @throws ArithmeticException if the result overflows an int
      */
     public Years plus(int years) {
-        if (years == 0) {
-            return this;
-        }
-        return of(Math.addExact(this.years, years));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -346,7 +305,7 @@ public final class Years
      * @throws ArithmeticException if numeric overflow occurs
      */
     public Years minus(TemporalAmount amountToSubtract) {
-        return minus(Years.from(amountToSubtract).getAmount());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -359,10 +318,7 @@ public final class Years
      * @throws ArithmeticException if the result overflows an int
      */
     public Years minus(int years) {
-        if (years == 0) {
-            return this;
-        }
-        return of(Math.subtractExact(this.years, years));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -376,10 +332,7 @@ public final class Years
      * @throws ArithmeticException if numeric overflow occurs
      */
     public Years multipliedBy(int scalar) {
-        if (scalar == 1) {
-            return this;
-        }
-        return of(Math.multiplyExact(years, scalar));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -394,10 +347,7 @@ public final class Years
      * @throws ArithmeticException if the divisor is zero
      */
     public Years dividedBy(int divisor) {
-        if (divisor == 1) {
-            return this;
-        }
-        return of(years / divisor);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -410,7 +360,7 @@ public final class Years
      *  the amount is {@code Long.MIN_VALUE}
      */
     public Years negated() {
-        return multipliedBy(-1);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -425,7 +375,7 @@ public final class Years
      *  the amount is {@code Long.MIN_VALUE}
      */
     public Years abs() {
-        return years < 0 ? negated() : this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-------------------------------------------------------------------------
@@ -437,7 +387,7 @@ public final class Years
      * @return the equivalent period, not null
      */
     public Period toPeriod() {
-        return Period.ofYears(years);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -467,10 +417,7 @@ public final class Years
      */
     @Override
     public Temporal addTo(Temporal temporal) {
-        if (years != 0) {
-            temporal = temporal.plus(years, YEARS);
-        }
-        return temporal;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -499,10 +446,7 @@ public final class Years
      */
     @Override
     public Temporal subtractFrom(Temporal temporal) {
-        if (years != 0) {
-            temporal = temporal.minus(years, YEARS);
-        }
-        return temporal;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -517,9 +461,7 @@ public final class Years
      */
     @Override
     public int compareTo(Years otherAmount) {
-        int thisValue = this.years;
-        int otherValue = otherAmount.years;
-        return Integer.compare(thisValue, otherValue);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -533,14 +475,7 @@ public final class Years
      */
     @Override
     public boolean equals(Object otherAmount) {
-        if (this == otherAmount) {
-            return true;
-        }
-        if (otherAmount instanceof Years) {
-            Years other = (Years) otherAmount;
-            return this.years == other.years;
-        }
-        return false;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -550,7 +485,7 @@ public final class Years
      */
     @Override
     public int hashCode() {
-        return years;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -563,7 +498,6 @@ public final class Years
     @Override
     @ToString
     public String toString() {
-        return "P" + years + "Y";
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

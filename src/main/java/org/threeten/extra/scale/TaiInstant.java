@@ -39,7 +39,6 @@ import java.time.format.DateTimeParseException;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import org.joda.convert.FromString;
 import org.joda.convert.ToString;
 
@@ -86,19 +85,20 @@ import org.joda.convert.ToString;
  * This class must be treated as a value type. Do not synchronize, rely on the
  * identity hash code or use the distinction between equals() and ==.
  */
-public final class TaiInstant
-        implements Comparable<TaiInstant>, Serializable {
+public final class TaiInstant implements Comparable<TaiInstant>, Serializable {
+
     // does not implement Temporal as that would enable methods like
     // Duration.between which gives the wrong answer due to lossy conversion
-
     /**
      * Constant for nanos per second.
      */
     private static final int NANOS_PER_SECOND = 1000000000;
+
     /**
      * Parse regex.
      */
     private static final Pattern PARSER = Pattern.compile("([-]?[0-9]+)\\.([0-9]{9})s[(]TAI[)]");
+
     /**
      * Serialization version.
      */
@@ -108,6 +108,7 @@ public final class TaiInstant
      * The number of seconds from the epoch of 1958-01-01T00:00:00(TAI).
      */
     private final long seconds;
+
     /**
      * The number of nanoseconds, later along the time-line, from the seconds field.
      * This is always positive, and never exceeds 999,999,999.
@@ -135,9 +136,7 @@ public final class TaiInstant
      * @throws ArithmeticException if numeric overflow occurs
      */
     public static TaiInstant ofTaiSeconds(long taiSeconds, long nanoAdjustment) {
-        long secs = Math.addExact(taiSeconds, Math.floorDiv(nanoAdjustment, NANOS_PER_SECOND));
-        int nos = (int) Math.floorMod(nanoAdjustment, NANOS_PER_SECOND);  // safe cast
-        return new TaiInstant(secs, nos);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -156,7 +155,7 @@ public final class TaiInstant
      * @throws ArithmeticException if numeric overflow occurs
      */
     public static TaiInstant of(Instant instant) {
-        return UtcRules.system().convertToTai(instant);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -176,7 +175,7 @@ public final class TaiInstant
      * @throws ArithmeticException if numeric overflow occurs
      */
     public static TaiInstant of(UtcInstant instant) {
-        return UtcRules.system().convertToTai(instant);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-------------------------------------------------------------------------
@@ -200,18 +199,7 @@ public final class TaiInstant
      */
     @FromString
     public static TaiInstant parse(CharSequence text) {
-        Objects.requireNonNull(text, "text");
-        Matcher matcher = PARSER.matcher(text);
-        if (matcher.matches()) {
-            try {
-                long seconds = Long.parseLong(matcher.group(1));
-                long nanos = Long.parseLong(matcher.group(2));
-                return TaiInstant.ofTaiSeconds(seconds, nanos);
-            } catch (NumberFormatException ex) {
-                throw new DateTimeParseException("The text could not be parsed", text, 0, ex);
-            }
-        }
-        throw new DateTimeParseException("The text could not be parsed", text, 0);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -238,7 +226,7 @@ public final class TaiInstant
      * @return the seconds from the epoch of 1958-01-01T00:00:00(TAI)
      */
     public long getTaiSeconds() {
-        return seconds;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -255,7 +243,7 @@ public final class TaiInstant
      * @return a {@code TaiInstant} based on this instant with the requested second, not null
      */
     public TaiInstant withTaiSeconds(long taiSeconds) {
-        return ofTaiSeconds(taiSeconds, nanos);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -268,7 +256,7 @@ public final class TaiInstant
      * @return the nanoseconds within the second, from 0 to 999,999,999
      */
     public int getNano() {
-        return nanos;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -284,10 +272,7 @@ public final class TaiInstant
      * @throws IllegalArgumentException if nanoOfSecond is out of range
      */
     public TaiInstant withNano(int nanoOfSecond) {
-        if (nanoOfSecond < 0 || nanoOfSecond >= NANOS_PER_SECOND) {
-            throw new IllegalArgumentException("NanoOfSecond must be from 0 to 999,999,999");
-        }
-        return ofTaiSeconds(seconds, nanoOfSecond);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -306,14 +291,7 @@ public final class TaiInstant
      * @throws ArithmeticException if the calculation exceeds the supported range
      */
     public TaiInstant plus(Duration duration) {
-        long secsToAdd = duration.getSeconds();
-        int nanosToAdd = duration.getNano();
-        if ((secsToAdd | nanosToAdd) == 0) {
-            return this;
-        }
-        long secs = Math.addExact(seconds, secsToAdd);
-        long nanoAdjustment = ((long) nanos) + nanosToAdd;  // safe int+int
-        return ofTaiSeconds(secs, nanoAdjustment);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -332,14 +310,7 @@ public final class TaiInstant
      * @throws ArithmeticException if the calculation exceeds the supported range
      */
     public TaiInstant minus(Duration duration) {
-        long secsToSubtract = duration.getSeconds();
-        int nanosToSubtract = duration.getNano();
-        if ((secsToSubtract | nanosToSubtract) == 0) {
-            return this;
-        }
-        long secs = Math.subtractExact(seconds, secsToSubtract);
-        long nanoAdjustment = ((long) nanos) - nanosToSubtract;  // safe int+int
-        return ofTaiSeconds(secs, nanoAdjustment);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -355,9 +326,7 @@ public final class TaiInstant
      * @throws ArithmeticException if the calculation exceeds the supported range
      */
     public Duration durationUntil(TaiInstant otherInstant) {
-        long durSecs = Math.subtractExact(otherInstant.seconds, seconds);
-        long durNanos = otherInstant.nanos - nanos;
-        return Duration.ofSeconds(durSecs, durNanos);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -376,7 +345,7 @@ public final class TaiInstant
      * @throws ArithmeticException if numeric overflow occurs
      */
     public Instant toInstant() {
-        return UtcRules.system().convertToInstant(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -395,7 +364,7 @@ public final class TaiInstant
      * @throws ArithmeticException if numeric overflow occurs
      */
     public UtcInstant toUtcInstant() {
-        return UtcRules.system().convertToUtc(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -407,11 +376,7 @@ public final class TaiInstant
      */
     @Override
     public int compareTo(TaiInstant otherInstant) {
-        int cmp = Long.compare(seconds, otherInstant.seconds);
-        if (cmp != 0) {
-            return cmp;
-        }
-        return nanos - otherInstant.nanos;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -424,7 +389,7 @@ public final class TaiInstant
      * @throws NullPointerException if otherInstant is null
      */
     public boolean isAfter(TaiInstant otherInstant) {
-        return compareTo(otherInstant) > 0;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -437,7 +402,7 @@ public final class TaiInstant
      * @throws NullPointerException if otherInstant is null
      */
     public boolean isBefore(TaiInstant otherInstant) {
-        return compareTo(otherInstant) < 0;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -449,15 +414,7 @@ public final class TaiInstant
      */
     @Override
     public boolean equals(Object otherInstant) {
-        if (this == otherInstant) {
-            return true;
-        }
-        if (otherInstant instanceof TaiInstant) {
-            TaiInstant other = (TaiInstant) otherInstant;
-            return this.seconds == other.seconds &&
-                    this.nanos == other.nanos;
-        }
-        return false;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -467,8 +424,7 @@ public final class TaiInstant
      */
     @Override
     public int hashCode() {
-        // TODO: Evaluate hash code
-        return ((int) (seconds ^ (seconds >>> 32))) + 51 * nanos;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -484,13 +440,6 @@ public final class TaiInstant
     @Override
     @ToString
     public String toString() {
-        StringBuilder buf = new StringBuilder();
-        buf.append(seconds);
-        int pos = buf.length();
-        buf.append(nanos + NANOS_PER_SECOND);
-        buf.setCharAt(pos, '.');
-        buf.append("s(TAI)");
-        return buf.toString();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

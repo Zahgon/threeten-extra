@@ -32,7 +32,6 @@
 package org.threeten.extra;
 
 import static java.time.temporal.ChronoField.DAY_OF_YEAR;
-
 import java.io.Serializable;
 import java.time.Clock;
 import java.time.DateTimeException;
@@ -70,17 +69,18 @@ import java.util.Objects;
  * This class must be treated as a value type. Do not synchronize, rely on the
  * identity hash code or use the distinction between equals() and ==.
  */
-public final class DayOfYear
-        implements TemporalAccessor, TemporalAdjuster, Comparable<DayOfYear>, Serializable {
+public final class DayOfYear implements TemporalAccessor, TemporalAdjuster, Comparable<DayOfYear>, Serializable {
 
     /**
      * Serialization version.
      */
     private static final long serialVersionUID = -8789692114017384034L;
+
     /**
      * Cache of singleton instances.
      */
     private static final DayOfYear[] VALUES = new DayOfYear[366];
+
     static {
         for (int i = 0; i < 366; i++) {
             VALUES[i] = new DayOfYear(i + 1);
@@ -106,7 +106,7 @@ public final class DayOfYear
      * @return the current day-of-year using the system clock and default time-zone, not null
      */
     public static DayOfYear now() {
-        return now(Clock.systemDefaultZone());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -122,7 +122,7 @@ public final class DayOfYear
      * @return the current day-of-year using the system clock, not null
      */
     public static DayOfYear now(ZoneId zone) {
-        return now(Clock.system(zone));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -136,8 +136,7 @@ public final class DayOfYear
      * @return the current day-of-year, not null
      */
     public static DayOfYear now(Clock clock) {
-        final LocalDate now = LocalDate.now(clock);  // called once
-        return DayOfYear.of(now.getDayOfYear());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -151,11 +150,7 @@ public final class DayOfYear
      * @throws DateTimeException if the day-of-year is invalid
      */
     public static DayOfYear of(int dayOfYear) {
-        try {
-            return VALUES[dayOfYear - 1];
-        } catch (IndexOutOfBoundsException ex) {
-            throw new DateTimeException("Invalid value for DayOfYear: " + dayOfYear);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -178,19 +173,7 @@ public final class DayOfYear
      * @throws DateTimeException if unable to convert to a {@code DayOfYear}
      */
     public static DayOfYear from(TemporalAccessor temporal) {
-        if (temporal instanceof DayOfYear) {
-            return (DayOfYear) temporal;
-        }
-        Objects.requireNonNull(temporal, "temporal");
-        try {
-            if (IsoChronology.INSTANCE.equals(Chronology.from(temporal)) == false) {
-                temporal = LocalDate.from(temporal);
-            }
-            return of(temporal.get(DAY_OF_YEAR));
-        } catch (DateTimeException ex) {
-            throw new DateTimeException("Unable to obtain DayOfYear from TemporalAccessor: " +
-                    temporal + " of type " + temporal.getClass().getName(), ex);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -219,7 +202,7 @@ public final class DayOfYear
      * @return the day-of-year, from 1 to 366
      */
     public int getValue() {
-        return day;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -248,10 +231,7 @@ public final class DayOfYear
      */
     @Override
     public boolean isSupported(TemporalField field) {
-        if (field instanceof ChronoField) {
-            return field == DAY_OF_YEAR;
-        }
-        return field != null && field.isSupportedBy(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -280,7 +260,7 @@ public final class DayOfYear
      */
     @Override
     public ValueRange range(TemporalField field) {
-        return TemporalAccessor.super.range(field);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -311,7 +291,7 @@ public final class DayOfYear
      */
     @Override
     public int get(TemporalField field) {
-        return TemporalAccessor.super.get(field);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -339,12 +319,7 @@ public final class DayOfYear
      */
     @Override
     public long getLong(TemporalField field) {
-        if (field == DAY_OF_YEAR) {
-            return day;
-        } else if (field instanceof ChronoField) {
-            throw new UnsupportedTemporalTypeException("Unsupported field: " + field);
-        }
-        return field.getFrom(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -358,7 +333,7 @@ public final class DayOfYear
      * @return true if the year is valid for this day-of-year
      */
     public boolean isValidYear(int year) {
-        return (day < 366 || Year.isLeap(year));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -378,12 +353,7 @@ public final class DayOfYear
     @SuppressWarnings("unchecked")
     @Override
     public <R> R query(TemporalQuery<R> query) {
-        if (query == TemporalQueries.chronology()) {
-            return (R) IsoChronology.INSTANCE;
-        } else if (query == TemporalQueries.precision()) {
-            return (R) ChronoUnit.DAYS;
-        }
-        return TemporalAccessor.super.query(query);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -414,10 +384,7 @@ public final class DayOfYear
      */
     @Override
     public Temporal adjustInto(Temporal temporal) {
-        if (Chronology.from(temporal).equals(IsoChronology.INSTANCE) == false) {
-            throw new DateTimeException("Adjustment only supported on ISO date-time");
-        }
-        return temporal.with(DAY_OF_YEAR, day);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -438,8 +405,7 @@ public final class DayOfYear
      * @throws DateTimeException if the year is invalid or this is day 366 and the year is not a leap year
      */
     public LocalDate atYear(Year year) {
-        Objects.requireNonNull(year, "year");
-        return year.atDay(day);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -459,7 +425,7 @@ public final class DayOfYear
      * @throws DateTimeException if the year is invalid or this is day 366 and the year is not a leap year
      */
     public LocalDate atYear(int year) {
-        return LocalDate.ofYearDay(year, day);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -474,7 +440,7 @@ public final class DayOfYear
      */
     @Override
     public int compareTo(DayOfYear other) {
-        return day - other.day;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -486,13 +452,7 @@ public final class DayOfYear
      */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj instanceof DayOfYear) {
-            return day == ((DayOfYear) obj).day;
-        }
-        return false;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -502,7 +462,7 @@ public final class DayOfYear
      */
     @Override
     public int hashCode() {
-        return day;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -513,7 +473,6 @@ public final class DayOfYear
      */
     @Override
     public String toString() {
-        return "DayOfYear:" + day;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

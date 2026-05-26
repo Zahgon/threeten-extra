@@ -36,7 +36,6 @@ import static java.time.temporal.ChronoUnit.MONTHS;
 import static java.time.temporal.ChronoUnit.NANOS;
 import static java.time.temporal.ChronoUnit.SECONDS;
 import static java.time.temporal.ChronoUnit.YEARS;
-
 import java.io.Serializable;
 import java.time.DateTimeException;
 import java.time.Duration;
@@ -58,7 +57,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
-
 import org.joda.convert.FromString;
 import org.joda.convert.ToString;
 
@@ -81,8 +79,7 @@ import org.joda.convert.ToString;
  * This class must be treated as a value type. Do not synchronize, rely on the
  * identity hash code or use the distinction between equals() and ==.
  */
-public final class PeriodDuration
-        implements TemporalAmount, Serializable {
+public final class PeriodDuration implements TemporalAmount, Serializable {
 
     /**
      * A constant for a duration of zero.
@@ -93,19 +90,22 @@ public final class PeriodDuration
      * A serialization identifier for this class.
      */
     private static final long serialVersionUID = 8815521625671589L;
+
     /**
      * The supported units.
      */
-    private static final List<TemporalUnit> SUPPORTED_UNITS =
-            Collections.unmodifiableList(Arrays.<TemporalUnit>asList(YEARS, MONTHS, DAYS, SECONDS, NANOS));
+    private static final List<TemporalUnit> SUPPORTED_UNITS = Collections.unmodifiableList(Arrays.<TemporalUnit>asList(YEARS, MONTHS, DAYS, SECONDS, NANOS));
+
     /**
      * The number of seconds per day.
      */
     private static final long SECONDS_PER_DAY = 86400;
+
     /**
      * The number of nanoseconds per second.
      */
     private static final long NANOS_PER_SECOND = 1_000_000_000L;
+
     /**
      * The number of nanoseconds per day.
      */
@@ -115,6 +115,7 @@ public final class PeriodDuration
      * The period.
      */
     private final Period period;
+
     /**
      * The duration.
      */
@@ -131,9 +132,7 @@ public final class PeriodDuration
      * @return the combined period-duration, not null
      */
     public static PeriodDuration of(Period period, Duration duration) {
-        Objects.requireNonNull(period, "The period must not be null");
-        Objects.requireNonNull(duration, "The duration must not be null");
-        return new PeriodDuration(period, duration);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -145,8 +144,7 @@ public final class PeriodDuration
      * @return the combined period-duration, not null
      */
     public static PeriodDuration of(Period period) {
-        Objects.requireNonNull(period, "The period must not be null");
-        return new PeriodDuration(period, Duration.ZERO);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -158,8 +156,7 @@ public final class PeriodDuration
      * @return the combined period-duration, not null
      */
     public static PeriodDuration of(Duration duration) {
-        Objects.requireNonNull(duration, "The duration must not be null");
-        return new PeriodDuration(Period.ZERO, duration);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -183,56 +180,7 @@ public final class PeriodDuration
      * @throws ArithmeticException if numeric overflow occurs
      */
     public static PeriodDuration from(TemporalAmount amount) {
-        if (amount instanceof PeriodDuration) {
-            return (PeriodDuration) amount;
-        }
-        if (amount instanceof Period) {
-            return PeriodDuration.of((Period) amount);
-        }
-        if (amount instanceof Duration) {
-            return PeriodDuration.of((Duration) amount);
-        }
-        if (amount instanceof ChronoPeriod) {
-            if (IsoChronology.INSTANCE.equals(((ChronoPeriod) amount).getChronology()) == false) {
-                throw new DateTimeException("Period requires ISO chronology: " + amount);
-            }
-        }
-        Objects.requireNonNull(amount, "amount");
-        int years = 0;
-        int months = 0;
-        int days = 0;
-        Duration duration = Duration.ZERO;
-        for (TemporalUnit unit : amount.getUnits()) {
-            long value = amount.get(unit);
-            if (value != 0) {
-                // ignore unless non-zero
-                if (unit.isDurationEstimated()) {
-                    if (unit == ChronoUnit.DAYS) {
-                        days = Math.addExact(days, Math.toIntExact(value));
-                    } else if (unit == ChronoUnit.WEEKS) {
-                        days = Math.addExact(days, Math.toIntExact(Math.multiplyExact(value, 7)));
-                    } else if (unit == ChronoUnit.MONTHS) {
-                        months = Math.addExact(months, Math.toIntExact(value));
-                    } else if (unit == IsoFields.QUARTER_YEARS) {
-                        months = Math.addExact(months, Math.toIntExact(Math.multiplyExact(value, 3)));
-                    } else if (unit == ChronoUnit.YEARS) {
-                        years = Math.addExact(years, Math.toIntExact(value));
-                    } else if (unit == ChronoUnit.DECADES) {
-                        years = Math.addExact(years, Math.toIntExact(Math.multiplyExact(value, 10)));
-                    } else if (unit == ChronoUnit.CENTURIES) {
-                        years = Math.addExact(years, Math.toIntExact(Math.multiplyExact(value, 100)));
-                    } else if (unit == ChronoUnit.MILLENNIA) {
-                        years = Math.addExact(years, Math.toIntExact(Math.multiplyExact(value, 1000)));
-                    } else {
-                        throw new DateTimeException("Unknown unit: " + unit);
-                    }
-                } else {
-                    // total of exact durations
-                    duration = duration.plus(amount.get(unit), unit);
-                }
-            }
-        }
-        return PeriodDuration.of(Period.of(years, months, days), duration);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -281,28 +229,7 @@ public final class PeriodDuration
      */
     @FromString
     public static PeriodDuration parse(CharSequence text) {
-        Objects.requireNonNull(text, "text");
-        String upper = text.toString().toUpperCase(Locale.ENGLISH);
-        String negate = "";
-        if (upper.startsWith("+")) {
-            upper = upper.substring(1);
-        } else if (upper.startsWith("-")) {
-            upper = upper.substring(1);
-            negate = "-";
-        }
-        // duration only, parse original text so it does negation
-        if (upper.startsWith("PT")) {
-            return PeriodDuration.of(Duration.parse(text));
-        }
-        // period only, parse original text so it does negation
-        int tpos = upper.indexOf('T');
-        if (tpos < 0) {
-            return PeriodDuration.of(Period.parse(text));
-        }
-        // period and duration
-        Period period = Period.parse(negate + upper.substring(0, tpos));
-        Duration duration = Duration.parse(negate + "P" + upper.substring(tpos));
-        return PeriodDuration.of(period, duration);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -322,18 +249,7 @@ public final class PeriodDuration
      * @return the number of days between this date and the end date, not null
      */
     public static PeriodDuration between(Temporal startInclusive, Temporal endExclusive) {
-        LocalDate startDate = startInclusive.query(TemporalQueries.localDate());
-        LocalDate endDate = endExclusive.query(TemporalQueries.localDate());
-        Period period = Period.ZERO;
-        if (startDate != null && endDate != null) {
-            period = Period.between(startDate, endDate);
-        }
-        LocalTime startTime = startInclusive.query(TemporalQueries.localTime());
-        LocalTime endTime = endExclusive.query(TemporalQueries.localTime());
-        startTime = startTime != null ? startTime : LocalTime.MIDNIGHT;
-        endTime = endTime != null ? endTime : LocalTime.MIDNIGHT;
-        Duration duration = Duration.between(startTime, endTime);
-        return PeriodDuration.of(period, duration);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -373,23 +289,7 @@ public final class PeriodDuration
      */
     @Override
     public long get(TemporalUnit unit) {
-        if (unit instanceof ChronoUnit) {
-            switch ((ChronoUnit) unit) {
-                case YEARS:
-                    return period.getYears();
-                case MONTHS:
-                    return period.getMonths();
-                case DAYS:
-                    return period.getDays();
-                case SECONDS:
-                    return duration.getSeconds();
-                case NANOS:
-                    return duration.getNano();
-                default:
-                    break;
-            }
-        }
-        throw new UnsupportedTemporalTypeException("Unsupported unit: " + unit);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -405,7 +305,7 @@ public final class PeriodDuration
      */
     @Override
     public List<TemporalUnit> getUnits() {
-        return SUPPORTED_UNITS;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -415,7 +315,7 @@ public final class PeriodDuration
      * @return the period part
      */
     public Period getPeriod() {
-        return period;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -427,7 +327,7 @@ public final class PeriodDuration
      * @return the updated period-duration
      */
     public PeriodDuration withPeriod(Period period) {
-        return PeriodDuration.of(period, duration);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -436,7 +336,7 @@ public final class PeriodDuration
      * @return the duration part
      */
     public Duration getDuration() {
-        return duration;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -448,7 +348,7 @@ public final class PeriodDuration
      * @return the updated period-duration
      */
     public PeriodDuration withDuration(Duration duration) {
-        return PeriodDuration.of(period, duration);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -461,7 +361,7 @@ public final class PeriodDuration
      * @return true if this period is zero-length
      */
     public boolean isZero() {
-        return period.isZero() && duration.isZero();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -479,8 +379,7 @@ public final class PeriodDuration
      * @throws ArithmeticException if numeric overflow occurs
      */
     public PeriodDuration plus(TemporalAmount amountToAdd) {
-        PeriodDuration other = PeriodDuration.from(amountToAdd);
-        return of(period.plus(other.period), duration.plus(other.duration));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -498,8 +397,7 @@ public final class PeriodDuration
      * @throws ArithmeticException if numeric overflow occurs
      */
     public PeriodDuration minus(TemporalAmount amountToAdd) {
-        PeriodDuration other = PeriodDuration.from(amountToAdd);
-        return of(period.minus(other.period), duration.minus(other.duration));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -513,10 +411,7 @@ public final class PeriodDuration
      * @throws ArithmeticException if numeric overflow occurs
      */
     public PeriodDuration multipliedBy(int scalar) {
-        if (scalar == 1) {
-            return this;
-        }
-        return of(period.multipliedBy(scalar), duration.multipliedBy(scalar));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -529,7 +424,7 @@ public final class PeriodDuration
      *  the amount is {@code Long.MIN_VALUE}
      */
     public PeriodDuration negated() {
-        return multipliedBy(-1);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -555,7 +450,7 @@ public final class PeriodDuration
      * @throws ArithmeticException if numeric overflow occurs
      */
     public PeriodDuration normalizedYears() {
-        return withPeriod(period.normalized());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -580,13 +475,7 @@ public final class PeriodDuration
      * @throws ArithmeticException if numeric overflow occurs
      */
     public PeriodDuration normalizedStandardDays() {
-        long totalSecs = period.getDays() * SECONDS_PER_DAY + duration.getSeconds();
-        int splitDays = Math.toIntExact(totalSecs / SECONDS_PER_DAY);
-        long splitSecs = totalSecs % SECONDS_PER_DAY;
-        if (splitDays == period.getDays() && splitSecs == duration.getSeconds()) {
-            return this;
-        }
-        return PeriodDuration.of(period.withDays(splitDays), duration.withSeconds(splitSecs));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -606,7 +495,7 @@ public final class PeriodDuration
      */
     @Override
     public Temporal addTo(Temporal temporal) {
-        return temporal.plus(period).plus(duration);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -625,7 +514,7 @@ public final class PeriodDuration
      */
     @Override
     public Temporal subtractFrom(Temporal temporal) {
-        return temporal.minus(period).minus(duration);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -648,25 +537,7 @@ public final class PeriodDuration
      * @throws DateTimeException if the unit is invalid for truncation
      */
     public PeriodDuration truncatedTo(TemporalUnit unit) {
-        // Duration.truncatedTo(TemporalUnit) was only added in Java 9, so we implement it here
-        Objects.requireNonNull(unit, "unit");
-        if (unit == ChronoUnit.NANOS) {
-            return this;
-        }
-        Duration unitDuration = unit.getDuration();
-        if (unitDuration.getSeconds() > SECONDS_PER_DAY) {
-            throw new UnsupportedTemporalTypeException("Unit duration exceeds one day and cannot be used for truncation");
-        }
-        long unitNanos = unitDuration.toNanos();
-        if ((NANOS_PER_DAY % unitNanos) != 0) {
-            throw new UnsupportedTemporalTypeException("Unit must divide into a standard day without remainder");
-        }
-        long seconds = duration.getSeconds();
-        long nanos = duration.getNano();
-        long nod = ((seconds % SECONDS_PER_DAY) * NANOS_PER_SECOND) + nanos;
-        long result = (nod / unitNanos) * unitNanos;
-        Duration adjusted = duration.plusNanos(result - nod);
-        return new PeriodDuration(period, adjusted);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -680,14 +551,7 @@ public final class PeriodDuration
      */
     @Override
     public boolean equals(Object otherAmount) {
-        if (this == otherAmount) {
-            return true;
-        }
-        if (otherAmount instanceof PeriodDuration) {
-            PeriodDuration other = (PeriodDuration) otherAmount;
-            return this.period.equals(other.period) && this.duration.equals(other.duration);
-        }
-        return false;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -697,7 +561,7 @@ public final class PeriodDuration
      */
     @Override
     public int hashCode() {
-        return period.hashCode() ^ duration.hashCode();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------
@@ -711,13 +575,6 @@ public final class PeriodDuration
     @Override
     @ToString
     public String toString() {
-        if (period.isZero()) {
-            return duration.toString();
-        }
-        if (duration.isZero()) {
-            return period.toString();
-        }
-        return period.toString() + duration.toString().substring(1);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }
